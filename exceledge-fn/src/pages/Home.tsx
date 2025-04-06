@@ -1,20 +1,22 @@
 import React from "react";
 import { MainLayout } from "../components/layouts/MainLayout";
 import { HeroSection } from "../components/landing/HeroSection";
-import WorkWithUs from "../components/landing/WorkWithUs";
+import { ServiceSections } from "../components/landing/Services";
+import { WhyChooseUs } from "../components/landing/whyChoosingUs";
+import { Testimonial } from "../components/landing/Testimonial";
+import { ContactUs } from "../components/landing/ContactUs";
+import { GoogleMapComponent } from "../components/landing/GoogleMapComponet";
 
 const Home: React.FC = () => {
   return (
     <MainLayout>
-      <div className="">
-        <HeroSection />
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-black to-transparent h-1/2"></div>
-          <div className="relative z-10">
-            <WorkWithUs />
-          </div>
-        </div>
-      </div>
+      <HeroSection />
+
+      <ServiceSections />
+      <WhyChooseUs />
+      <Testimonial />
+      <ContactUs />
+      <GoogleMapComponent />
     </MainLayout>
   );
 };

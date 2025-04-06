@@ -79,7 +79,7 @@ export const MainHeader: React.FC = () => {
               <>
                 <Link
                   to={dashboardLink.to}
-                  className={`border py-1 px-2 border-green-600 bg-blue-900 rounded-md  ${
+                  className={`border py-1 px-2 border-green-600 bg-green-900 rounded-md  ${
                     location.pathname === dashboardLink.to
                       ? "text-white font-bold"
                       : "text-white"
@@ -148,7 +148,7 @@ export const MainHeader: React.FC = () => {
                     <Link
                       to={dashboardLink.to}
                       onClick={() => setIsSidebarOpen(false)}
-                      className={`border py-1 px-2 border-blue-900 bg-blue-900 rounded-md  ${
+                      className={`border py-1 px-2 border-green-900 bg-green-900 rounded-md  ${
                         location.pathname === dashboardLink.to
                           ? "text-green-700 font-bold"
                           : "text-white"
@@ -161,7 +161,7 @@ export const MainHeader: React.FC = () => {
                         handleLogout();
                         setIsSidebarOpen(false);
                       }}
-                      className="border py-1 px-2 border-blue-900 bg-blue-900 rounded-md text-white text-left"
+                      className="border py-1 px-2 border-green-900 bg-green-900 rounded-md text-white text-left"
                     >
                       {logoutLabel}
                     </button>
@@ -172,7 +172,7 @@ export const MainHeader: React.FC = () => {
                       key={link.to}
                       to={link.to}
                       onClick={() => setIsSidebarOpen(false)}
-                      className={`border py-1 px-2 border-blue-900 bg-blue-900 rounded-md  ${
+                      className={`border py-1 px-2 border-green-900 bg-green-900 rounded-md  ${
                         location.pathname === link.to
                           ? "text-green-800 font-bold"
                           : "text-white"

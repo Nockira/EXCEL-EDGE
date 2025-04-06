@@ -15,12 +15,11 @@ export const HeroSection = () => {
         <source src="/videos/videoplayback.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div className="absolute top-0 left-0 w-full h-full z-10 "></div>
       <div className="relative text-start px-6 z-10 sm:pl-28 pl-4 sm:pr-28 pr-4 pt-0 flex flex-col items-start justify-center h-full bg-gradient-to-r from-black via-black/70 to-transparent">
-        <h1 className="sm:text-2xl text-2xl font-bold mb-4">
+        <h1 className="sm:text-2xl text-lg font-bold mb-4">
           Innovate and Grow Your Business with Exceledge
         </h1>
-        <p className="text-lg w-[90%] sm:w-[60%] mb-6">
+        <p className="sm:text-lg text-normal w-[90%] sm:w-[60%] mb-6">
           At Exceledge, we provide seamless, efficient, and innovative financial
           and business services tailored to your needs. From instant payments to
           expert consulting, our platform empowers businesses of all sizes with
@@ -34,7 +33,7 @@ export const HeroSection = () => {
 
         <Link
           to="/register-shop"
-          className="mt-6 inline-block bg-green-900 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-green-800 transition"
+          className="sm:mt-6 mt-2 inline-block bg-green-900 text-white px-6 sm:py-3 py-2 rounded-lg text-lg font-semibold hover:bg-green-800 transition"
         >
           Join us now
         </Link>

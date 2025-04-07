@@ -8,7 +8,7 @@ export const WhyChooseUs = () => {
       <section className="bg-gray-200 py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Why Choose Our Services</h2>
+            <h2 className="text-3xl font-bold mb-4">Why Choose us</h2>
             <p className="text-xl text-gray-900 max-w-2xl mx-auto">
               We're committed to helping your business succeed in Rwanda
             </p>

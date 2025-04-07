@@ -1,5 +1,6 @@
 import React from "react";
 import GetStartedImage from "../../assets/get-started.png"; // Assuming you have an image in this path
+import { Link } from "react-router-dom";
 
 export const Testimonial = () => {
   return (
@@ -72,11 +73,8 @@ export const Testimonial = () => {
               in Rwanda.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 bg-white text-green-600 rounded-md font-medium">
-                Schedule Consultation
-              </button>
               <button className="px-8 py-3 border border-white text-white rounded-md font-medium">
-                View All Services
+                <Link to="/services">View All Services</Link>
               </button>
             </div>
           </div>

@@ -32,7 +32,7 @@ export const HeroSection = () => {
         </p>
 
         <Link
-          to="/register-shop"
+          to="/register"
           className="sm:mt-6 mt-2 inline-block bg-green-900 text-white px-6 sm:py-3 py-2 rounded-lg text-lg font-semibold hover:bg-green-800 transition"
         >
           Join us now

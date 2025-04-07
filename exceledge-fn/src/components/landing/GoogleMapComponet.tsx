@@ -25,7 +25,7 @@ export const GoogleMapComponent = () => {
 
       const mapOptions: google.maps.MapOptions = {
         center: { lat: latitude, lng: longitude },
-        zoom: 18,
+        zoom: 16,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControl: true,
         streetViewControl: true,

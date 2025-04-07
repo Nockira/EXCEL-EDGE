@@ -1,11 +1,12 @@
 import React from "react";
 import { MainLayout } from "../components/layouts/MainLayout";
+import { ServiceSections } from "../components/landing/Services";
 
 export const Service: React.FC = () => {
   return (
     <MainLayout>
-      <div className="p-4">
-        <h1 className="text-2xl text-center font-bold">Service Page</h1>
+      <div className="">
+        <ServiceSections />
       </div>
     </MainLayout>
   );

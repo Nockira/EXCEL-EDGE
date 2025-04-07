@@ -14,7 +14,8 @@ export const MainHeader: React.FC = () => {
     { to: "/about", label: "About us" },
     { to: "/services", label: "Services" },
     { to: "/questions", label: "FAQ" },
-    { to: "/contact", label: "Contact us" },
+    { to: "/pricing", label: "Pricing" },
+    { to: "/announcements", label: "Announcements" },
   ];
 
   const authLinks = [

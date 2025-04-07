@@ -14,14 +14,23 @@ export const ServiceSections = () => {
     {
       id: "tin-management",
       name: "TIN Management (Monthly Subscription)",
-      description: "Monthly TIN management based on business turnover.",
+      description: `We offer monthly TIN (Tax Identification Number) management services based on your business turnover. Our pricing structure is tiered to ensure affordability and fairness:
+
+For businesses with a turnover between 0 – 10,000,000 RWF, the monthly fee is 10,000 RWF.
+
+For turnover between 10,000,001 – 20,000,000 RWF, the fee is 20,000 RWF per month.
+
+Businesses with 20,000,001 – 50,000,000 RWF in turnover pay 100,000 RWF monthly.
+
+For turnover between 50,000,001 – 100,000,000 RWF, the monthly charge is 300,000 RWF.
+
+Any business exceeding 100,000,001 RWF in turnover is charged 500,000 RWF per month.`,
       icon: <ShieldCheck className="h-6 w-6 text-green-600" />,
       items: [
-        { name: "0 – 10,000,000 RWF", price: "10,000 RWF/month" },
-        { name: "10,000,001 – 20,000,000 RWF", price: "20,000 RWF/month" },
-        { name: "20,000,001 – 50,000,000 RWF", price: "100,000 RWF/month" },
-        { name: "50,000,001 – 100,000,000 RWF", price: "300,000 RWF/month" },
-        { name: "100,000,001+ RWF", price: "500,000 RWF/month" },
+        {
+          name: "Range",
+          price: "10,000 - 500,000 RWF/month",
+        },
       ],
     },
     {

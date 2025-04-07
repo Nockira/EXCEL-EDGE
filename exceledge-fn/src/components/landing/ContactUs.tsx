@@ -42,7 +42,7 @@ export const ContactUs = () => {
               <div>
                 <p className="text-gray-600 font-medium">Address</p>
                 <p className="text-gray-800">
-                  KG 123 St, Kigali Heights
+                  42 St KK 718, Excelege
                   <br />
                   Kigali, Rwanda
                 </p>
@@ -127,7 +127,7 @@ export const ContactUs = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                placeholder="(123) 456-7890"
+                placeholder="(+250) 756-7890"
               />
             </div>
 

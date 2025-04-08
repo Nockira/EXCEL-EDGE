@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: Exceledge API
+  description: API for Exceledge
+  version: 1.0.0
+servers:
+  - url: http://localhost:8800/api/v1
+    description: Local server
+  - url: https://api.exceledge.com/api/v1
+    description: Staging server
+  - url: https://exceledge.com/api/v1
+    description: Production server
+paths:
+  /health-check:
+    get:
+      summary: Health check
+      description: Check if the server is running
+      responses:
+        "200":
+          description: Server is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

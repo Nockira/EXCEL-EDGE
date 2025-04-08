@@ -9,6 +9,7 @@ import { PricingPage } from "../pages/Pricing";
 import { UserRegister } from "../pages/Register";
 import { AdminDashboard } from "../components/common/dashboards/Admin";
 import { Announcements } from "../pages/Anouncement";
+import GoogleAuthCallback from "../pages/googleAuth";
 
 const Home = lazy(() => import("../pages/Home"));
 const About = lazy(() => import("../pages/About"));
@@ -33,6 +34,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register-shop" element={<RegisterShop />} />
         <Route path="/sign-in" element={<UserRegister />} />
+        <Route path="/auth/callback" element={<GoogleAuthCallback />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import logo from "../assets/vdlogo.png";
+import axios from "axios";
+import { toast } from "react-toastify";
 import { TextInput } from "../components/common/inputText";
 import { RegisterSchema } from "../schemas/authSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,9 +12,9 @@ import { useForm } from "react-hook-form";
 interface RegisterFormData {
   firstName: string;
   secondName?: string;
-  phoneNumber: string;
+  phone: string;
   email?: string;
-  gender: "Male" | "Female";
+  gender: "MALE" | "FEMALE";
   dob: Date;
   password: string;
 }
@@ -20,7 +22,9 @@ interface RegisterFormData {
 export const UserRegister: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -36,21 +40,20 @@ export const UserRegister: React.FC = () => {
     setSubmitError(null);
 
     try {
-      // Here you would typically make an API call
-      console.log("Register data:", data);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Handle successful login (redirect, set auth state, etc.)
-      // For example:
-      // await authService.login(data.emailOrPhone, data.password);
-      // history.push('/dashboard');
-
-      reset(); // Reset form after successful submission
-    } catch (error) {
-      console.error("Login error:", error);
-      setSubmitError("Invalid credentials. Please try again.");
+      const response = await axios.post(
+        "http://localhost:8800/api/v1/users",
+        data
+      );
+      toast.success(response.data.message || "Registration successful! 🎉");
+      reset();
+      navigate("/login");
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Registration failed. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -63,22 +66,10 @@ export const UserRegister: React.FC = () => {
         className="flex items-center gap-2 text-2xl font-bold pt-[1%] pl-[4%]"
       >
         <img src={logo} alt="Village Deals Logo" width="50" height="50" />
-        <span className="text-green-700">VillageDeals</span>
+        <span className="text-green-700">Exceledge</span>
       </Link>
       <div className="flex justify-center sm:pr-[20%] sm:pb-[2%] sm:pl-[20%] text-white">
-        <div className="sm:block hidden bg-green-700 w-[70%] rounded-l-[3%] shadow-md pt-[30%] pl-[3%] pr-[3%] text-center space-y-4">
-          <h1 className="text-xl text-center font-bold">
-            Welcome to VillageDeals! Thank you for choosing us.
-          </h1>
-          <p>Provide your personal details to start journey with us.</p>
-          <p>Or</p>
-          <div>
-            <button className="border-2 py-1 px-4 rounded-[20px]">
-              <Link to={"/login"}>Log in</Link>
-            </button>
-          </div>
-        </div>
-        <div className="bg-white sm:rounded-r-[3%] shadow-md sm:w-[70%] w-full text-black p-6">
+        <div className="bg-white sm:rounded-[3%] shadow-md sm:w-[70%] w-full text-black p-6">
           <p className="text-xl font-bold mb-4 text-center text-green-700 ">
             Create Account.
           </p>
@@ -87,60 +78,116 @@ export const UserRegister: React.FC = () => {
               {submitError}
             </div>
           )}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-            <TextInput
-              name="firstName"
-              label="First name"
-              type="text"
-              register={register}
-              error={errors.firstName?.message}
-              disabled={isLoading}
-            />
-            <TextInput
-              name="secondName"
-              label="Second name"
-              type="text"
-              register={register}
-              error={errors.secondName?.message}
-              disabled={isLoading}
-            />
-            <TextInput
-              name="phoneNumber"
-              label="Phone name"
-              type="text"
-              register={register}
-              error={errors.phoneNumber?.message}
-              disabled={isLoading}
-            />
-            <TextInput
-              name="email"
-              label="Email"
-              type="email"
-              register={register}
-              error={errors.email?.message}
-              disabled={isLoading}
-            />
-            <label htmlFor="">Gender</label>
-            <select
-              {...register("gender")}
-              disabled={isLoading}
-              className="px-4 py-2 border border-gray-300 rounded-[20px] focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+          <button
+            disabled={googleLoading || isLoading}
+            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-[#757575] font-medium py-2.5 px-4 rounded-full hover:bg-gray-50 hover:shadow-sm disabled:opacity-50 mb-4 transition-all"
+            onClick={() => {
+              setGoogleLoading(true);
+              window.location.href =
+                "http://localhost:8800/api/v1/users/google-auth";
+            }}
+          >
+            <svg
+              width="18"
+              height="18"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 48 48"
             >
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-            {errors.gender && (
-              <p className="text-red-500">{errors.gender.message}</p>
-            )}
+              <path
+                fill="#EA4335"
+                d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
+              />
+              <path
+                fill="#4285F4"
+                d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
+              />
+              <path
+                fill="#34A853"
+                d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+              />
+              <path fill="none" d="M0 0h48v48H0z" />
+            </svg>
+            <span>Sign up with Google</span>
+          </button>
 
-            <TextInput
-              name="dob"
-              label="Date of birth"
-              type="date"
-              register={register}
-              error={errors.dob?.message}
-              disabled={isLoading}
-            />
+          <div className="relative flex items-center py-4">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="flex-shrink mx-4 text-gray-500">or</span>
+            <div className="flex-grow border-t border-gray-300"></div>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <TextInput
+                name="firstName"
+                label="First name"
+                type="text"
+                register={register}
+                error={errors.firstName?.message}
+                disabled={isLoading}
+              />
+              <TextInput
+                name="secondName"
+                label="Second name"
+                type="text"
+                register={register}
+                error={errors.secondName?.message}
+                disabled={isLoading}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <TextInput
+                name="phone"
+                label="Phone number"
+                type="text"
+                register={register}
+                error={errors.phone?.message}
+                disabled={isLoading}
+              />
+              <TextInput
+                name="email"
+                label="Email"
+                type="email"
+                register={register}
+                error={errors.email?.message}
+                disabled={isLoading}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Gender
+                </label>
+                <select
+                  {...register("gender")}
+                  disabled={isLoading}
+                  className="px-4 py-2 border border-gray-300 rounded-[20px] focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                >
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                </select>
+                {errors.gender && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.gender.message}
+                  </p>
+                )}
+              </div>
+
+              <TextInput
+                name="dob"
+                label="Date of birth"
+                type="date"
+                register={register}
+                error={errors.dob?.message}
+                disabled={isLoading}
+              />
+            </div>
 
             <div className="relative">
               <TextInput
@@ -160,6 +207,7 @@ export const UserRegister: React.FC = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
+
             <button
               type="submit"
               className="w-full bg-green-700 text-white py-2 rounded-[20px] hover:bg-green-600 disabled:bg-green-400"
@@ -168,13 +216,14 @@ export const UserRegister: React.FC = () => {
               {isLoading ? "Processing..." : "Sign up"}
             </button>
           </form>
-          <div className="py-2">
-            You have an account? Login{" "}
+
+          <div className="py-2 text-center">
+            Already have an account?{" "}
             <Link
               to={"/login"}
-              className="text-sm text-green-700 hover:underline"
+              className="text-green-700 hover:underline font-medium"
             >
-              Here
+              Log in here
             </Link>
           </div>
         </div>

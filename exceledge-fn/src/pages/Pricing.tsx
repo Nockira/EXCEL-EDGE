@@ -66,7 +66,7 @@ export const PricingPage = () => {
       id: "digital-library",
       name: "Digital Library Access",
       description: "Monthly subscription to our resource library",
-      price: "3,900 RWF/month",
+      price: "3,600 RWF/month",
       category: "Books",
     },
   ];
@@ -101,11 +101,11 @@ export const PricingPage = () => {
   if (paymentCompleted && selectedService) {
     return (
       <div className="container mx-auto py-12 px-4 text-center">
-        <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md border border-green-200">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md border border-yellow-200">
+          <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-green-900"
+              className="h-8 w-8 text-[#fdc901]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -118,20 +118,20 @@ export const PricingPage = () => {
               />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-green-700 mb-2">
+          <h2 className="text-2xl font-bold text-[#fdc901] mb-2">
             Payment Successful!
           </h2>
-          <div className="text-left bg-green-50 p-4 rounded-md my-6">
+          <div className="text-left bg-yellow-50 p-4 rounded-md my-6">
             <p className="font-medium">
               Service:{" "}
-              <span className="text-green-900">{selectedService.name}</span>
+              <span className="text-[#fdc901]">{selectedService.name}</span>
             </p>
             <p className="font-medium">
               Amount:{" "}
-              <span className="text-green-900">{selectedService.price}</span>
+              <span className="text-[#fdc901]">{selectedService.price}</span>
             </p>
             <p className="font-medium">
-              Method: <span className="text-green-900">{paymentMethod}</span>
+              Method: <span className="text-[#fdc901]">{paymentMethod}</span>
             </p>
           </div>
           <p className="text-gray-600 mb-6">
@@ -139,7 +139,7 @@ export const PricingPage = () => {
           </p>
           <button
             onClick={resetPayment}
-            className="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md transition-colors"
+            className="bg-[#fdc901] hover:text-[#fdc901] text-white font-bold py-2 px-6 rounded-md transition-colors"
           >
             Back to Services
           </button>
@@ -151,13 +151,13 @@ export const PricingPage = () => {
   return (
     <MainLayout>
       <div className="container mx-auto py-12 px-4">
-        <h1 className="text-3xl font-bold text-center mb-10 text-gray-900">
+        <h1 className="text-3xl font-bold text-center mb-10 text-gray-600">
           Our Services & Pricing
         </h1>
 
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg overflow-hidden">
-            <thead className="bg-green-900 text-white">
+            <thead className="bg-[#fdc901] text-white">
               <tr>
                 <th className="py-3 px-4 text-left">Service</th>
                 <th className="py-3 px-4 text-left">Description</th>
@@ -169,7 +169,7 @@ export const PricingPage = () => {
               {allServices.map((service) => (
                 <tr key={service.id} className="hover:bg-gray-50">
                   <td className="py-4 px-4">
-                    <div className="font-medium text-green-700">
+                    <div className="font-medium text-[#fdc901]">
                       {service.name}
                     </div>
                     <div className="text-xs text-gray-500">
@@ -179,13 +179,13 @@ export const PricingPage = () => {
                   <td className="py-4 px-4 text-gray-600">
                     {service.description}
                   </td>
-                  <td className="py-4 px-4 font-bold text-green-900">
+                  <td className="py-4 px-4 font-bold text-[#fdc901]">
                     {service.price}
                   </td>
                   <td className="py-4 px-4">
                     <button
                       onClick={() => handleProceedToPayment(service)}
-                      className="bg-green-900 hover:bg-green-700 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors"
+                      className="bg-[#fdc901] hover:text-[#fdc901] text-white py-2 px-4 rounded-md text-sm font-medium transition-colors"
                     >
                       Subscribe
                     </button>
@@ -200,13 +200,13 @@ export const PricingPage = () => {
         {showPaymentModal && selectedService && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg max-w-md w-full p-6">
-              <h3 className="text-xl font-bold text-green-700 mb-4">
+              <h3 className="text-xl font-bold text-[#fdc901] mb-4">
                 Complete Payment
               </h3>
 
               <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-2">Service:</h4>
-                <p className="text-green-900 font-medium">
+                <h4 className="font-medium text-gray-500 mb-2">Service:</h4>
+                <p className="text-[#fdc901] font-medium">
                   {selectedService.name}
                 </p>
                 <p className="text-gray-600 text-sm">
@@ -215,14 +215,14 @@ export const PricingPage = () => {
               </div>
 
               <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-2">Amount:</h4>
-                <p className="text-green-900 font-bold text-xl">
+                <h4 className="font-medium text-gray-500 mb-2">Amount:</h4>
+                <p className="text-[#fdc901] font-bold text-xl">
                   {selectedService.price}
                 </p>
               </div>
 
               <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-3">
+                <h4 className="font-medium text-gray-500 mb-3">
                   Select payment method:
                 </h4>
                 <div className="space-y-3">
@@ -233,7 +233,7 @@ export const PricingPage = () => {
                       value="mobile-money"
                       checked={paymentMethod === "mobile-money"}
                       onChange={() => setPaymentMethod("mobile-money")}
-                      className="h-5 w-5 text-green-900"
+                      className="h-5 w-5 text-[#fdc901]"
                     />
                     <span>Mobile Money (MTN/Airtel)</span>
                   </label>
@@ -253,7 +253,7 @@ export const PricingPage = () => {
                   className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
                     !paymentMethod || isProcessing
                       ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-green-900 hover:bg-green-700 text-white"
+                      : "bg-[#fdc901] hover:text-[#fdc901] text-white"
                   }`}
                 >
                   {isProcessing ? (

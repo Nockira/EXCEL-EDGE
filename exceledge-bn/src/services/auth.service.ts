@@ -4,14 +4,19 @@ import { User } from "@prisma/client";
 import { Profile } from "passport-google-oauth20";
 import { ILogin, IRegisterUser } from "../../types";
 
-export const register = async (userData: IRegisterUser): Promise<User> => {
-  const existingUser = await prisma.user.findUnique({
-    where: { email: userData.email },
-  });
+export const register = async (
+  userData: IRegisterUser
+): Promise<IRegisterUser> => {
+  if (userData.email) {
+    const existingUser = await prisma.user.findUnique({
+      where: { email: userData.email },
+    });
 
-  if (existingUser) {
-    throw new Error("User with this email already exists");
+    if (existingUser) {
+      throw new Error("User with this email already exists");
+    }
   }
+
   if (userData.phone) {
     const userWithPhone = await prisma.user.findUnique({
       where: { phone: userData.phone },
@@ -24,9 +29,9 @@ export const register = async (userData: IRegisterUser): Promise<User> => {
   const hashedPassword = await hashPassword(userData.password);
   const newUser = await prisma.user.create({
     data: {
-      firstName: userData.firstName,
-      secondName: userData.secondName,
-      email: userData.email,
+      firstName: userData.firstName || "",
+      secondName: userData.secondName || "",
+      email: userData.email || "",
       phone: userData.phone,
       password: hashedPassword,
       gender: userData.gender,
@@ -35,7 +40,7 @@ export const register = async (userData: IRegisterUser): Promise<User> => {
     },
   });
   const { password, ...userWithoutPassword } = newUser;
-  return userWithoutPassword as User;
+  return userWithoutPassword as any;
 };
 export const registerWithGoogle = async (
   googleData: Profile

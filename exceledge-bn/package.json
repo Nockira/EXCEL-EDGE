@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/server.ts",
-    "migrate": "npx prisma migrate dev --name",
+    "migrate": "docker exec exceledge-dev npx prisma migrate dev --name",
     "prisma:generate": "npx prisma generate",
     "push": "npx prisma db push",
     "build": "tsc",

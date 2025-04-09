@@ -74,7 +74,7 @@ export const FAQSection = () => {
   return (
     <div className="w-full ">
       <div className="container mx-auto py-12">
-        <h2 className="text-3xl font-bold text-center mb-10 text-gray-900">
+        <h2 className="text-3xl font-bold text-center mb-10 text-gray-600">
           Frequently Asked Questions
         </h2>
 
@@ -82,14 +82,14 @@ export const FAQSection = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="mb-4 border border-green-200 rounded-lg overflow-hidden"
+              className="mb-4 border border-yellow-200 rounded-lg overflow-hidden"
             >
               <button
                 onClick={() => toggleFAQ(index)}
                 className={`w-full text-left px-6 py-4 flex justify-between items-center transition-colors ${
                   activeIndex === index
-                    ? "bg-green-700 text-white"
-                    : "bg-gray-50 hover:bg-green-100 text-gray-900"
+                    ? "bg-[#fdc901] text-white"
+                    : "bg-gray-50 hover:bg-yellow-100 text-gray-600"
                 }`}
               >
                 <span className="font-medium text-lg">{faq.question}</span>
@@ -99,7 +99,7 @@ export const FAQSection = () => {
               </button>
 
               {activeIndex === index && (
-                <div className="px-6 py-4 bg-white text-gray-700">
+                <div className="px-6 py-4 bg-white text-gray-500">
                   <p>{faq.answer}</p>
                 </div>
               )}

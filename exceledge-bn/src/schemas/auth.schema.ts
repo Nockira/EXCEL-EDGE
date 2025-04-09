@@ -1,15 +1,6 @@
 import Joi from "joi";
 
 export const registerUserSchema = Joi.object({
-  firstName: Joi.string().required().messages({
-    "string.empty": "First name is required",
-    "any.required": "First name is required",
-  }),
-  secondName: Joi.string().allow("", null),
-  email: Joi.string().email().required().messages({
-    "string.email": "Please provide a valid email address",
-    "any.required": "Email is required",
-  }),
   phone: Joi.string()
     .pattern(/^\+?[0-9]{10,15}$/)
     .allow("", null)
@@ -19,10 +10,6 @@ export const registerUserSchema = Joi.object({
   password: Joi.string().min(8).required().messages({
     "string.min": "Password must be at least 8 characters long",
     "any.required": "Password is required",
-  }),
-  gender: Joi.string().valid("MALE", "FEMALE", "OTHER").allow("", null),
-  dob: Joi.date().max("now").allow("", null).messages({
-    "date.max": "Date of birth cannot be in the future",
   }),
 });
 

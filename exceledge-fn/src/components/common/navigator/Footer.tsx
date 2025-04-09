@@ -5,12 +5,11 @@ import logo from "../../../assets/vdlogo.png";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-green-900 text-white py-8">
+    <footer className="bg-black text-white py-8">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4 px-4 md:px-8">
         <div className="flex flex-col gap-4">
-          <Link to="/" className="flex items-center gap-2 text-2xl font-bold">
-            <img src={logo} alt="Village Deals Logo" width="50" height="50" />
-            <span>Exceledge</span>
+          <Link to="/" className="flex  gap-2 text-2xl font-bold">
+            <img src={logo} alt="Village Deals Logo" width="150" height="150" />
           </Link>
           <p className="text-lg">Trade smarter, Live Better.</p>
           <div className="flex gap-4">

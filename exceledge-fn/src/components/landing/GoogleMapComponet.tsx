@@ -126,7 +126,7 @@ export const GoogleMapComponent = () => {
       <div className="relative flex space-x-4 -mt-12 z-10">
         <button
           onClick={handleGetMyLocation}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
+          className="bg-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded flex items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +146,7 @@ export const GoogleMapComponent = () => {
           onClick={handleGetDirections}
           disabled={!userLocation}
           className={`${
-            userLocation ? "bg-green-500 hover:bg-green-700" : "bg-gray-400"
+            userLocation ? "text-[#fdc901] hover:text-[#fdc901]" : "bg-gray-400"
           } text-white font-bold py-2 px-4 rounded flex items-center`}
         >
           <svg

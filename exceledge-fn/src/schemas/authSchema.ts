@@ -25,9 +25,6 @@ export const LoginSchema = yup.object().shape({
 });
 
 export const RegisterSchema = yup.object().shape({
-  firstName: yup.string().required("First name is required"),
-  secondName: yup.string().optional(),
-  email: yup.string().email("Invalid email format").optional(),
   password: yup
     .string()
     .min(8, "Password must be at least 8 characters")
@@ -43,12 +40,4 @@ export const RegisterSchema = yup.object().shape({
     .string()
     .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
     .required("Phone number is required"),
-  gender: yup
-    .string()
-    .oneOf(["MALE", "FEMALE"], "Invalid gender")
-    .required("Gender is required"),
-  dob: yup
-    .date()
-    .max(new Date(), "Date of birth cannot be in the future")
-    .required("Date of birth is required"),
 });

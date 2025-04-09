@@ -56,7 +56,7 @@ export const StatsSection = () => {
   return (
     <div ref={statsRef} className="py-16 px-4">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+        <h2 className="text-3xl font-bold text-center text-gray-600 mb-12">
           Our Impact in Numbers
         </h2>
 
@@ -64,13 +64,13 @@ export const StatsSection = () => {
           {targetStats.map((stat, index) => (
             <div
               key={stat.id}
-              className="bg-white p-6 rounded-lg shadow-sm border border-green-100 text-center transition-all hover:shadow-md hover:border-green-200"
+              className="bg-white p-6 rounded-lg shadow-sm border border-yellow-100 text-center transition-all hover:shadow-md hover:border-yellow-200"
             >
               <div className="flex justify-center mb-4">
-                <div className="bg-green-100 p-3 rounded-full">
+                <div className="bg-yellow-100 p-3 rounded-full">
                   {stat.id === 1 && (
                     <svg
-                      className="h-8 w-8 text-green-600"
+                      className="h-8 w-8 text-[#fdc901]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -85,7 +85,7 @@ export const StatsSection = () => {
                   )}
                   {stat.id === 2 && (
                     <svg
-                      className="h-8 w-8 text-green-600"
+                      className="h-8 w-8 text-[#fdc901]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -100,7 +100,7 @@ export const StatsSection = () => {
                   )}
                   {stat.id === 3 && (
                     <svg
-                      className="h-8 w-8 text-green-600"
+                      className="h-8 w-8 text-[#fdc901]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -115,7 +115,7 @@ export const StatsSection = () => {
                   )}
                   {stat.id === 4 && (
                     <svg
-                      className="h-8 w-8 text-green-600"
+                      className="h-8 w-8 text-[#fdc901]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -130,7 +130,7 @@ export const StatsSection = () => {
                   )}
                 </div>
               </div>
-              <p className="text-3xl font-bold text-green-600 mb-2">
+              <p className="text-3xl font-bold text-[#fdc901] mb-2">
                 {animatedValues[index].toLocaleString()}+
               </p>
               <p className="text-gray-600 font-medium">{stat.name}</p>

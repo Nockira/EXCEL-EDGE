@@ -5,7 +5,7 @@ export const AboutSection = () => {
   return (
     <div className="container mx-auto py-16 px-4">
       <div className="max-w-4xl mx-auto text-center mb-16">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <h2 className="text-3xl font-bold text-gray-600 mb-4">
           About Our Services
         </h2>
         <p className="text-lg text-gray-600">
@@ -17,10 +17,10 @@ export const AboutSection = () => {
 
       <div className="grid md:grid-cols-3 gap-8 mb-16">
         {/* TIN Management */}
-        <div className="bg-white p-8 rounded-lg shadow-md border border-green-200">
-          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+        <div className="bg-white p-8 rounded-lg shadow-md border border-yellow-200">
+          <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
             <svg
-              className="h-6 w-6 text-green-600"
+              className="h-6 w-6 text-[#fdc901]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -33,7 +33,7 @@ export const AboutSection = () => {
               />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-green-700 mb-3">
+          <h3 className="text-xl font-bold text-[#fdc901] mb-3">
             TIN Management
           </h3>
           <p className="text-gray-600 mb-4">
@@ -44,7 +44,7 @@ export const AboutSection = () => {
           <ul className="space-y-2 text-sm text-gray-600">
             <li className="flex items-start">
               <svg
-                className="h-4 w-4 text-green-500 mr-2 mt-0.5"
+                className="h-4 w-4 text-[#fdc901] mr-2 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -60,7 +60,7 @@ export const AboutSection = () => {
             </li>
             <li className="flex items-start">
               <svg
-                className="h-4 w-4 text-green-500 mr-2 mt-0.5"
+                className="h-4 w-4 text-[#fdc901] mr-2 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -78,10 +78,10 @@ export const AboutSection = () => {
         </div>
 
         {/* Digital Services */}
-        <div className="bg-white p-8 rounded-lg shadow-md border border-green-200">
-          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+        <div className="bg-white p-8 rounded-lg shadow-md border border-yellow-200">
+          <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
             <svg
-              className="h-6 w-6 text-green-600"
+              className="h-6 w-6 text-[#fdc901]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -94,7 +94,7 @@ export const AboutSection = () => {
               />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-green-700 mb-3">
+          <h3 className="text-xl font-bold text-[#fdc901] mb-3">
             Digital Solutions
           </h3>
           <p className="text-gray-600 mb-4">
@@ -104,7 +104,7 @@ export const AboutSection = () => {
           <ul className="space-y-2 text-sm text-gray-600">
             <li className="flex items-start">
               <svg
-                className="h-4 w-4 text-green-500 mr-2 mt-0.5"
+                className="h-4 w-4 text-[#fdc901] mr-2 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -120,7 +120,7 @@ export const AboutSection = () => {
             </li>
             <li className="flex items-start">
               <svg
-                className="h-4 w-4 text-green-500 mr-2 mt-0.5"
+                className="h-4 w-4 text-[#fdc901] mr-2 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -132,16 +132,16 @@ export const AboutSection = () => {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span>Digital Library access (3,900 RWF/month)</span>
+              <span>Digital Library access (3,600 RWF/month)</span>
             </li>
           </ul>
         </div>
 
         {/* Our Approach */}
-        <div className="bg-white p-8 rounded-lg shadow-md border border-green-200">
-          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+        <div className="bg-white p-8 rounded-lg shadow-md border border-yellow-200">
+          <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
             <svg
-              className="h-6 w-6 text-green-600"
+              className="h-6 w-6 text-[#fdc901]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -154,7 +154,7 @@ export const AboutSection = () => {
               />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-green-700 mb-3">
+          <h3 className="text-xl font-bold text-[#fdc901] mb-3">
             Our Approach
           </h3>
           <p className="text-gray-600 mb-4">
@@ -164,7 +164,7 @@ export const AboutSection = () => {
           <ul className="space-y-2 text-sm text-gray-600">
             <li className="flex items-start">
               <svg
-                className="h-4 w-4 text-green-500 mr-2 mt-0.5"
+                className="h-4 w-4 text-[#fdc901] mr-2 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -180,7 +180,7 @@ export const AboutSection = () => {
             </li>
             <li className="flex items-start">
               <svg
-                className="h-4 w-4 text-green-500 mr-2 mt-0.5"
+                className="h-4 w-4 text-[#fdc901] mr-2 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -196,7 +196,7 @@ export const AboutSection = () => {
             </li>
             <li className="flex items-start">
               <svg
-                className="h-4 w-4 text-green-500 mr-2 mt-0.5"
+                className="h-4 w-4 text-[#fdc901] mr-2 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -214,15 +214,15 @@ export const AboutSection = () => {
         </div>
       </div>
 
-      <div className="bg-green-50 rounded-lg p-8 text-center max-w-4xl mx-auto">
-        <h3 className="text-2xl font-bold text-green-700 mb-4">
+      <div className="bg-yellow-50 rounded-lg p-8 text-center max-w-4xl mx-auto">
+        <h3 className="text-2xl font-bold text-[#fdc901] mb-4">
           Ready to Get Started?
         </h3>
         <p className="text-gray-600 mb-6">
           Choose from our transparent pricing options and subscribe in minutes.
           We're here to support your business growth every step of the way.
         </p>
-        <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-md transition-colors">
+        <button className="bg-[#fdc901] hover:text-[#fdc901] text-white font-medium py-2 px-6 rounded-md transition-colors">
           <Link to="/pricing">View Pricing Options</Link>
         </button>
       </div>

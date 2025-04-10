@@ -1,6 +1,6 @@
 export interface IRegisterUser {
   id?: string;
-  firstName: string;
+  firstName?: string;
   secondName?: string;
   email: string;
   phone?: string;

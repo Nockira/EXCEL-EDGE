@@ -14,6 +14,7 @@ import { UserManagement } from "../components/common/dashboards/userManagment";
 import { Payments } from "../components/common/dashboards/Payment";
 import { Resources } from "../components/common/dashboards/Resources";
 import { AnnouncementsDashboard } from "../components/common/dashboards/Anouncement";
+import { Profile } from "../pages/Profile";
 
 const Home = lazy(() => import("../pages/Home"));
 const About = lazy(() => import("../pages/About"));
@@ -37,6 +38,7 @@ const AppRoutes = () => {
         <Route path="/pages/announcements" element={<Announcements />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-in" element={<UserRegister />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/auth/callback" element={<GoogleAuthCallback />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />}>

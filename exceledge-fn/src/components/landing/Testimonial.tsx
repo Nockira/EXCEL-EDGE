@@ -61,8 +61,8 @@ export const Testimonial = () => {
         </div>
       </section>
       {/* CTA Section */}
-      <section className="sm:px-24 sm:pb-12 p-4 bg-green-50">
-        <div className="  sm:flex block bg-green-700 text-white py-16 rounded-[20px]">
+      <section className="sm:px-24 sm:pb-12 p-4">
+        <div className="  sm:flex block bg-black text-white py-16 rounded-[20px]">
           <div className="px-24 sm:w-1/2 w-full sm:flex hidden justify-center items-center">
             <img src={GetStartedImage} alt="getStarted" />
           </div>

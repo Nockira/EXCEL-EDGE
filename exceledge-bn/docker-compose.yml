@@ -2,8 +2,10 @@ version: '3.8'
 
 services:
   app:
-    build: .
-    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: excel_edge_app
     restart: unless-stopped
     ports:
       - '8800:8800'
@@ -12,30 +14,33 @@ services:
       - redis
     env_file:
       - .env
+    command: sh -c "npx prisma migrate deploy && npm run dev"
 
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: excel_edge_postgres
     restart: unless-stopped
     ports:
-      - '6500:5432'
+      - '5432:5432'
     volumes:
-      - excel_egde_postgres_db:/var/lib/postgresql/data
-    env_file:
-      - .env
+      - excel_edge_postgres_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: excel_edge_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
 
   redis:
     image: redis:alpine
-    container_name: redis
+    container_name: excel_edge_redis
     restart: unless-stopped
     ports:
       - '6379:6379'
     volumes:
-      - excel_egde_redis_db:/data
+      - excel_edge_redis_db:/data
 
   nginx:
     image: nginx:alpine
-    container_name: nginx
+    container_name: excel_edge_nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -45,5 +50,5 @@ services:
       - app
 
 volumes:
-  excel_egde_postgres_db:
-  excel_egde_redis_db:
+  excel_edge_postgres_db:
+  excel_edge_redis_db:

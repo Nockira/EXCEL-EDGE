@@ -29,7 +29,7 @@ export const ContactUs = () => {
 
   return (
     <div className="py-8 bg-gray-200">
-      <h2 className="text-2xl font-bold mb-6 text-gray-900 text-center">
+      <h2 className="text-2xl font-bold mb-6 text-gray-600 text-center">
         Contact Us
       </h2>
       <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto gap-8 p-4">
@@ -38,7 +38,7 @@ export const ContactUs = () => {
           <div className="space-y-4">
             {/* Address */}
             <div className="flex items-start">
-              <IoLocation className="h-5 w-5 text-green-600 mt-1 mr-3" />
+              <IoLocation className="h-5 w-5 text-[#fdc901] mt-1 mr-3" />
               <div>
                 <p className="text-gray-600 font-medium">Address</p>
                 <p className="text-gray-800">
@@ -50,7 +50,7 @@ export const ContactUs = () => {
             </div>
             {/* Phone Number */}
             <div className="flex items-start">
-              <FaPhone className="h-5 w-5 text-green-600 mt-1 mr-3" />
+              <FaPhone className="h-5 w-5 text-[#fdc901] mt-1 mr-3" />
               <div>
                 <p className="text-gray-600 font-medium">Phone</p>
                 <a href="tel:+250788123456" className="hover:underline">
@@ -61,7 +61,7 @@ export const ContactUs = () => {
 
             {/* Email */}
             <div className="flex items-start">
-              <MdEmail className="h-5 w-5 text-green-600 mt-1 mr-3" />
+              <MdEmail className="h-5 w-5 text-[#fdc901] mt-1 mr-3" />
               <div>
                 <p className="text-gray-600 font-medium">Email</p>
                 <a href="mailto:info@company.com" className="hover:underline">
@@ -77,13 +77,13 @@ export const ContactUs = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-500 text-sm font-bold mb-2"
                 htmlFor="name"
               >
                 Name
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
                 id="name"
                 type="text"
                 name="name"
@@ -96,13 +96,13 @@ export const ContactUs = () => {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-500 text-sm font-bold mb-2"
                 htmlFor="email"
               >
                 Email
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="email"
                 name="email"
@@ -115,13 +115,13 @@ export const ContactUs = () => {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-500 text-sm font-bold mb-2"
                 htmlFor="phone"
               >
                 Phone
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
                 id="phone"
                 type="tel"
                 name="phone"
@@ -133,13 +133,13 @@ export const ContactUs = () => {
 
             <div className="mb-6">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-500 text-sm font-bold mb-2"
                 htmlFor="message"
               >
                 Message
               </label>
               <textarea
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline h-32"
                 id="message"
                 name="message"
                 value={formData.message}
@@ -151,7 +151,7 @@ export const ContactUs = () => {
 
             <div className="flex items-center justify-end">
               <button
-                className="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-[#fdc901] hover:text-[#fdc901] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
                 Send Message

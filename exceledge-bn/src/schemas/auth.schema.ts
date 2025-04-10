@@ -35,3 +35,16 @@ export const loginSchema = Joi.object({
   .messages({
     "object.missing": "Either email or phone number is required",
   });
+
+export const updateUserSchema = Joi.object({
+  firstName: Joi.string().min(2).max(50).trim(),
+  secondName: Joi.string().min(2).max(50).trim().allow(null, ""),
+  email: Joi.string().email().lowercase().trim(),
+  phone: Joi.string()
+    .pattern(/^[0-9]{10,15}$/)
+    .message("Phone number must be 10 digits"),
+  password: Joi.string().min(6).max(30),
+  gender: Joi.string().valid("Male", "Female", "Other"),
+  dob: Joi.date().iso(),
+  role: Joi.string().valid("USER", "STAFF", "ADMIN", "PARTNER"),
+}).min(1);

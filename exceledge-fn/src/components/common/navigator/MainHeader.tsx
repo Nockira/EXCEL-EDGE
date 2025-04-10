@@ -20,7 +20,7 @@ interface UserData {
   email: string;
   role: string;
 }
-
+export const token = localStorage.getItem("accessToken");
 export const MainHeader: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -43,7 +43,6 @@ export const MainHeader: React.FC = () => {
     { to: "/sign-in", label: "Register" },
   ];
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
     if (token) {
       setIsLoggedIn(true);
       try {

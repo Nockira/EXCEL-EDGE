@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   FiChevronDown,
-  FiChevronUp,
   FiX,
   FiChevronLeft,
   FiChevronRight,
@@ -118,7 +117,7 @@ export const Announcements = () => {
       <div className="bg-white rounded-lg shadow-md border border-gray-200 sm:pl-20 sm:pr-20">
         {/* Header */}
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-green-700">Announcements</h2>
+          <h2 className="text-2xl font-bold text-[#fdc901]">Announcements</h2>
           <p className="text-sm text-gray-500 mt-2">
             Showing {indexOfFirstAnnouncement + 1}-
             {Math.min(indexOfLastAnnouncement, announcements.length)} of{" "}
@@ -170,7 +169,7 @@ export const Announcements = () => {
               className={`flex items-center px-4 py-2 rounded-md ${
                 currentPage === 1
                   ? "text-gray-400 cursor-not-allowed"
-                  : "text-green-600 hover:bg-green-50"
+                  : "text-[#fdc901] hover:bg-yellow-50"
               }`}
             >
               <FiChevronLeft className="mr-2" />
@@ -185,7 +184,7 @@ export const Announcements = () => {
                     onClick={() => paginate(number)}
                     className={`w-10 h-10 rounded-md flex items-center justify-center ${
                       currentPage === number
-                        ? "bg-green-100 text-green-700 font-medium"
+                        ? "bg-yellow-100 text-[#fdc901] font-medium"
                         : "text-gray-600 hover:bg-gray-100"
                     }`}
                   >
@@ -201,7 +200,7 @@ export const Announcements = () => {
               className={`flex items-center px-4 py-2 rounded-md ${
                 currentPage === totalPages
                   ? "text-gray-400 cursor-not-allowed"
-                  : "text-green-600 hover:bg-green-50"
+                  : "text-[#fdc901] hover:bg-yellow-50"
               }`}
             >
               Next
@@ -217,7 +216,7 @@ export const Announcements = () => {
               <div className="p-8">
                 <div className="flex justify-between items-start mb-6">
                   <div>
-                    <h2 className="text-2xl font-bold text-green-700">
+                    <h2 className="text-2xl font-bold text-[#fdc901]">
                       {expandedAnnouncement.title}
                     </h2>
                     <div className="flex items-center mt-3 text-gray-500">
@@ -238,7 +237,7 @@ export const Announcements = () => {
                     <FiX size={24} />
                   </button>
                 </div>
-                <div className="prose max-w-none text-gray-700 mt-6 space-y-4">
+                <div className="prose max-w-none text-gray-500 mt-6 space-y-4">
                   {expandedAnnouncement.content
                     .split("\n")
                     .map((paragraph, i) => (
@@ -250,7 +249,7 @@ export const Announcements = () => {
                 <div className="mt-8">
                   <button
                     onClick={handleCloseExpanded}
-                    className="bg-green-600 hover:bg-green-700 text-white py-2.5 px-6 rounded-md font-medium transition-colors"
+                    className="bg-[#fdc901] hover:text-[#fdc901] text-white py-2.5 px-6 rounded-md font-medium transition-colors"
                   >
                     Close
                   </button>

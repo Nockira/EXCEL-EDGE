@@ -22,7 +22,7 @@ const WorkWithUs = () => {
                   className="sm:flex hidden justify-center sm:w-[46%] h-72 rounded-[20px]"
                 />
                 <div
-                  className="flex items-center bg-green-700 text-white p-4 text-medium sm:w-[46%] 
+                  className="flex items-center text-[#fdc901] text-white p-4 text-medium sm:w-[46%] 
                rounded-[20px]"
                 >
                   <p className="sm:m-0 m-2">
@@ -48,7 +48,7 @@ const WorkWithUs = () => {
 
               <div className="sm:flex block item-center gap-[8%] pt-[8%]">
                 <div
-                  className="flex items-center bg-green-700 text-white p-4 text-medium sm:w-[46%] 
+                  className="flex items-center text-[#fdc901] text-white p-4 text-medium sm:w-[46%] 
                rounded-[20px]"
                 >
                   <p>
@@ -80,7 +80,7 @@ const WorkWithUs = () => {
                   className="sm:flex hidden justify-center sm:w-[46%] h-72 rounded-[20px]"
                 />
                 <div
-                  className="flex items-center bg-green-700 text-white p-4 text-medium sm:w-[46%] 
+                  className="flex items-center text-[#fdc901] text-white p-4 text-medium sm:w-[46%] 
                rounded-[20px]"
                 >
                   <p>

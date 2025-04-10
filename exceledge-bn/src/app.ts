@@ -10,8 +10,10 @@ import redisClient from "./utils/connectRedis";
 import appRoutes from "./routes";
 import passport from "passport";
 import session from "express-session";
+import TransactionCronService from "./utils/jobs/croneJob";
 
 validateEnv();
+TransactionCronService.initCronJobs();
 
 const prisma = new PrismaClient();
 const app = express();

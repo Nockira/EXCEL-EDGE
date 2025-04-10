@@ -116,3 +116,15 @@ export const uploadAvatar = async (userId: string, file: File) => {
     throw error;
   }
 };
+
+// Transactions services
+
+export const getAllTransactions = async () => {
+  try {
+    const transactions = await api.get("/transactions");
+    return transactions;
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    throw error;
+  }
+};

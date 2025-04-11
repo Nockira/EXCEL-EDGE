@@ -1,5 +1,6 @@
 import { prisma } from "../utils/prisma.service";
 interface CreateTransactionDto {
+  id: string;
   userId: string;
   amount: number;
   method: any;
@@ -30,6 +31,7 @@ export const createTransaction = async (
 
     const transaction = await prisma.transaction.create({
       data: {
+        id: createTransactionDto.id,
         userId: createTransactionDto.userId,
         amount: createTransactionDto.amount,
         method: createTransactionDto.method,

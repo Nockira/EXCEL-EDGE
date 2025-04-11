@@ -9,6 +9,7 @@ import {
   Users,
   Lightbulb,
 } from "lucide-react";
+import ServicesImg from "../../assets/services.jpg";
 export const ServiceSections = () => {
   const fixedServices = [
     {
@@ -113,17 +114,31 @@ Any business exceeding 100,000,001 RWF in turnover is charged 500,000 RWF per mo
 
   return (
     <div>
+      <div className="relative">
+        {/* Image container with overlay */}
+        <div className="relative w-full h-[50vh] overflow-hidden">
+          <img
+            src={ServicesImg}
+            alt="pricing"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
+              Our Services
+            </h1>
+            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4  mb-8">
+              Transparent pricing for essential business services and Customized
+              solutions tailored to your business needs
+            </p>
+          </div>
+        </div>
+      </div>
       <div>
         {/* Fixed Price Services Section */}
         <section className="bg-gray-200 py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">
-                Our Fixed Price Services
-              </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Transparent pricing for essential business services
-              </p>
+              <h2 className="text-3xl font-bold mb-4">Fixed Price Services</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -156,9 +171,6 @@ Any business exceeding 100,000,001 RWF in turnover is charged 500,000 RWF per mo
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Negotiable Services</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Customized solutions tailored to your business needs
-              </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">

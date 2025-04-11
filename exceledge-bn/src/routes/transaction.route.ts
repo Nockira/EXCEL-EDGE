@@ -6,9 +6,11 @@ import {
   updatePaymentStatus,
   updateTransaction,
   getTransactionById,
+  initializePayment,
 } from "../controllers/transaction.controller";
 import { validateSchema } from "../middlewares/schemaValidation";
 import {
+  cashinValidationSchema,
   createTransactionSchema,
   updateStatusSchema,
   updateTransactionSchema,
@@ -38,5 +40,11 @@ transactionRoutes.patch(
   updatePaymentStatus
 );
 transactionRoutes.delete("/:id", isLoggedIn, isAdmin, deleteTransaction);
+transactionRoutes.post(
+  "/cashin",
+  isLoggedIn,
+  validateSchema(cashinValidationSchema),
+  initializePayment
+);
 
 export default transactionRoutes;

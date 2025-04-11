@@ -1,24 +1,28 @@
 import { Request, Response } from "express";
 import * as transactionService from "../services/transaction.service";
+import axios from "axios";
+import * as crypto from "crypto";
+import * as cron from "node-cron";
 
 // Create a new transaction
 export const createTransaction = async (req: Request, res: Response) => {
   try {
-    const { userId, amount, method, duration, service } = req.body;
+    const { duration, service } = req.body;
 
-    if (!userId || !amount || !method || !duration || !service) {
+    if (!duration || !service) {
       res.status(400).json({ message: "Missing required fields" });
     }
+    const user: any = req.user;
+    console.log("the user found with the info below ===> ", user);
+    // const transaction = await transactionService.createTransaction({
+    //   userId: user.id,
+    //   amount,
+    //   method,
+    //   duration,
+    //   service,
+    // });
 
-    const transaction = await transactionService.createTransaction({
-      userId,
-      amount,
-      method,
-      duration,
-      service,
-    });
-
-    res.status(201).json(transaction);
+    // res.status(201).json(transaction);
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ message: error.message });
@@ -133,4 +137,126 @@ export const updateRemainingTime = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
+};
+
+// Payment controllers
+
+const getPaymentToken = async () => {
+  try {
+    const response: any = await axios.post(
+      `${process.env.PAYPACK_API}/auth/agents/authorize`,
+      {
+        client_id: process.env.PAYPACK_CLIENT_ID,
+        client_secret: process.env.PAYPACK_SECRET_KEY,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+
+    const token = response.data.access;
+    return token;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Failed to get access token:", error.message);
+    } else {
+      console.error("Failed to get access token:", error);
+    }
+    throw error;
+  }
+};
+
+export const initializePayment = async (req: Request, res: Response) => {
+  const accessToken = await getPaymentToken();
+  const { amount, number, duration, service } = req.body;
+  try {
+    const paypackResponse = await axios.post(
+      `${process.env.PAYPACK_API}/transactions/cashin`,
+      { amount, number },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    // Assuming Paypack returns a success status or code you can check
+    const paypackData: any = paypackResponse.data;
+
+    // Record transaction in DB
+    const user: any = req.user;
+    const method = paypackData?.provider?.toUpperCase?.() || "UNKNOWN";
+    const transaction = await transactionService.createTransaction({
+      id: paypackData?.ref,
+      userId: user.id,
+      amount,
+      method,
+      duration,
+      service,
+    });
+    await checkTransactionEvent(paypackData?.ref, number);
+    // Return combined response
+    res.status(201).json({
+      message: "Payment initiated and transaction recorded successfully.",
+      paypack: paypackData,
+      transaction,
+    });
+  } catch (error: any) {
+    console.error(
+      "Payment Init Error: ",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      message: "Failed to initialize payment",
+      details: error.response?.data || error.message,
+    });
+  }
+};
+const checkTransactionEvent = async (ref: string, client: string) => {
+  let job: cron.ScheduledTask;
+
+  job = cron.schedule(
+    "*/1 * * * *",
+    async () => {
+      try {
+        const token = await getPaymentToken();
+
+        // Get transaction events
+        const response: any = await axios.get(
+          `${process.env.PAYPACK_API}/events/transactions`,
+          {
+            params: {
+              ref,
+              client,
+            },
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("API Response:", response.data.transactions);
+      } catch (error: any) {
+        console.error(
+          `Error monitoring transaction [${ref}]:`,
+          error.response?.data || error.message
+        );
+        if (error.response?.status === 401) {
+          console.log("Token expired, attempting to refresh...");
+        }
+      }
+    },
+    {
+      scheduled: true,
+      timezone: "Africa/Kigali",
+    }
+  );
+
+  return job;
 };

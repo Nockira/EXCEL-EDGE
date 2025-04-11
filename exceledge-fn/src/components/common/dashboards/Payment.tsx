@@ -16,6 +16,7 @@ interface Transaction {
   amount: string;
   service: string;
   method: string;
+  status: string;
   remainingTime: number;
   createdAt: string;
   duration: number;
@@ -25,21 +26,30 @@ interface Transaction {
 export const Payments = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const transactionsPerPage = 10;
 
   useEffect(() => {
     const getTransactions = async () => {
-      setLoading(true);
-      const response = await getAllTransactions();
-      setTransactions(response.data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const response = await getAllTransactions();
+        setTransactions(response.data.transactions);
+        setTotalRevenue(response.data.totalRevenue);
+        setLoading(false);
+      } catch (error) {
+        if (error) {
+          setErr("Failed to fetch transactions");
+        }
+      }
     };
     getTransactions();
   }, []);
 
   // Calculate days remaining and add subscription duration for each transaction
-  const transactionsWithDaysRemaining: Transaction[] = transactions.map(
+  const transactionsWithDaysRemaining: Transaction[] = transactions?.map(
     (txn) => {
       const startDate = new Date(txn.createdAt);
       const durationMonths = txn.duration;
@@ -80,7 +90,7 @@ export const Payments = () => {
 
   return (
     <div className="p-4 sm:p-6">
-      <h2 className="text-2xl font-bold mb-6">transactions</h2>
+      <h2 className="text-2xl font-bold mb-6">Transactions</h2>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -91,7 +101,9 @@ export const Payments = () => {
             </div>
             <div>
               <p className="text-sm text-gray-500">Total Revenue</p>
-              <p className="text-2xl font-bold">200000000</p>
+              <p className="text-2xl font-bold">
+                {totalRevenue} <span className="text-lg">FRW</span>
+              </p>
             </div>
           </div>
         </div>
@@ -122,6 +134,9 @@ export const Payments = () => {
                   Method
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
                   <FiCalendar className="inline mr-1" /> Duration
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
@@ -137,7 +152,7 @@ export const Payments = () => {
               </>
             ) : transactions.length > 0 ? (
               <tbody className="bg-white divide-y divide-gray-200">
-                {currentTransactions.map((txn) => (
+                {currentTransactions?.map((txn) => (
                   <tr key={txn.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {txn.createdAt.toString().split("T")[0]}
@@ -155,6 +170,22 @@ export const Payments = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {txn.method}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        ${
+                          txn.status === "COMPLETED"
+                            ? "bg-green-100 text-green-800"
+                            : txn.status === "PENDING"
+                            ? "bg-yellow-200 text-yellow-800"
+                            : txn.status === "FAILED"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-gray-300"
+                        }`}
+                      >
+                        {txn.status}
+                      </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
@@ -180,7 +211,7 @@ export const Payments = () => {
             ) : (
               <>
                 <div className="flex justify-center items-center">
-                  No Transactions
+                  {err ? err : "No Transactions"}
                 </div>
               </>
             )}

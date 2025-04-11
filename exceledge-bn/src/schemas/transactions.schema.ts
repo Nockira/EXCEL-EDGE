@@ -76,3 +76,23 @@ export const updateStatusSchema = Joi.object({
       "any.required": "Status is required",
     }),
 });
+
+export const cashinValidationSchema = Joi.object({
+  amount: Joi.number().positive().required(),
+  number: Joi.string()
+    .pattern(/^07\d{8}$/)
+    .required()
+    .messages({
+      "string.pattern.base":
+        "Phone number must be a valid Rwandan  number (e.g. 07xxxxxxxxx)",
+    }),
+  duration: Joi.number().integer().positive().messages({
+    "number.base": "Duration must be a number",
+    "number.integer": "Duration must be an integer",
+    "number.positive": "Duration must be positive",
+  }),
+
+  service: Joi.string().messages({
+    "string.base": "Service must be a string",
+  }),
+});

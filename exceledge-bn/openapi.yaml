@@ -574,6 +574,75 @@ paths:
           description: Unauthorized
         "500":
           description: Server error
+  /transactions/cashin:
+    post:
+      summary: Initiate a cashin payment
+      security:
+        - BearerAuth: []
+      description: Initiate a payment transaction to deposit funds into a merchant account via Paypack.
+      tags:
+        - Payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - number
+                - duration
+                - service
+              properties:
+                amount:
+                  type: number
+                  example: 1000
+                  description: The amount to be deposited.
+                number:
+                  type: string
+                  example: "0780000000"
+                  description: The phone number of the customer initiating the payment.
+                duration:
+                  type: number
+                  example: 2
+                  description: Duration in months
+                service:
+                  type: string
+                  example: "Tin (0-10M)"
+                  description: Service to be paid for
+      responses:
+        "201":
+          description: Payment initiated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Payment request initiated, check your phone to complete payment.
+                  data:
+                    type: object
+                    properties:
+                      amount:
+                        type: number
+                        example: 1000
+                      created_at:
+                        type: string
+                        example: 2005-11-09T21:19:07.459Z
+                      kind:
+                        type: string
+                        example: CASHIN
+                      ref:
+                        type: string
+                        example: d0bb2807-1d52-4795-b373-3feaf63dceb1
+                      status:
+                        type: string
+                        example: pending
+        "400":
+          description: Bad request - Invalid input
+        "500":
+          description: Internal server error
 
 components:
   securitySchemes:

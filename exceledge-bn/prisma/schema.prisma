@@ -20,6 +20,32 @@ model User {
   role       Role      @default(USER)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id            String        @id @default(uuid())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  amount        Float
+  method        PaymentMethod
+  duration      Int
+  remainingTime Int
+  status        PaymentStatus @default(PENDING)
+  service       String
+  createdAt     DateTime      @default(now())
+}
+
+enum PaymentMethod {
+  MTN
+  AIRTEL
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
 }
 
 enum Role {

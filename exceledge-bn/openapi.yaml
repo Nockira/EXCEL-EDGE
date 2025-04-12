@@ -329,6 +329,320 @@ paths:
                   error:
                     type: string
                     example: "Something went wrong. Please try again later."
+  /transactions:
+    post:
+      summary: Create a new transaction
+      security:
+        - BearerAuth: []
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTransactionRequest"
+      responses:
+        "201":
+          description: Transaction created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Bad request - validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+    get:
+      summary: Get all transactions
+      security:
+        - BearerAuth: []
+      tags:
+        - Transactions
+      responses:
+        "200":
+          description: List of transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransactionWithUser"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+  /transactions/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Transaction ID
+
+    get:
+      summary: Get transaction by ID
+      security:
+        - BearerAuth: []
+      tags:
+        - Transactions
+      responses:
+        "200":
+          description: Transaction details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionWithUser"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Server error
+
+    patch:
+      summary: Update transaction
+      security:
+        - BearerAuth: []
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTransactionRequest"
+      responses:
+        "200":
+          description: Transaction updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Bad request - validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Server error
+
+    delete:
+      summary: Delete transaction
+      security:
+        - BearerAuth: []
+      tags:
+        - Transactions
+      responses:
+        "200":
+          description: Transaction deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResponse"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Server error
+
+  /transactions/{id}/status:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Transaction ID
+
+    patch:
+      summary: Update payment status
+      security:
+        - BearerAuth: []
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStatusRequest"
+      responses:
+        "200":
+          description: Payment status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Bad request - validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Server error
+
+  /transactions/user/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: User ID
+
+    get:
+      summary: Get transactions by user ID
+      security:
+        - BearerAuth: []
+      tags:
+        - Transactions
+      responses:
+        "200":
+          description: List of user transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransactionWithUser"
+        "400":
+          description: Bad request - invalid user ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+  /transactions/update-remaining-time:
+    post:
+      summary: Manually update remaining time (admin only)
+      security:
+        - BearerAuth: []
+      tags:
+        - Transactions
+      responses:
+        "200":
+          description: Remaining time updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateRemainingTimeResponse"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Server error
+  /transactions/cashin:
+    post:
+      summary: Initiate a cashin payment
+      security:
+        - BearerAuth: []
+      description: Initiate a payment transaction to deposit funds into a merchant account via Paypack.
+      tags:
+        - Payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - number
+                - duration
+                - service
+              properties:
+                amount:
+                  type: number
+                  example: 1000
+                  description: The amount to be deposited.
+                number:
+                  type: string
+                  example: "0780000000"
+                  description: The phone number of the customer initiating the payment.
+                duration:
+                  type: number
+                  example: 2
+                  description: Duration in months
+                service:
+                  type: string
+                  example: "Tin (0-10M)"
+                  description: Service to be paid for
+      responses:
+        "201":
+          description: Payment initiated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Payment request initiated, check your phone to complete payment.
+                  data:
+                    type: object
+                    properties:
+                      amount:
+                        type: number
+                        example: 1000
+                      created_at:
+                        type: string
+                        example: 2005-11-09T21:19:07.459Z
+                      kind:
+                        type: string
+                        example: CASHIN
+                      ref:
+                        type: string
+                        example: d0bb2807-1d52-4795-b373-3feaf63dceb1
+                      status:
+                        type: string
+                        example: pending
+        "400":
+          description: Bad request - Invalid input
+        "500":
+          description: Internal server error
 
 components:
   securitySchemes:
@@ -446,3 +760,131 @@ components:
         gender: Female
         dob: 1995-08-25
         role: USER
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: string
+          example: error
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: float
+        method:
+          type: string
+          enum: [MTN, AIRTEL]
+        duration:
+          type: integer
+          description: Duration in months
+        remainingTime:
+          type: integer
+          description: Remaining time in days
+        status:
+          type: string
+          enum: [PENDING, COMPLETED, FAILED]
+        service:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    TransactionWithUser:
+      allOf:
+        - $ref: "#/components/schemas/Transaction"
+        - type: object
+          properties:
+            user:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                firstName:
+                  type: string
+                secondName:
+                  type: string
+
+    CreateTransactionRequest:
+      type: object
+      required:
+        - userId
+        - amount
+        - method
+        - duration
+        - service
+      properties:
+        userId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: float
+        method:
+          type: string
+          enum: [MTN, AIRTEL]
+        duration:
+          type: integer
+          description: Duration in months
+        service:
+          type: string
+
+    UpdateTransactionRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+        method:
+          type: string
+          enum: [MTN, AIRTEL]
+        duration:
+          type: integer
+          description: Duration in months
+        service:
+          type: string
+        status:
+          type: string
+          enum: [PENDING, COMPLETED, FAILED]
+
+    UpdateStatusRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [PENDING, COMPLETED, FAILED]
+
+    DeleteResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Transaction deleted successfully
+
+    UpdateRemainingTimeResponse:
+      type: object
+      properties:
+        updated:
+          type: integer
+          description: Number of transactions updated

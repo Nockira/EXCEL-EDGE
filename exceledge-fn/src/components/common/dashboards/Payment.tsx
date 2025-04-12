@@ -1,50 +1,76 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FiChevronLeft,
   FiChevronRight,
   FiCalendar,
   FiDollarSign,
-  FiCheckCircle,
   FiClock,
+  FiXCircle,
 } from "react-icons/fi";
-import { dashboardData } from "./dashboardData";
+import { getAllTransactions } from "../../../services/service";
 
 interface Transaction {
   id: number;
-  user: string;
+  user: {
+    firstName: string;
+    secondName?: string;
+  };
   amount: string;
   service: string;
-  paymentMethod: string;
-  date: string;
+  method: string;
+  status: string;
+  remainingTime: number;
+  createdAt: string;
+  duration: number;
   endDate: string;
-  subscriptionDuration: string; // Added for subscription duration
 }
 
 export const Payments = () => {
-  const { payments } = dashboardData;
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalFailed, setTotalFailed] = useState(0);
+  const [totalPending, setTotalPending] = useState(0);
+  const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const transactionsPerPage = 10;
 
+  useEffect(() => {
+    const getTransactions = async () => {
+      try {
+        setLoading(true);
+        const response = await getAllTransactions();
+        setTransactions(response.data.transactions);
+        setTotalRevenue(response.data.totalRevenue);
+        setTotalFailed(response.data.totalFailed);
+        setTotalPending(response.data.totalPending);
+        setLoading(false);
+      } catch (error) {
+        if (error) {
+          setErr("Failed to fetch transactions");
+        }
+      }
+    };
+    getTransactions();
+  }, []);
+
   // Calculate days remaining and add subscription duration for each transaction
-  const transactionsWithDaysRemaining: Transaction[] =
-    payments.transactions.map((txn) => {
-      const durationMonths = Math.floor(Math.random() * 12) + 1; // Random 1-12 months for demo
-      const endDate = new Date(
-        new Date(txn.date).setMonth(
-          new Date(txn.date).getMonth() + durationMonths
-        )
-      )
-        .toISOString()
-        .split("T")[0];
+  const transactionsWithDaysRemaining: Transaction[] = transactions?.map(
+    (txn) => {
+      const startDate = new Date(txn.createdAt);
+      const durationMonths = txn.duration;
+      const endDate = new Date(startDate);
+      endDate.setMonth(startDate.getMonth() + durationMonths);
 
       return {
         ...txn,
-        endDate,
+        endDate: endDate.toISOString().split("T")[0],
         subscriptionDuration: `${durationMonths} month${
           durationMonths > 1 ? "s" : ""
         }`,
       };
-    });
+    }
+  );
 
   // Pagination logic remains the same
   const indexOfLastTransaction = currentPage * transactionsPerPage;
@@ -58,18 +84,9 @@ export const Payments = () => {
   );
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  const calculateDaysRemaining = (endDate: string) => {
-    const end = new Date(endDate);
-    const today = new Date();
-    const diffTime = end.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays > 0 ? diffDays : 0;
-  };
-
   return (
     <div className="p-4 sm:p-6">
-      <h2 className="text-2xl font-bold mb-6">Payments</h2>
+      <h2 className="text-2xl font-bold mb-6">Transactions</h2>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -79,24 +96,13 @@ export const Payments = () => {
               <FiDollarSign size={20} />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Total Revenue</p>
-              <p className="text-2xl font-bold">{payments.totalRevenue}</p>
+              <p className="text-sm text-gray-500">Total Earings</p>
+              <p className="text-2xl font-bold">
+                {totalRevenue} <span className="text-lg">FRW</span>
+              </p>
             </div>
           </div>
         </div>
-
-        <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
-              <FiCheckCircle size={20} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Completed</p>
-              <p className="text-2xl font-bold">{payments.completed}</p>
-            </div>
-          </div>
-        </div>
-
         <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
@@ -104,7 +110,22 @@ export const Payments = () => {
             </div>
             <div>
               <p className="text-sm text-gray-500">Pending</p>
-              <p className="text-2xl font-bold">{payments.pending}</p>
+              <p className="text-2xl font-bold">
+                {totalPending} <span className="text-lg">FRW</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
+          <div className="flex items-center">
+            <div className="p-3 rounded-full bg-red-100 text-red-600 mr-4">
+              <FiXCircle size={20} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Failed</p>
+              <p className="text-2xl font-bold">
+                {totalFailed} <span className="text-lg">FRW</span>
+              </p>
             </div>
           </div>
         </div>
@@ -119,76 +140,107 @@ export const Payments = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  User
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Service
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Amount
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Method
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  <FiCalendar className="inline mr-1" /> Duration
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
+                  User
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
+                  Service
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
+                  Amount
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
+                  Method
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
+                  <FiCalendar className="inline mr-1" /> Duration
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
                   Days Left
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {currentTransactions.map((txn) => (
-                <tr key={txn.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    #{txn.id}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {txn.user}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {txn.service}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {txn.amount}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {txn.paymentMethod}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                      {txn.subscriptionDuration}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {txn.date}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        calculateDaysRemaining(txn.endDate) <= 3
-                          ? "bg-red-100 text-red-800"
-                          : calculateDaysRemaining(txn.endDate) <= 7
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-green-100 text-green-800"
-                      }`}
-                    >
-                      {calculateDaysRemaining(txn.endDate)} days
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            {loading ? (
+              <>
+                <div className="flex justify-center items-center">
+                  Loading ...
+                </div>
+              </>
+            ) : transactions.length > 0 ? (
+              <tbody className="bg-white divide-y divide-gray-200">
+                {currentTransactions?.map((txn) => (
+                  <tr key={txn.id}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {txn.createdAt.toString().split("T")[0]}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-gray-900">
+                        {txn.user.firstName} {txn.user.secondName}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {txn.service}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {txn.amount}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {txn.method}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        ${
+                          txn.status === "COMPLETED"
+                            ? "bg-green-100 text-green-800"
+                            : txn.status === "PENDING"
+                            ? "bg-yellow-200 text-yellow-800"
+                            : txn.status === "FAILED"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-gray-300"
+                        }`}
+                      >
+                        {txn.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        {txn.duration} months
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          txn.remainingTime <= 3
+                            ? "bg-red-100 text-red-800"
+                            : txn.remainingTime <= 7
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-green-100 text-green-800"
+                        }`}
+                      >
+                        {txn.remainingTime > 30
+                          ? `${Math.floor(txn.remainingTime / 30)} month(s) ${
+                              txn.remainingTime % 30
+                            } day(s)`
+                          : `${txn.remainingTime} day(s)`}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : (
+              <>
+                <div className="flex justify-center items-center">
+                  {err ? err : "No Transactions"}
+                </div>
+              </>
+            )}
           </table>
         </div>
         {/* Pagination */}

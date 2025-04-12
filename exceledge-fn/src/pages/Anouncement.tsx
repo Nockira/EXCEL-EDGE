@@ -6,6 +6,7 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 import { MainLayout } from "../components/layouts/MainLayout";
+import AnnouncementImg from "../assets/Announcement.jpeg";
 
 type Announcement = {
   id: number;
@@ -114,10 +115,28 @@ export const Announcements = () => {
 
   return (
     <MainLayout>
+      <div className="relative">
+        {/* Image container with overlay */}
+        <div className="relative w-full h-[50vh] overflow-hidden">
+          <img
+            src={AnnouncementImg}
+            alt="pricing"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
+              Announcements
+            </h1>
+            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-4">
+              Bookmark our page to ensure you never miss an announcement or
+              limited-time offer.
+            </p>
+          </div>
+        </div>
+      </div>
       <div className="bg-white rounded-lg shadow-md border border-gray-200 sm:pl-20 sm:pr-20">
         {/* Header */}
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-[#fdc901]">Announcements</h2>
           <p className="text-sm text-gray-500 mt-2">
             Showing {indexOfFirstAnnouncement + 1}-
             {Math.min(indexOfLastAnnouncement, announcements.length)} of{" "}

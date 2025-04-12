@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import io from "socket.io-client";
 import { MainLayout } from "../components/layouts/MainLayout";
 import Pricing from "../assets/price-value.webp";
-
-type Service = {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  basePrice: number;
-  category: string;
-  isMonthly: boolean;
-};
-
+import { Service } from "../../types";
+import { allServicesData } from "../data/services.data";
+import { initiatePayment } from "../services/service";
+import { API_URL } from "../services/service";
 type PaymentStatus = "pending" | "processing" | "success" | "failed" | null;
-
+const allServices = allServicesData;
+const api_url: any = API_URL;
+const socket = io(api_url);
 export const PricingPage = () => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -25,72 +21,6 @@ export const PricingPage = () => {
   const [selectedProvider, setSelectedProvider] = useState<
     "mtn" | "airtel" | null
   >(null);
-
-  const allServices: Service[] = [
-    {
-      id: "tin-0-10m",
-      name: "TIN Management (0-10M RWF)",
-      description: "Monthly TIN management for small businesses",
-      price: "10,000 RWF/month",
-      basePrice: 10000,
-      category: "Small business",
-      isMonthly: true,
-    },
-    {
-      id: "tin-10-20m",
-      name: "TIN Management (10-20M RWF)",
-      description: "Monthly TIN management for growing businesses",
-      price: "20,000 RWF/month",
-      basePrice: 20000,
-      category: "Growing business",
-      isMonthly: true,
-    },
-    {
-      id: "tin-20-50m",
-      name: "TIN Management (20-50M RWF)",
-      description: "Monthly TIN management for medium businesses",
-      price: "100,000 RWF/month",
-      basePrice: 100000,
-      category: "Medium business",
-      isMonthly: true,
-    },
-    {
-      id: "tin-50-100m",
-      name: "TIN Management (50-100M RWF)",
-      description: "Monthly TIN management for large businesses",
-      price: "300,000 RWF/month",
-      basePrice: 300000,
-      category: "Large business",
-      isMonthly: true,
-    },
-    {
-      id: "tin-100m-plus",
-      name: "TIN Management (100M+ RWF)",
-      description: "Monthly TIN management for enterprise businesses",
-      price: "500,000 RWF/month",
-      basePrice: 500000,
-      category: "Enterprise businesses",
-      isMonthly: true,
-    },
-    {
-      id: "google-location",
-      name: "Google Location Setup",
-      description: "One-time service to establish your business on Google Maps",
-      price: "39,999 RWF",
-      basePrice: 39999,
-      category: "Digital Services",
-      isMonthly: false,
-    },
-    {
-      id: "digital-library",
-      name: "Digital Library Access",
-      description: "Monthly subscription to our resource library",
-      price: "3,600 RWF/month",
-      basePrice: 3600,
-      category: "Books",
-      isMonthly: true,
-    },
-  ];
 
   const handleProceedToPayment = (service: Service) => {
     setSelectedService(service);
@@ -130,19 +60,13 @@ export const PricingPage = () => {
     setPaymentStatus("processing");
 
     try {
-      const response = await initiatePaymentApiCall({
-        serviceId: selectedService?.id,
+      const paymentData = {
         amount: calculateTotalPrice(),
-        phoneNumber,
-        provider: selectedProvider,
-        months,
-      });
-
-      if (response.success) {
-        setPaymentStatus("success");
-      } else {
-        setPaymentStatus("failed");
-      }
+        number: phoneNumber,
+        duration: months,
+        service: selectedService?.name,
+      };
+      await initiatePayment(paymentData);
     } catch (error) {
       console.error("Payment error:", error);
       setPaymentStatus("failed");
@@ -150,16 +74,6 @@ export const PricingPage = () => {
       setIsProcessing(false);
     }
   };
-
-  const initiatePaymentApiCall = async (paymentData: any) => {
-    return new Promise<{ success: boolean }>((resolve) => {
-      setTimeout(() => {
-        const isSuccess = Math.random() > 0.2;
-        resolve({ success: isSuccess });
-      }, 2000);
-    });
-  };
-
   const resetPayment = () => {
     setSelectedService(null);
     setSelectedProvider(null);
@@ -168,6 +82,24 @@ export const PricingPage = () => {
     setPhoneNumber("");
     setMonths(1);
   };
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("🟢 Connected to backend socket server for notifications");
+    });
+
+    socket.on("payment-status-update", (data: any) => {
+      if (data.status === "COMPLETED") {
+        setPaymentStatus("success");
+      } else {
+        setPaymentStatus("failed");
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   if (paymentStatus === "success" && selectedService) {
     return (
@@ -205,7 +137,7 @@ export const PricingPage = () => {
             </p>
             {selectedService.isMonthly && (
               <p className="font-medium">
-                Duration:{" "}
+                Subscription period:{" "}
                 <span className="text-green-600">
                   {months} {months > 1 ? "months" : "month"}
                 </span>
@@ -493,7 +425,7 @@ export const PricingPage = () => {
             <div className="bg-white rounded-lg max-w-md w-full p-6 text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="animate-spin h-8 w-8 text-blue-500"
+                  className="animate-spin h-8 w-8 text-yellow-500"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"

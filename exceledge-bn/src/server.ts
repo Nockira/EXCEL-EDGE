@@ -1,11 +1,38 @@
 import { app, prisma } from "./app";
 import TransactionCronService from "./utils/jobs/croneJob";
+import http from "http";
+import { Server } from "socket.io";
+
+const server = http.createServer(app);
+
+export const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST", "PATCH", "DELETE", "UPDATE"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("New client connected:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log(" Client disconnected:", socket.id);
+  });
+});
+
+// Export emitter function
+export const emitEvent = (eventName: string, payload: any) => {
+  io.emit(eventName, payload);
+};
+
+// Start server
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(`Server running on : http://localhost:${port}`);
-  console.log(`API docs are available at http://localhost:${port}/api-docs`);
+server.listen(port, () => {
+  console.log(`🚀 Server running on http://localhost:${port}`);
+  console.log(`📘 API docs: http://localhost:${port}/api-docs`);
 });
+
 // Graceful shutdown
 process.on("SIGINT", async () => {
   await prisma.$disconnect();

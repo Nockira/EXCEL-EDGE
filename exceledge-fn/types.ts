@@ -13,10 +13,19 @@ export interface PricingTier {
   name?: string; // Add for negotiable service items
 }
 
+// export interface Service {
+//   id: string;
+//   name: string;
+//   description: string;
+//   icon: string;
+//   items: ServiceItem[];
+// }
 export interface Service {
   id: string;
   name: string;
   description: string;
-  icon: string;
-  items: ServiceItem[];
+  price: string;
+  basePrice: number;
+  category: string;
+  isMonthly: boolean;
 }

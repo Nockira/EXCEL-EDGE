@@ -8,6 +8,8 @@ interface ExtendedJwtPayload extends JwtPayload {
 }
 
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+export const API_URL = process.env.REACT_APP_API_URL;
+export const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 // Configure axios instance with auth token
 const api = axios.create({
@@ -123,6 +125,21 @@ export const getAllTransactions = async () => {
   try {
     const transactions = await api.get("/transactions");
     return transactions;
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    throw error;
+  }
+};
+
+export const initiatePayment = async (data: any) => {
+  try {
+    const response = await api.post(`transactions/cashin`, {
+      amount: data.amount,
+      number: data.number,
+      duration: data.duration,
+      service: data.service,
+    });
+    return response.data;
   } catch (error) {
     console.error("Error uploading avatar:", error);
     throw error;

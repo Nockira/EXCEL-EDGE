@@ -4,6 +4,8 @@ import {
   FiChevronRight,
   FiCalendar,
   FiDollarSign,
+  FiClock,
+  FiXCircle,
 } from "react-icons/fi";
 import { getAllTransactions } from "../../../services/service";
 
@@ -27,6 +29,8 @@ export const Payments = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalFailed, setTotalFailed] = useState(0);
+  const [totalPending, setTotalPending] = useState(0);
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const transactionsPerPage = 10;
@@ -38,6 +42,8 @@ export const Payments = () => {
         const response = await getAllTransactions();
         setTransactions(response.data.transactions);
         setTotalRevenue(response.data.totalRevenue);
+        setTotalFailed(response.data.totalFailed);
+        setTotalPending(response.data.totalPending);
         setLoading(false);
       } catch (error) {
         if (error) {
@@ -53,7 +59,6 @@ export const Payments = () => {
     (txn) => {
       const startDate = new Date(txn.createdAt);
       const durationMonths = txn.duration;
-
       const endDate = new Date(startDate);
       endDate.setMonth(startDate.getMonth() + durationMonths);
 
@@ -79,15 +84,6 @@ export const Payments = () => {
   );
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  const calculateDaysRemaining = (endDate: string) => {
-    const end = new Date(endDate);
-    const today = new Date();
-    const diffTime = end.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays > 0 ? diffDays : 0;
-  };
-
   return (
     <div className="p-4 sm:p-6">
       <h2 className="text-2xl font-bold mb-6">Transactions</h2>
@@ -100,9 +96,35 @@ export const Payments = () => {
               <FiDollarSign size={20} />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Total Revenue</p>
+              <p className="text-sm text-gray-500">Total Earings</p>
               <p className="text-2xl font-bold">
                 {totalRevenue} <span className="text-lg">FRW</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
+          <div className="flex items-center">
+            <div className="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+              <FiClock size={20} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Pending</p>
+              <p className="text-2xl font-bold">
+                {totalPending} <span className="text-lg">FRW</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
+          <div className="flex items-center">
+            <div className="p-3 rounded-full bg-red-100 text-red-600 mr-4">
+              <FiXCircle size={20} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Failed</p>
+              <p className="text-2xl font-bold">
+                {totalFailed} <span className="text-lg">FRW</span>
               </p>
             </div>
           </div>
@@ -195,14 +217,18 @@ export const Payments = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          calculateDaysRemaining(txn.endDate) <= 3
+                          txn.remainingTime <= 3
                             ? "bg-red-100 text-red-800"
-                            : calculateDaysRemaining(txn.endDate) <= 7
+                            : txn.remainingTime <= 7
                             ? "bg-yellow-100 text-yellow-800"
                             : "bg-green-100 text-green-800"
                         }`}
                       >
-                        {calculateDaysRemaining(txn.endDate)} days
+                        {txn.remainingTime > 30
+                          ? `${Math.floor(txn.remainingTime / 30)} month(s) ${
+                              txn.remainingTime % 30
+                            } day(s)`
+                          : `${txn.remainingTime} day(s)`}
                       </span>
                     </td>
                   </tr>

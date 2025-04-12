@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-
+import { GOOGLE_MAPS_API_KEY } from "../../services/service";
 export const GoogleMapComponent = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
@@ -12,7 +12,7 @@ export const GoogleMapComponent = () => {
 
   useEffect(() => {
     const loadGoogleMapsAPI = () => {
-      const googleMapsApiKey = "AIzaSyDzB64c9CND5gMOpeEOkDNEmxKYXhlz2U8";
+      const googleMapsApiKey = GOOGLE_MAPS_API_KEY;
       const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places`;
       script.async = true;

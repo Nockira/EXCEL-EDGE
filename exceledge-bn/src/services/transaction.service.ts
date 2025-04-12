@@ -27,7 +27,6 @@ export const createTransaction = async (
     if (!user) {
       throw new Error("User not found");
     }
-    const remainingTime = createTransactionDto.duration * 30;
 
     const transaction = await prisma.transaction.create({
       data: {
@@ -36,7 +35,7 @@ export const createTransaction = async (
         amount: createTransactionDto.amount,
         method: createTransactionDto.method,
         duration: createTransactionDto.duration,
-        remainingTime,
+        remainingTime: 0,
         service: createTransactionDto.service,
       },
     });
@@ -61,10 +60,11 @@ export const getAllTransactions = async () => {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
-
-  // Calculate the sum of completed transactions (optimized with Prisma aggregate)
-  const sumResult = await prisma.transaction.aggregate({
+  const transactionsCompleted = await prisma.transaction.aggregate({
     where: {
       status: "COMPLETED",
     },
@@ -72,11 +72,31 @@ export const getAllTransactions = async () => {
       amount: true,
     },
   });
+  const transactionsPending = await prisma.transaction.aggregate({
+    where: {
+      status: "PENDING",
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+  const transactionsFailed = await prisma.transaction.aggregate({
+    where: {
+      status: "FAILED",
+    },
+    _sum: {
+      amount: true,
+    },
+  });
 
-  const totalRevenue = sumResult._sum.amount || 0;
+  const totalRevenue = transactionsCompleted._sum.amount || 0;
+  const totalFailed = transactionsFailed._sum.amount || 0;
+  const totalPending = transactionsPending._sum.amount || 0;
   return {
     transactions,
     totalRevenue,
+    totalPending,
+    totalFailed,
   };
 };
 
@@ -175,7 +195,11 @@ export const deleteTransaction = async (id: string) => {
   }
 };
 
-export const updatePaymentStatus = async (id: string, status: any) => {
+export const updatePaymentStatus = async (
+  id: string,
+  status: any,
+  remainingTime: number
+) => {
   try {
     const existingTransaction = await prisma.transaction.findUnique({
       where: { id },
@@ -187,7 +211,7 @@ export const updatePaymentStatus = async (id: string, status: any) => {
 
     const transaction = await prisma.transaction.update({
       where: { id },
-      data: { status },
+      data: { status, remainingTime },
     });
 
     return transaction;

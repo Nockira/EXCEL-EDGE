@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import * as transactionService from "../services/transaction.service";
 import axios from "axios";
-import * as crypto from "crypto";
 import * as cron from "node-cron";
-
+import { emitEvent } from "../server";
+let currentJob: any = null;
 // Create a new transaction
 export const createTransaction = async (req: Request, res: Response) => {
   try {
@@ -13,16 +13,6 @@ export const createTransaction = async (req: Request, res: Response) => {
       res.status(400).json({ message: "Missing required fields" });
     }
     const user: any = req.user;
-    console.log("the user found with the info below ===> ", user);
-    // const transaction = await transactionService.createTransaction({
-    //   userId: user.id,
-    //   amount,
-    //   method,
-    //   duration,
-    //   service,
-    // });
-
-    // res.status(201).json(transaction);
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ message: error.message });
@@ -94,7 +84,7 @@ export const updateTransaction = async (req: Request, res: Response) => {
 export const updatePaymentStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, remainingTime } = req.body;
 
     if (!status) {
       res.status(400).json({ message: "Status is required" });
@@ -102,7 +92,8 @@ export const updatePaymentStatus = async (req: Request, res: Response) => {
 
     const transaction = await transactionService.updatePaymentStatus(
       id,
-      status
+      status,
+      remainingTime
     );
     res.status(200).json(transaction);
   } catch (error) {
@@ -129,7 +120,6 @@ export const deleteTransaction = async (req: Request, res: Response) => {
   }
 };
 
-// Update remaining time (for manual triggering of cron job)
 export const updateRemainingTime = async (req: Request, res: Response) => {
   try {
     const result = await transactionService.updateRemainingTimeDaily();
@@ -140,7 +130,6 @@ export const updateRemainingTime = async (req: Request, res: Response) => {
 };
 
 // Payment controllers
-
 const getPaymentToken = async () => {
   try {
     const response: any = await axios.post(
@@ -184,8 +173,6 @@ export const initializePayment = async (req: Request, res: Response) => {
         },
       }
     );
-
-    // Assuming Paypack returns a success status or code you can check
     const paypackData: any = paypackResponse.data;
 
     // Record transaction in DB
@@ -199,8 +186,7 @@ export const initializePayment = async (req: Request, res: Response) => {
       duration,
       service,
     });
-    await checkTransactionEvent(paypackData?.ref, number);
-    // Return combined response
+    fetchEventJob(paypackData?.ref, number, duration);
     res.status(201).json({
       message: "Payment initiated and transaction recorded successfully.",
       paypack: paypackData,
@@ -217,46 +203,63 @@ export const initializePayment = async (req: Request, res: Response) => {
     });
   }
 };
-const checkTransactionEvent = async (ref: string, client: string) => {
-  let job: cron.ScheduledTask;
 
-  job = cron.schedule(
-    "*/1 * * * *",
-    async () => {
-      try {
-        const token = await getPaymentToken();
-
-        // Get transaction events
-        const response: any = await axios.get(
-          `${process.env.PAYPACK_API}/events/transactions`,
-          {
-            params: {
-              ref,
-              client,
-            },
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        console.log("API Response:", response.data.transactions);
-      } catch (error: any) {
-        console.error(
-          `Error monitoring transaction [${ref}]:`,
-          error.response?.data || error.message
-        );
-        if (error.response?.status === 401) {
-          console.log("Token expired, attempting to refresh...");
-        }
+export const fetchPaypackEvents = async (
+  ref: string,
+  client: string,
+  time: number
+) => {
+  const accessToken = await getPaymentToken();
+  try {
+    const response: any = await axios.get(
+      `${process.env.PAYPACK_API}/events/transactions`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        params: {
+          ref,
+          client,
+        },
       }
-    },
-    {
-      scheduled: true,
-      timezone: "Africa/Kigali",
-    }
-  );
+    );
 
-  return job;
+    const events: any = response.data.transactions[0]?.data;
+    if (!events) {
+      console.log("⚠️ No matching event found.");
+      return;
+    }
+    const status = events.status;
+    if (status === "successful" || status === "failed") {
+      const dbStatus = status === "successful" ? "COMPLETED" : "FAILED";
+      const remainingPeriod = status === "successful" ? time * 30 : 0;
+      console.log("Remaining time ", time * 30);
+      await transactionService.updatePaymentStatus(
+        ref,
+        dbStatus,
+        remainingPeriod
+      );
+      emitEvent("payment-status-update", {
+        status: dbStatus,
+        remainingPeriod,
+      });
+      currentJob?.stop();
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error fetching Paypack events:", error.message);
+    } else {
+      console.error("Error fetching Paypack events:", error);
+    }
+  }
+};
+
+export const fetchEventJob = (a: string, b: string, c: number) => {
+  console.log("Fetching event clone job started .....");
+  // Runs every 5 minutes
+  currentJob = cron.schedule("*/1 * * * *", async () => {
+    console.log("⏰ Checking Paypack events...");
+    await fetchPaypackEvents(a, b, c);
+  });
 };

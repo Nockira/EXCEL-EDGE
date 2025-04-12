@@ -31,7 +31,7 @@ export const register = async (
     data: {
       firstName: userData.firstName || "",
       secondName: userData.secondName || "",
-      email: userData.email || "",
+      email: userData.email || null,
       phone: userData.phone,
       password: hashedPassword,
       gender: userData.gender,

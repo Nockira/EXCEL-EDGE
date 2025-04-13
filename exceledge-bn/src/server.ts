@@ -1,5 +1,4 @@
 import { app, prisma } from "./app";
-import TransactionCronService from "./utils/jobs/croneJob";
 import http from "http";
 import { Server } from "socket.io";
 

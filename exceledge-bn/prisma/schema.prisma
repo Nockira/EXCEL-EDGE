@@ -22,6 +22,8 @@ model User {
   updatedAt  DateTime  @updatedAt
 
   Transaction Transaction[]
+
+  Announcement Announcement[]
 }
 
 model Transaction {
@@ -35,6 +37,16 @@ model Transaction {
   status        PaymentStatus @default(PENDING)
   service       String
   createdAt     DateTime      @default(now())
+}
+
+model Announcement {
+  id        String    @id @default(uuid())
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  title     String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 enum PaymentMethod {

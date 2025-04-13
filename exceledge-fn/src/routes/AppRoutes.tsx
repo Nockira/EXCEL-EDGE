@@ -7,13 +7,13 @@ import { Login } from "../pages/Login";
 import { PricingPage } from "../pages/Pricing";
 import { UserRegister } from "../pages/Register";
 import { AdminDashboard } from "../components/layouts/Dashboard";
-import { Announcements } from "../pages/Anouncement";
+import { Announcements } from "../pages/Announcement";
 import GoogleAuthCallback from "../pages/googleAuth";
 import { DashboardHome } from "../components/common/dashboards/DashboardHome";
 import { UserManagement } from "../components/common/dashboards/userManagment";
 import { Payments } from "../components/common/dashboards/Payment";
 import { Resources } from "../components/common/dashboards/Resources";
-import { AnnouncementsDashboard } from "../components/common/dashboards/Anouncement";
+import { AnnouncementsDashboard } from "../components/common/dashboards/Announcement";
 import { Profile } from "../pages/Profile";
 
 const Home = lazy(() => import("../pages/Home"));

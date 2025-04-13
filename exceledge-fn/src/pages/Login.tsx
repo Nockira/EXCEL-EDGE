@@ -141,7 +141,6 @@ export const Login: React.FC = () => {
             </Link>
           </div>
           <p className="text-center">Or</p>
-          {/* Google Sign Up Button */}
           <button
             className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-[#757575] font-medium py-2.5 px-4 rounded-full hover:bg-gray-50 hover:shadow-sm disabled:opacity-50 mb-4 transition-all"
             onClick={() => {

@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+const api_url = process.env.REACT_APP_API_BASE_URL;
 
 interface LoginFormData {
   phone: string;
@@ -44,10 +45,7 @@ export const Login: React.FC = () => {
     setSubmitError(null);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8800/api/v1/users/login",
-        data
-      );
+      const response = await axios.post(`${api_url}/users/login`, data);
       localStorage.setItem("accessToken", response.data.accessToken);
       toast.success(response.data.message || "Welcome!☺️");
       reset();
@@ -147,8 +145,7 @@ export const Login: React.FC = () => {
           <button
             className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-[#757575] font-medium py-2.5 px-4 rounded-full hover:bg-gray-50 hover:shadow-sm disabled:opacity-50 mb-4 transition-all"
             onClick={() => {
-              window.location.href =
-                "http://localhost:8800/api/v1/users/google-auth";
+              window.location.href = `${api_url}/users/google-auth`;
             }}
           >
             <svg

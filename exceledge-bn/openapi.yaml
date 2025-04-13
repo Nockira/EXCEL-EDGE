@@ -6,7 +6,7 @@ info:
 servers:
   - url: http://localhost:8800/api/v1
     description: Local server
-  - url: https://api.exceledge.com/api/v1
+  - url: https://excel-edge.onrender.com/api/v1
     description: Staging server
   - url: https://exceledge.com/api/v1
     description: Production server

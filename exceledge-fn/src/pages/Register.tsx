@@ -8,7 +8,7 @@ import { TextInput } from "../components/common/inputText";
 import { RegisterSchema } from "../schemas/authSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-
+const api_url = process.env.REACT_APP_API_BASE_URL;
 interface RegisterFormData {
   phone: string;
   password: string;
@@ -35,10 +35,7 @@ export const UserRegister: React.FC = () => {
     setSubmitError(null);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8800/api/v1/users",
-        data
-      );
+      const response = await axios.post(`${api_url}/v1/users`, data);
       toast.success(response.data.message || "Registration successful! 🎉");
       reset();
       navigate("/login");
@@ -77,8 +74,7 @@ export const UserRegister: React.FC = () => {
             className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-[#757575] font-medium py-2.5 px-4 rounded-full hover:bg-gray-50 hover:shadow-sm disabled:opacity-50 mb-4 transition-all"
             onClick={() => {
               setGoogleLoading(true);
-              window.location.href =
-                "http://localhost:8800/api/v1/users/google-auth";
+              window.location.href = `${api_url}/users/google-auth`;
             }}
           >
             <svg

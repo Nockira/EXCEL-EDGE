@@ -11,6 +11,9 @@ import {
 } from "react-icons/fi";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { ChevronDown, LogOut, User } from "lucide-react";
+import { fetchUserProfile } from "../../services/service";
+import { BeatLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 interface UserData {
   firstName: string;
@@ -24,30 +27,63 @@ export const AdminDashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("accessToken");
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
+    const loadUserProfile = async () => {
+      if (!token) {
+        setIsLoggedIn(false);
+        return;
+      }
+
       setIsLoggedIn(true);
+      setIsFetching(true);
+
       try {
         const decoded: any = jwtDecode(token);
+        const userId = decoded.id;
+
+        if (!userId) {
+          throw new Error("User ID not found in token");
+        }
+        const response = await fetchUserProfile(userId);
         setUserData({
-          firstName: decoded.firstName || "User",
-          secondName: decoded.secondName || "Second",
-          email: decoded.email || "",
-          role: decoded.role || "",
+          firstName: response.data.firstName,
+          secondName: response.data.secondName,
+          email: response.data.email,
+          role: response.data.role,
         });
-      } catch (error) {
-        console.error("Error decoding token:", error);
+        setError(null);
+      } catch (err) {
+        console.error("Error loading user profile:", err);
+        setError("Failed to load user profile");
+        try {
+          const decoded: any = jwtDecode(token);
+          setUserData({
+            firstName: decoded.firstName || "User",
+            secondName: decoded.secondName || "",
+            email: decoded.email || "",
+            role: decoded.role || "",
+          });
+        } catch (tokenError) {
+          console.error("Error decoding token:", tokenError);
+        }
+      } finally {
+        setIsFetching(false);
       }
-    }
-  }, [isLoggedIn]);
+    };
+
+    loadUserProfile();
+  }, [token]);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUserData(null);
     localStorage.removeItem("accessToken");
+    navigate("/");
+    toast.success("Logged out successfully");
   };
 
   useEffect(() => {
@@ -76,7 +112,7 @@ export const AdminDashboard = () => {
           className="flex items-center space-x-1 focus:outline-none"
         >
           <div className="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center text-white font-bold">
-            {initials}
+            {isFetching ? <BeatLoader size={12} color="yellow" /> : initials}
           </div>
           <div className="sm:flex hidden">
             {userData?.firstName} {userData?.secondName}

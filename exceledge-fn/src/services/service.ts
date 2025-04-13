@@ -145,3 +145,64 @@ export const initiatePayment = async (data: any) => {
     throw error;
   }
 };
+
+export const fetchAnnouncement = async () => {
+  try {
+    const response = await api.get(`/announcements`);
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    throw error;
+  }
+};
+
+//Announcement services
+export const createAnnouncement = async (data: any) => {
+  try {
+    const response = await api.post(`/announcements`, {
+      title: data.title,
+      content: data.content,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    throw error;
+  }
+};
+
+export const updateAnnouncement = async (
+  id: string,
+  data: { content: string; title: string }
+) => {
+  try {
+    const response = await api.patch(
+      `/announcements/${id}`,
+      {
+        title: data.title,
+        content: data.content,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating announcement:", error);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw error;
+  }
+};
+
+export const deleteAnnouncement = async (id: string) => {
+  try {
+    const response = await api.delete(`/announcements/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user user profile:", error);
+    throw error;
+  }
+};

@@ -392,7 +392,7 @@ export const AnnouncementsDashboard = () => {
           </div>
         </div>
       )}
-      {/* Add some basic styles for the rendered content */}
+      {/* Basic styles for the rendered content */}
       <style>{`
         .quill-content h1 {
           font-size: 2em;

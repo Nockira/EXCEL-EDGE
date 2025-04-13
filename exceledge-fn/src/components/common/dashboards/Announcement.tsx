@@ -6,11 +6,12 @@ import {
   fetchAnnouncement,
   createAnnouncement,
   updateAnnouncement,
+  deleteAnnouncement,
 } from "../../../services/service";
 import { toast } from "react-toastify";
 
 type Announcement = {
-  id: number;
+  id: string;
   title: string;
   content: string;
   createdAt: string;
@@ -34,8 +35,10 @@ export const AnnouncementsDashboard = () => {
     title: "",
     content: "",
   });
-  const [postLoading, setPostLoading] = useState<boolean>(false); //need to be used
-  const [updateLoading, setUpdateLoading] = useState<boolean>(false); //nned to be used
+  const [postLoading, setPostLoading] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [announcementToDelete, setAnnouncementToDelete] =
+    useState<Announcement | null>(null);
   useEffect(() => {
     const getAnnouncements = async () => {
       try {
@@ -70,9 +73,29 @@ export const AnnouncementsDashboard = () => {
     }
   };
 
-  // const handleDelete = (id: any) => {
-  //   setAnnouncements(announcements.filter((ann) => ann.id !== id));
-  // };
+  const handleDeleteClick = (announcement: Announcement) => {
+    setAnnouncementToDelete(announcement);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!announcementToDelete) return;
+
+    try {
+      setLoading(true);
+      await deleteAnnouncement(announcementToDelete.id);
+      setAnnouncements(
+        announcements.filter((ann) => ann.id !== announcementToDelete.id)
+      );
+      toast.success("Announcement deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete announcement");
+    } finally {
+      setLoading(false);
+      setIsDeleteModalOpen(false);
+      setAnnouncementToDelete(null);
+    }
+  };
 
   const handleEdit = (announcement: any) => {
     setCurrentAnnouncement(announcement);
@@ -103,24 +126,28 @@ export const AnnouncementsDashboard = () => {
     };
 
     if (currentAnnouncement) {
-      setUpdateLoading(true);
+      setPostLoading(true);
       const response = await updateAnnouncement(
         currentAnnouncement.id,
         newAnnouncement
       );
-      setUpdateLoading(false);
+      setPostLoading(false);
       if (response.message === "Announcement updated successful") {
+        const refreshed = await fetchAnnouncement();
+        setAnnouncements(refreshed.data);
+        setPostLoading(false);
         toast.success(response.message || "Announcement updated successful");
-        await fetchAnnouncement();
       } else {
         toast.error("Failed to update announcement, try again ");
+        setPostLoading(false);
       }
     } else {
       setPostLoading(true);
       const response = await createAnnouncement(newAnnouncement);
-      setPostLoading(false);
       if (response.message === "Announcement published") {
-        await fetchAnnouncement();
+        const refreshed = await fetchAnnouncement();
+        setAnnouncements(refreshed.data);
+        setPostLoading(false);
         toast.success(response.message || "Announcement published");
       } else {
         toast.error("Failed to publish announcement try again later.");
@@ -215,7 +242,7 @@ export const AnnouncementsDashboard = () => {
                       <FiEdit />
                     </button>
                     <button
-                      // onClick={() => handleDelete(announcement.id)}
+                      onClick={() => handleDeleteClick(announcement)}
                       className="text-red-600 hover:text-red-800 p-1"
                     >
                       <FiTrash2 />
@@ -315,9 +342,14 @@ export const AnnouncementsDashboard = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                    className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 disabled:opacity-50"
+                    disabled={postLoading}
                   >
-                    {currentAnnouncement ? "Update" : "Create"}
+                    {postLoading
+                      ? "Loading..."
+                      : currentAnnouncement
+                      ? "Update"
+                      : "Create"}
                   </button>
                 </div>
               </form>
@@ -325,7 +357,41 @@ export const AnnouncementsDashboard = () => {
           </div>
         </div>
       )}
-
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <div className="p-4 border-b">
+              <h3 className="text-lg font-semibold">Confirm Deletion</h3>
+            </div>
+            <div className="p-4">
+              <p className="mb-4">
+                Are you sure you want to delete the announcement "
+                <span className="font-bold">
+                  {announcementToDelete?.title}"?
+                </span>
+              </p>
+              <div className="flex justify-end space-x-2">
+                <button
+                  onClick={() => {
+                    setIsDeleteModalOpen(false);
+                    setAnnouncementToDelete(null);
+                  }}
+                  className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmDelete}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  {loading ? "Deleting..." : "Delete"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Add some basic styles for the rendered content */}
       <style>{`
         .quill-content h1 {

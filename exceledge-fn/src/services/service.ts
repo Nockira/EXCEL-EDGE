@@ -195,3 +195,13 @@ export const updateAnnouncement = async (
     throw error;
   }
 };
+
+export const deleteAnnouncement = async (id: string) => {
+  try {
+    const response = await api.delete(`/announcements/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user user profile:", error);
+    throw error;
+  }
+};

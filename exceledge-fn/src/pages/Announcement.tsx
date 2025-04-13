@@ -130,7 +130,7 @@ export const Announcements = () => {
             <div className="text-red-500 text-lg">
               Failed to load announcements: {err.message}
             </div>
-          ) : (
+          ) : currentAnnouncements.length > 0 ? (
             <div className="divide-y divide-gray-200 w-full">
               {currentAnnouncements.map((announcement) => (
                 <div
@@ -171,6 +171,19 @@ export const Announcements = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          ) : (
+            <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+                No Announcements Yet
+              </h1>
+              <p className="text-lg md:text-xl text-gray-600 max-w-xl">
+                Thank you for visiting our announcements page.
+                <br />
+                Currently, there are no announcements available.
+                <br />
+                We encourage you to check back again soon!
+              </p>
             </div>
           )}
         </div>

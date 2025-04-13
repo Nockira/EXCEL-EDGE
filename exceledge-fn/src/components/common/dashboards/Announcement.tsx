@@ -224,7 +224,7 @@ export const AnnouncementsDashboard = () => {
         <div className="text-red-500 text-lg">
           Failed to load announcements: {err.message}
         </div>
-      ) : (
+      ) : announcements.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {announcements.map((announcement) => (
             <div
@@ -289,6 +289,15 @@ export const AnnouncementsDashboard = () => {
               </div>
             </div>
           ))}
+        </div>
+      ) : (
+        <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+            No Announcements
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 max-w-xl">
+            Let people know what you do by creating new Announcements.
+          </p>
         </div>
       )}
       {/* Modal with Rich Text Editor */}

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./build
+    ports:
+      - '8800:8800'
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  frontend:
+    build: ./build
+    ports:
+      - '3000:80'
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: excel_edge_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -1,106 +1,106 @@
 {
-    "hero": {
-      "headline": "Innover et développer votre entreprise avec",
-      "highlight":"Exceledge",
-      "description": "Chez Exceledge, nous proposons des solutions financières et commerciales intelligentes et efficaces pour soutenir votre croissance. Des paiements instantanés aux conseils d’experts, nous accompagnons aussi bien les startups que les grandes entreprises. Rejoignez-nous et transformez votre façon de faire des affaires.",
-      "join": "Rejoignez-nous maintenant",
-      "login": "Connectez-vous maintenant"
+  "hero": {
+    "headline": "Innover et développer votre entreprise avec",
+    "highlight": "Exceledge",
+    "description": "Chez Exceledge, nous proposons des solutions financières et commerciales intelligentes et efficaces pour soutenir votre croissance. Des paiements instantanés aux conseils d’experts, nous accompagnons aussi bien les startups que les grandes entreprises. Rejoignez-nous et transformez votre façon de faire des affaires.",
+    "join": "Rejoignez-nous maintenant",
+    "login": "Connectez-vous maintenant"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "about": "À propos de nous",
+    "services": "Services",
+    "faq": "FAQ",
+    "pricing": "Tarification",
+    "announcements": "Annonces",
+    "login": "Connexion",
+    "register": "S'inscrire"
+  },
+  "impact": {
+    "title": "Notre Impact en Chiffres",
+    "clients": "Clients de confiance",
+    "services": "Services livrés",
+    "tins": "TINs gérés",
+    "businesses": "Entreprises sur Google"
+  },
+  "whyChooseUs": {
+    "title": "Pourquoi nous choisir",
+    "description": "Nous nous engageons à faire réussir votre entreprise au Rwanda",
+    "compliance": {
+      "title": "Experts en conformité",
+      "desc": "Nous veillons à ce que votre entreprise respecte toutes les réglementations fiscales au Rwanda."
     },
-    "navigation": {
-        "home": "Accueil",
-        "about": "À propos de nous",
-        "services": "Services",
-        "faq": "FAQ",
-        "pricing": "Tarification",
-        "announcements": "Annonces",
-        "login": "Connexion",
-        "register": "S'inscrire"
+    "team": {
+      "title": "Équipe expérimentée",
+      "desc": "Notre équipe possède des années d'expérience dans les services fiscaux et commerciaux pour toutes tailles d'entreprises."
+    },
+    "innovation": {
+      "title": "Solutions innovantes",
+      "desc": "Nous combinons expertise traditionnelle et solutions numériques modernes pour une efficacité maximale."
+    }
+  },
+  "testimonials": {
+    "title": "Ce que disent nos clients",
+    "jean": {
+      "quote": "Leur service de gestion des TINs nous a fait gagner un temps précieux et éviter des pénalités. Fortement recommandé.",
+      "name": "Jean Mutesi",
+      "role": "Propriétaire de petite entreprise"
+    },
+    "robert": {
+      "quote": "Inscrire notre entreprise sur Google Maps a augmenté notre visibilité de manière significative. L’équipe a rendu le processus simple.",
+      "name": "Robert Mugisha",
+      "role": "Propriétaire de restaurant"
+    },
+    "claire": {
+      "quote": "Leurs services de comptabilité et de fiscalité ont été essentiels pour la croissance de notre entreprise. Leur expertise nous a guidés avec facilité à travers des réglementations complexes.",
+      "name": "Claire Uwimana",
+      "role": "PDG d’une startup tech"
+    }
+  },
+  "cta": {
+    "title": "Prêt à Commencer ?",
+    "desc": "Contactez-nous dès aujourd’hui pour discuter de comment nous pouvons faire réussir votre entreprise au Rwanda.",
+    "viewServices": "Voir tous les services"
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "address": "Adresse",
+    "city": "Kigali, Rwanda",
+    "phone": "Téléphone",
+    "email": "Email",
+    "form": {
+      "name": "Nom",
+      "placeholderName": "Votre nom",
+      "email": "Email",
+      "placeholderEmail": "votre.email@exemple.com",
+      "phone": "Téléphone",
+      "placeholderPhone": "(+250) 756-7890",
+      "message": "Message",
+      "placeholderMessage": "Votre message ici...",
+      "send": "Envoyer le message"
+    }
+  },
+  "services": {
+    "fixed": {
+      "tin": {
+        "name": "Gestion TIN (Abonnement Mensuel)",
+        "description": "Nous proposons des services mensuels de gestion du TIN (Numéro d'Identification Fiscale) en fonction du chiffre d'affaires de votre entreprise. Notre grille tarifaire est progressive pour garantir l'accessibilité et l'équité :\n\n- Pour un chiffre d'affaires entre 0 – 10,000,000 RWF : 10,000 RWF par mois\n- Entre 10,000,001 – 20,000,000 RWF : 20,000 RWF par mois\n- Entre 20,000,001 – 50,000,000 RWF : 100,000 RWF par mois\n- Entre 50,000,001 – 100,000,000 RWF : 300,000 RWF par mois\n- Au-delà de 100,000,001 RWF : 500,000 RWF par mois.",
+        "range": "10,000 - 500,000 RWF/mois"
       },
-      "impact": {
-        "title": "Notre Impact en Chiffres",
-        "clients": "Clients de confiance",
-        "services": "Services livrés",
-        "tins": "TINs gérés",
-        "businesses": "Entreprises sur Google"
+      "google": {
+        "name": "Mise en place sur Google Map",
+        "description": "Obtenez une inscription vérifiée unique sur Google Map. Cela inclut la création de profil, la vérification de l’entreprise, la configuration précise de l’adresse et de la catégorie, l’optimisation des coordonnées, et le téléchargement de 5 photos. Augmentez votre visibilité locale immédiatement avec un placement garanti, un soutien pendant 30 jours et un historique prouvé d’augmentation de 70% des recherches clients. Profitez de ce tarif de lancement maintenant !",
+        "feeLabel": "Frais uniques",
+        "price": "39,999 RWF"
       },
-      "whyChooseUs": {
-        "title": "Pourquoi nous choisir",
-        "description": "Nous nous engageons à faire réussir votre entreprise au Rwanda",
-        "compliance": {
-          "title": "Experts en conformité",
-          "desc": "Nous veillons à ce que votre entreprise respecte toutes les réglementations fiscales au Rwanda."
-        },
-        "team": {
-          "title": "Équipe expérimentée",
-          "desc": "Notre équipe possède des années d'expérience dans les services fiscaux et commerciaux pour toutes tailles d'entreprises."
-        },
-        "innovation": {
-          "title": "Solutions innovantes",
-          "desc": "Nous combinons expertise traditionnelle et solutions numériques modernes pour une efficacité maximale."
-        }
-      },
-      "testimonials": {
-        "title": "Ce que disent nos clients",
-        "jean": {
-          "quote": "Leur service de gestion des TINs nous a fait gagner un temps précieux et éviter des pénalités. Fortement recommandé.",
-          "name": "Jean Mutesi",
-          "role": "Propriétaire de petite entreprise"
-        },
-        "robert": {
-          "quote": "Inscrire notre entreprise sur Google Maps a augmenté notre visibilité de manière significative. L’équipe a rendu le processus simple.",
-          "name": "Robert Mugisha",
-          "role": "Propriétaire de restaurant"
-        },
-        "claire": {
-          "quote": "Leurs services de comptabilité et de fiscalité ont été essentiels pour la croissance de notre entreprise. Leur expertise nous a guidés avec facilité à travers des réglementations complexes.",
-          "name": "Claire Uwimana",
-          "role": "PDG d’une startup tech"
-        }
-      },
-      "cta": {
-        "title": "Prêt à Commencer ?",
-        "desc": "Contactez-nous dès aujourd’hui pour discuter de comment nous pouvons faire réussir votre entreprise au Rwanda.",
-        "viewServices": "Voir tous les services"
-      },
-      "contact": {
-         "title": "Contactez-nous",
-        "address": "Adresse",
-        "city": "Kigali, Rwanda",
-        "phone": "Téléphone",
-        "email": "Email",
-        "form": {
-          "name": "Nom",
-          "placeholderName": "Votre nom",
-          "email": "Email",
-          "placeholderEmail": "votre.email@exemple.com",
-          "phone": "Téléphone",
-          "placeholderPhone": "(+250) 756-7890",
-          "message": "Message",
-          "placeholderMessage": "Votre message ici...",
-          "send": "Envoyer le message"
-        }
-      } ,
-      "services": {
-        "fixed": {
-          "tin": {
-            "name": "Gestion TIN (Abonnement Mensuel)",
-            "description": "Nous proposons des services mensuels de gestion du TIN (Numéro d'Identification Fiscale) en fonction du chiffre d'affaires de votre entreprise. Notre grille tarifaire est progressive pour garantir l'accessibilité et l'équité :\n\n- Pour un chiffre d'affaires entre 0 – 10,000,000 RWF : 10,000 RWF par mois\n- Entre 10,000,001 – 20,000,000 RWF : 20,000 RWF par mois\n- Entre 20,000,001 – 50,000,000 RWF : 100,000 RWF par mois\n- Entre 50,000,001 – 100,000,000 RWF : 300,000 RWF par mois\n- Au-delà de 100,000,001 RWF : 500,000 RWF par mois.",
-            "range": "10,000 - 500,000 RWF/mois"
-          },
-          "google": {
-            "name": "Mise en place sur Google Map",
-            "description": "Obtenez une inscription vérifiée unique sur Google Map. Cela inclut la création de profil, la vérification de l’entreprise, la configuration précise de l’adresse et de la catégorie, l’optimisation des coordonnées, et le téléchargement de 5 photos. Augmentez votre visibilité locale immédiatement avec un placement garanti, un soutien pendant 30 jours et un historique prouvé d’augmentation de 70% des recherches clients. Profitez de ce tarif de lancement maintenant !",
-            "feeLabel": "Frais uniques",
-            "price": "39,999 RWF"
-          },
-          "library": {
-            "name": "Bibliothèque Numérique et Média",
-            "description": "Accès illimité à notre bibliothèque croissante de guides texte, outils audio et vidéos – avec la possibilité de télécharger et gérer vos propres contenus :\n\n- Ressources professionnelles toujours à jour\n- Intégration facile de contenus personnalisés\n- Accès mobile 24h/24 et 7j/7\n- Contenus exclusifs réservés aux membres",
-            "feeLabel": "Abonnement mensuel",
-            "price": "3,600 RWF/mois"
-          }
-        },
-        "negotiable": {
+      "library": {
+        "name": "Bibliothèque Numérique et Média",
+        "description": "Accès illimité à notre bibliothèque croissante de guides texte, outils audio et vidéos – avec la possibilité de télécharger et gérer vos propres contenus :\n\n- Ressources professionnelles toujours à jour\n- Intégration facile de contenus personnalisés\n- Accès mobile 24h/24 et 7j/7\n- Contenus exclusifs réservés aux membres",
+        "feeLabel": "Abonnement mensuel",
+        "price": "3,600 RWF/mois"
+      }
+    },
+    "negotiable": {
       "accounting": {
         "name": "Services de Comptabilité et Fiscalité",
         "description": "Services complets de comptabilité et de conformité fiscale.",
@@ -139,7 +139,7 @@
     "fixedPriceServices": "Services à prix fixe",
     "negotiableServices": "Services Négociables"
   },
-  "about":{
+  "about": {
     "aboutUs": "À propos de nous",
     "aboutUsDescription": "Nous offrons des solutions financières et numériques complètes, adaptées aux entreprises rwandaises, pour vous aider à respecter les obligations fiscales, établir votre présence en ligne et accéder à des ressources précieuses.",
     "tinManagement": "Gestion du TIN",
@@ -160,92 +160,92 @@
     "cta": "Choisissez parmi nos options de tarification transparente et abonnez-vous en quelques minutes. Nous sommes là pour soutenir la croissance de votre entreprise à chaque étape.",
     "viewPricing": "Voir les options de tarification"
   },
-    "fqa": {
-      "faqs": [
-        {
-          "question": "Quels modes de paiement acceptez-vous?",
-          "answer": "Nous acceptons l'argent mobile (MTN, Airtel), les virements bancaires et les cartes de crédit/débit (Visa, Mastercard). Tous les paiements sont traités en toute sécurité via notre passerelle de paiement."
-        },
-        {
-          "question": "Comment puis-je m'abonner aux services de gestion TIN?",
-          "answer": "Il vous suffit de sélectionner la gamme de votre chiffre d'affaires parmi nos options tarifaires, puis vous serez guidé tout au long du processus d'inscription rapide. Vous devrez fournir des informations de base sur votre entreprise et des informations de paiement."
-        },
-        {
-          "question": "Puis-je annuler mon abonnement à la bibliothèque numérique à tout moment?",
-          "answer": "Oui, vous pouvez annuler votre abonnement à tout moment via votre tableau de bord. Votre accès se poursuivra jusqu'à la fin de votre période de facturation actuelle."
-        },
-        {
-          "question": "Combien de temps faut-il pour configurer Google Location?",
-          "answer": "En général, cela prend 2 à 3 jours ouvrables après la confirmation du paiement. Nous nous chargeons de toutes les vérifications auprès de Google et vous informerons une fois que votre entreprise sera en ligne sur Maps."
-        },
-        {
-          "question": "Vos services comptables sont-ils disponibles pour les entreprises internationales?",
-          "answer": "Actuellement, nous nous spécialisons dans la conformité fiscale et comptable rwandaise. Pour les entreprises internationales, nous vous recommandons de nous contacter pour une consultation personnalisée."
-        },
-        {
-          "question": "Que comprend vos services de conseil fiscal?",
-          "answer": "Nos conseillers fournissent des conseils sur l'optimisation fiscale, la conformité avec les règlements de la RRA, la gestion de la TVA et la préparation des audits. Il s'agit d'un service personnalisé adapté aux besoins de votre entreprise."
-        },
-        {
-          "question": "Puis-je obtenir de l'aide pour la conformité RSSB?",
-          "answer": "Absolument. Nous aidons à l'enregistrement RSSB, aux déclarations mensuelles, à l'inscription des employés et à l'acquisition de certificats dans le cadre de notre soutien à la conformité."
-        },
-        {
-          "question": "Combien de temps faut-il pour traiter les demandes de prêt?",
-          "answer": "Notre délai de traitement standard est de 5 à 7 jours ouvrables après réception de tous les documents nécessaires. Nous travaillons avec plusieurs institutions financières pour vous trouver les meilleures conditions."
-        },
-        {
-          "question": "Qu'est-ce qui rend vos programmes de formation uniques?",
-          "answer": "Nous nous concentrons sur des études de cas pratiques spécifiques au Rwanda et offrons un soutien après la formation. Tous nos formateurs sont des professionnels certifiés avec une expérience pratique."
-        },
-        {
-          "question": "Vos prix sont-ils négociables pour les contrats à long terme?",
-          "answer": "Oui, nous offrons des tarifs réduits pour les abonnements annuels aux services de gestion TIN et comptabilité. Contactez notre équipe commerciale pour des devis personnalisés."
-        },
-        {
-          "question": "Quels documents sont nécessaires pour l'enregistrement à la TVA?",
-          "answer": "Typiquement: certificat TIN, documents d'enregistrement d'entreprise, informations bancaires et contrat de location de locaux. Nous fournirons une liste complète lors de l'intégration."
-        },
-        {
-          "question": "Pouvez-vous m'aider à récupérer les remboursements fiscaux auprès de la RRA?",
-          "answer": "Oui, nous nous spécialisons dans le suivi des remboursements fiscaux, y compris la préparation des documents, la soumission et le suivi des progrès avec les responsables de la RRA."
-        }
-      ],
-      "title": "Questions Fréquemment Posées",
-     "subtitle": "Tout ce dont vous avez besoin se trouve ici, bien organisé et facile à consulter."
+  "fqa": {
+    "faqs": [
+      {
+        "question": "Quels modes de paiement acceptez-vous?",
+        "answer": "Nous acceptons l'argent mobile (MTN, Airtel), les virements bancaires et les cartes de crédit/débit (Visa, Mastercard). Tous les paiements sont traités en toute sécurité via notre passerelle de paiement."
+      },
+      {
+        "question": "Comment puis-je m'abonner aux services de gestion TIN?",
+        "answer": "Il vous suffit de sélectionner la gamme de votre chiffre d'affaires parmi nos options tarifaires, puis vous serez guidé tout au long du processus d'inscription rapide. Vous devrez fournir des informations de base sur votre entreprise et des informations de paiement."
+      },
+      {
+        "question": "Puis-je annuler mon abonnement à la bibliothèque numérique à tout moment?",
+        "answer": "Oui, vous pouvez annuler votre abonnement à tout moment via votre tableau de bord. Votre accès se poursuivra jusqu'à la fin de votre période de facturation actuelle."
+      },
+      {
+        "question": "Combien de temps faut-il pour configurer Google Location?",
+        "answer": "En général, cela prend 2 à 3 jours ouvrables après la confirmation du paiement. Nous nous chargeons de toutes les vérifications auprès de Google et vous informerons une fois que votre entreprise sera en ligne sur Maps."
+      },
+      {
+        "question": "Vos services comptables sont-ils disponibles pour les entreprises internationales?",
+        "answer": "Actuellement, nous nous spécialisons dans la conformité fiscale et comptable rwandaise. Pour les entreprises internationales, nous vous recommandons de nous contacter pour une consultation personnalisée."
+      },
+      {
+        "question": "Que comprend vos services de conseil fiscal?",
+        "answer": "Nos conseillers fournissent des conseils sur l'optimisation fiscale, la conformité avec les règlements de la RRA, la gestion de la TVA et la préparation des audits. Il s'agit d'un service personnalisé adapté aux besoins de votre entreprise."
+      },
+      {
+        "question": "Puis-je obtenir de l'aide pour la conformité RSSB?",
+        "answer": "Absolument. Nous aidons à l'enregistrement RSSB, aux déclarations mensuelles, à l'inscription des employés et à l'acquisition de certificats dans le cadre de notre soutien à la conformité."
+      },
+      {
+        "question": "Combien de temps faut-il pour traiter les demandes de prêt?",
+        "answer": "Notre délai de traitement standard est de 5 à 7 jours ouvrables après réception de tous les documents nécessaires. Nous travaillons avec plusieurs institutions financières pour vous trouver les meilleures conditions."
+      },
+      {
+        "question": "Qu'est-ce qui rend vos programmes de formation uniques?",
+        "answer": "Nous nous concentrons sur des études de cas pratiques spécifiques au Rwanda et offrons un soutien après la formation. Tous nos formateurs sont des professionnels certifiés avec une expérience pratique."
+      },
+      {
+        "question": "Vos prix sont-ils négociables pour les contrats à long terme?",
+        "answer": "Oui, nous offrons des tarifs réduits pour les abonnements annuels aux services de gestion TIN et comptabilité. Contactez notre équipe commerciale pour des devis personnalisés."
+      },
+      {
+        "question": "Quels documents sont nécessaires pour l'enregistrement à la TVA?",
+        "answer": "Typiquement: certificat TIN, documents d'enregistrement d'entreprise, informations bancaires et contrat de location de locaux. Nous fournirons une liste complète lors de l'intégration."
+      },
+      {
+        "question": "Pouvez-vous m'aider à récupérer les remboursements fiscaux auprès de la RRA?",
+        "answer": "Oui, nous nous spécialisons dans le suivi des remboursements fiscaux, y compris la préparation des documents, la soumission et le suivi des progrès avec les responsables de la RRA."
+      }
+    ],
+    "title": "Questions Fréquemment Posées",
+    "subtitle": "Tout ce dont vous avez besoin se trouve ici, bien organisé et facile à consulter."
+  },
+  "pricing": {
+    "tin-0-10m": {
+      "name": "Gestion TIN (0-10M RWF)",
+      "description": "Gestion mensuelle de TIN pour les petites entreprises"
     },
-     "pricing": {
-          "tin-0-10m": {
-            "name": "Gestion TIN (0-10M RWF)",
-            "description": "Gestion mensuelle de TIN pour les petites entreprises"
-          },
-          "tin-10-20m": {
-            "name": "Gestion TIN (10-20M RWF)",
-            "description": "Gestion mensuelle de TIN pour les entreprises en croissance"
-          },
-          "tin-20-50m": {
-            "name": "Gestion TIN (20-50M RWF)",
-            "description": "Gestion mensuelle de TIN pour les entreprises moyennes"
-          },
-          "tin-50-100m": {
-            "name": "Gestion TIN (50-100M RWF)",
-            "description": "Gestion mensuelle de TIN pour les grandes entreprises"
-          },
-          "tin-100m-plus": {
-            "name": "Gestion TIN (100M+ RWF)",
-            "description": "Gestion mensuelle de TIN pour les entreprises de grande taille"
-          },
-          "google-location": {
-            "name": "Configuration de l'emplacement Google",
-            "description": "Service unique pour enregistrer votre entreprise sur Google Maps"
-          },
-          "digital-library": {
-            "name": "Accès à la Bibliothèque Numérique",
-            "description": "Abonnement mensuel à notre bibliothèque de ressources"
-          },
-          "paymentSuccess": "Paiement réussi !"
-        },
-        "payment": {
+    "tin-10-20m": {
+      "name": "Gestion TIN (10-20M RWF)",
+      "description": "Gestion mensuelle de TIN pour les entreprises en croissance"
+    },
+    "tin-20-50m": {
+      "name": "Gestion TIN (20-50M RWF)",
+      "description": "Gestion mensuelle de TIN pour les entreprises moyennes"
+    },
+    "tin-50-100m": {
+      "name": "Gestion TIN (50-100M RWF)",
+      "description": "Gestion mensuelle de TIN pour les grandes entreprises"
+    },
+    "tin-100m-plus": {
+      "name": "Gestion TIN (100M+ RWF)",
+      "description": "Gestion mensuelle de TIN pour les entreprises de grande taille"
+    },
+    "google-location": {
+      "name": "Configuration de l'emplacement Google",
+      "description": "Service unique pour enregistrer votre entreprise sur Google Maps"
+    },
+    "digital-library": {
+      "name": "Accès à la Bibliothèque Numérique",
+      "description": "Abonnement mensuel à notre bibliothèque de ressources"
+    },
+    "paymentSuccess": "Paiement réussi !"
+  },
+  "payment": {
     "service": "Service",
     "amount": "Montant",
     "subscription_period": "Période d'abonnement",
@@ -256,7 +256,8 @@
     "airtel": "Airtel Money",
     "thank_you": "Merci pour votre paiement. Vous recevrez un message de confirmation sur votre téléphone sous peu.",
     "back": "Retour aux services"
-  },  "paymentFailed": {
+  },
+  "paymentFailed": {
     "title": "Échec du paiement",
     "service": "Service",
     "amount": "Montant",
@@ -274,7 +275,7 @@
     "subscribe": "S'abonner",
     "purchase": "Acheter"
   },
-  "paymentsCompletion":{
+  "paymentsCompletion": {
     "completePayment": "Compléter le paiement",
     "service": "Service",
     "amount": "Montant",
@@ -289,13 +290,38 @@
     "confirmPayment": "Confirmer le paiement",
     "processing": "Traitement..."
   },
-  "processPayment":{
+  "processPayment": {
     "processingPayment": "Traitement du paiement",
     "paymentRequest": "Vous avez demandé un paiement pour {serviceName}",
     "amount": "Montant : {amount}",
     "checkPhone": "Vérifiez votre téléphone pour une notification de demande de paiement",
     "paymentInstruction": "Ou composez le *182*7*1# pour finaliser votre paiement",
     "paymentInstructionAirtel": "Ou suivez les instructions d'Airtel Money pour finaliser votre paiement"
-  }       
+  },
+  "login": {
+    "loginTitle": "Connectez-vous à Exceledge.",
+    "phoneLabel": "Numéro de téléphone",
+    "passwordLabel": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "loginButton": "Se connecter",
+    "loggingInButton": "Connexion en cours...",
+    "noAccount": "Vous n'avez pas de compte ? Inscrivez-vous ici",
+    "or": "Ou",
+    "googleSignInButton": "Se connecter avec Google",
+    "welcomeMessage": "Bienvenue !☺️"
+  },
+  "user_register": {
+    "create_account": "Créer un compte",
+    "phone_number": "Numéro de téléphone",
+    "password": "Mot de passe",
+    "sign_up_with_google": "Inscrivez-vous avec Google",
+    "or": "ou",
+    "sign_up": "S'inscrire",
+    "log_in_here": "Connectez-vous ici",
+    "processing": "En traitement..."
+  },
+  "errors": {
+    "registration_failed": "L'inscription a échoué. Veuillez réessayer.",
+    "google_error": "Erreur d'authentification Google. Veuillez réessayer."
   }
-  
+}

@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 const api_url = process.env.REACT_APP_API_BASE_URL;
 
 interface LoginFormData {
@@ -30,6 +31,7 @@ export const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { t } = useTranslation<string>();
 
   const {
     register,
@@ -83,64 +85,13 @@ export const Login: React.FC = () => {
       <div className="flex justify-center sm:pr-[20%] sm:pt-[0%] sm:pb-[2%] sm:pl-[20%] p-[3%] text-white">
         <div className="bg-white sm:rounded-[4%] shadow-md sm:w-[70%] w-full text-black p-6">
           <p className="text-xl font-bold mb-4 text-center text-[#fdc901] ">
-            Login to Exceledge.
+            {t("login.title")}
           </p>
           {submitError && (
             <div className="mb-4 p-2 bg-red-100 text-red-500 rounded">
               {submitError}
             </div>
           )}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-            <TextInput
-              name="phone"
-              label="Phone number"
-              type="text"
-              register={register}
-              error={errors.phone?.message}
-              disabled={isLoading}
-            />
-            <div className="relative">
-              <TextInput
-                name="password"
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                register={register}
-                error={errors.password?.message}
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-10 text-[#fdc901]"
-                disabled={isLoading}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-            <Link
-              to={"/reset-password"}
-              className="text-sm text-[#fdc901] hover:underline"
-            >
-              Forgot Password?
-            </Link>
-            <button
-              type="submit"
-              className="w-full bg-[#fdc901] text-white py-2 rounded-[20px] hover:bg-[#fdc901] disabled:bg-yellow-400"
-              disabled={isLoading}
-            >
-              {isLoading ? "Logging in..." : "Login"}
-            </button>
-          </form>
-          <div className="py-2">
-            You don't have an account? Register{" "}
-            <Link
-              to={"/sign-in"}
-              className="text-sm text-[#fdc901] hover:underline"
-            >
-              Here
-            </Link>
-          </div>
-          <p className="text-center">Or</p>
           <button
             className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-[#757575] font-medium py-2.5 px-4 rounded-full hover:bg-gray-50 hover:shadow-sm disabled:opacity-50 mb-4 transition-all"
             onClick={() => {
@@ -171,8 +122,67 @@ export const Login: React.FC = () => {
               />
               <path fill="none" d="M0 0h48v48H0z" />
             </svg>
-            <span>Sign in with Google</span>
+            <span>{t("login.googleSignIn")}</span>
           </button>
+          <div className="relative flex items-center py-4">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="flex-shrink mx-4 text-gray-500">
+              {t("user_register.or")}
+            </span>
+            <div className="flex-grow border-t border-gray-300"></div>
+          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+            <TextInput
+              name="phone"
+              label={`${t("login.phone")}`}
+              type="text"
+              register={register}
+              error={errors.phone?.message}
+              disabled={isLoading}
+            />
+            <div className="relative">
+              <TextInput
+                name="password"
+                label={`${t("login.password")}`}
+                type={showPassword ? "text" : "password"}
+                register={register}
+                error={errors.password?.message}
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-10 text-[#fdc901]"
+                disabled={isLoading}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+            <Link
+              to={"/reset-password"}
+              className="text-sm text-[#fdc901] hover:underline"
+            >
+              {t("login.forgotPassword")}
+            </Link>
+            <button
+              type="submit"
+              className="w-full bg-[#fdc901] text-white py-2 rounded-[20px] hover:bg-[#fdc901] disabled:bg-yellow-400"
+              disabled={isLoading}
+            >
+              {isLoading
+                ? `${t("login.loggingIn")}`
+                : `${t("login.loginButton")}`}
+            </button>
+          </form>
+          <div className="py-2">
+            {t("login.register")}{" "}
+            <Link
+              to={"/sign-in"}
+              className="text-sm text-[#fdc901] hover:underline"
+            >
+              Here
+            </Link>
+          </div>
         </div>
       </div>
     </div>

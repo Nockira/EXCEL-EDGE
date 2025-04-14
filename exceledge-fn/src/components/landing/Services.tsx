@@ -10,108 +10,96 @@ import {
   Lightbulb,
 } from "lucide-react";
 import ServicesImg from "../../assets/services.jpg";
+import { useTranslation } from "react-i18next";
 export const ServiceSections = () => {
+  const { t } = useTranslation<string>();
+
   const fixedServices = [
     {
       id: "tin-management",
-      name: "TIN Management (Monthly Subscription)",
-      description: `We offer monthly TIN (Tax Identification Number) management services based on your business turnover. Our pricing structure is tiered to ensure affordability and fairness:
-
-For businesses with a turnover between 0 – 10,000,000 RWF, the monthly fee is 10,000 RWF.
-
-For turnover between 10,000,001 – 20,000,000 RWF, the fee is 20,000 RWF per month.
-
-Businesses with 20,000,001 – 50,000,000 RWF in turnover pay 100,000 RWF monthly.
-
-For turnover between 50,000,001 – 100,000,000 RWF, the monthly charge is 300,000 RWF.
-
-Any business exceeding 100,000,001 RWF in turnover is charged 500,000 RWF per month.`,
+      name: t("services.fixed.tin.name"),
+      description: t("services.fixed.tin.description"),
       icon: <ShieldCheck className="h-6 w-6 text-[#fdc901]" />,
       items: [
         {
-          name: "Range",
+          name: t("services.fixed.tin.range"),
           price: "10,000 - 500,000 RWF/month",
         },
       ],
     },
     {
       id: "google-location",
-      name: "Google Location Establishment",
-      description: `Secure your one-time verified listing on Google Map. Including profile creation,
-        business verification, accurate address/category setup, contact details optimization,
-        and 5 photo uploads. Boost local visibility immediately with guaranteed placement,
-        ongoing support for 30 days, and a proven track record of helping businesses increase
-        customer searches by 70%. Act now to lock in this launch price!`,
+      name: t("services.fixed.google.name"),
+      description: t("services.fixed.google.description"),
       icon: <Globe className="h-6 w-6 text-[#fdc901]" />,
-      items: [{ name: "One-time fee", price: "39,999 RWF" }],
+      items: [
+        { name: t("services.fixed.google.feeLabel"), price: "39,999 RWF" },
+      ],
     },
     {
       id: "digital-library",
-      name: "Digital Books & Media Library",
-      description: `Unlock unlimited access to our growing library of text guides, audio tools, and video resources –
-         plus the ability to upload and manage your own custom content.
-,Always-updated professional resources
-, Seamless custom content integration
-,Mobile-friendly 24/7 access
-,Exclusive member-only materials`,
+      name: t("services.fixed.library.name"),
+      description: t("services.fixed.library.description"),
       icon: <BookOpen className="h-6 w-6 text-[#fdc901]" />,
-      items: [{ name: "Monthly access", price: "3,600 RWF/month" }],
+      items: [
+        {
+          name: t("services.fixed.library.feeLabel"),
+          price: "3,600 RWF/month",
+        },
+      ],
     },
   ];
 
-  // Negotiable services
   const negotiableServices = [
     {
       id: "accounting-tax",
-      name: "Accounting & Tax Services",
-      description: "Comprehensive accounting and tax compliance services.",
+      name: t("services.negotiable.accounting.name"),
+      description: t("services.negotiable.accounting.description"),
       icon: <Calculator className="h-6 w-6 text-[#fdc901]" />,
       items: [
-        { name: "Accounting Services (Bookkeeping, payroll, etc.)" },
-        { name: "Provision of Accounting Software" },
-        { name: "Accounting Data Migration" },
-        { name: "Tax Filing & Declaration" },
-        { name: "Follow-up on Tax Refunds" },
-        { name: "Compliance Support (RRA, RSSB, RDB, RPPA)" },
+        { name: t("services.negotiable.accounting.bookkeeping") },
+        { name: t("services.negotiable.accounting.software") },
+        { name: t("services.negotiable.accounting.migration") },
+        { name: t("services.negotiable.accounting.taxFiling") },
+        { name: t("services.negotiable.accounting.refunds") },
+        { name: t("services.negotiable.accounting.compliance") },
       ],
     },
     {
       id: "advisory-training",
-      name: "Advisory & Training",
-      description: "Professional guidance and skill development.",
+      name: t("services.negotiable.advisory.name"),
+      description: t("services.negotiable.advisory.description"),
       icon: <Lightbulb className="h-6 w-6 text-[#fdc901]" />,
       items: [
-        { name: "Tax & Management Advisory" },
-        { name: "Excel, EBM, Accounting Software Training" },
-        { name: "Tender Bidding Preparation Training" },
+        { name: t("services.negotiable.advisory.tax") },
+        { name: t("services.negotiable.advisory.training") },
+        { name: t("services.negotiable.advisory.tender") },
       ],
     },
     {
       id: "document-assistance",
-      name: "Document & Certification Assistance",
-      description:
-        "Help obtaining vital business documents and certifications.",
+      name: t("services.negotiable.documents.name"),
+      description: t("services.negotiable.documents.description"),
       icon: <FileText className="h-6 w-6 text-[#fdc901]" />,
       items: [
-        { name: "TCC, RSSB Certificate, Good Standing" },
-        { name: "EBM Certificate, VAT Certificate" },
-        { name: "Beneficial Owner Statements, etc." },
+        { name: t("services.negotiable.documents.certificates") },
+        { name: t("services.negotiable.documents.ebm") },
+        { name: t("services.negotiable.documents.ownership") },
       ],
     },
     {
       id: "financial-support",
-      name: "Financial & Business Support",
-      description: "Comprehensive business development services.",
+      name: t("services.negotiable.financial.name"),
+      description: t("services.negotiable.financial.description"),
       icon: <Users className="h-6 w-6 text-[#fdc901]" />,
       items: [
-        { name: "Loan Application Assistance" },
-        { name: "Website Development" },
-        { name: "Social Media Management & Boosting" },
-        { name: "Procedure Manuals Development" },
+        { name: t("services.negotiable.financial.loan") },
+        { name: t("services.negotiable.financial.website") },
+        { name: t("services.negotiable.financial.social") },
+        { name: t("services.negotiable.financial.manuals") },
       ],
     },
   ];
-
   return (
     <div>
       <div className="relative">
@@ -124,11 +112,10 @@ Any business exceeding 100,000,001 RWF in turnover is charged 500,000 RWF per mo
           />
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
-              Our Services
+              {t("services.ourServices")}
             </h1>
             <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4  mb-8">
-              Transparent pricing for essential business services and Customized
-              solutions tailored to your business needs
+              {t("services.transparentPricing")}
             </p>
           </div>
         </div>
@@ -138,7 +125,9 @@ Any business exceeding 100,000,001 RWF in turnover is charged 500,000 RWF per mo
         <section className="bg-gray-200 py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Fixed Price Services</h2>
+              <h2 className="text-3xl font-bold mb-4">
+                {t("services.fixedPriceServices")}
+              </h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -170,7 +159,9 @@ Any business exceeding 100,000,001 RWF in turnover is charged 500,000 RWF per mo
         <section className="bg-gray-100 py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Negotiable Services</h2>
+              <h2 className="text-3xl font-bold mb-4">
+                {t("services.negotiableServices")}
+              </h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">

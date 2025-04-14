@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaPhone } from "react-icons/fa6";
 import { IoLocation } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 
 export const ContactUs = () => {
+  const { t } = useTranslation<string>();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,7 +32,7 @@ export const ContactUs = () => {
   return (
     <div className="py-8 bg-gray-200">
       <h2 className="text-2xl font-bold mb-6 text-gray-600 text-center">
-        Contact Us
+        {t("contact.title")}
       </h2>
       <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto gap-8 p-4">
         {/* Map Section */}
@@ -40,7 +42,9 @@ export const ContactUs = () => {
             <div className="flex items-start">
               <IoLocation className="h-5 w-5 text-[#fdc901] mt-1 mr-3" />
               <div>
-                <p className="text-gray-600 font-medium">Address</p>
+                <p className="text-gray-600 font-medium">
+                  {t("contact.address")}
+                </p>
                 <p className="text-gray-800">
                   42 St KK 718, Excelege
                   <br />
@@ -52,7 +56,9 @@ export const ContactUs = () => {
             <div className="flex items-start">
               <FaPhone className="h-5 w-5 text-[#fdc901] mt-1 mr-3" />
               <div>
-                <p className="text-gray-600 font-medium">Phone</p>
+                <p className="text-gray-600 font-medium">
+                  {t("contact.phone")}
+                </p>
                 <a href="tel:+250788123456" className="hover:underline">
                   +250 788 123 456
                 </a>
@@ -63,7 +69,9 @@ export const ContactUs = () => {
             <div className="flex items-start">
               <MdEmail className="h-5 w-5 text-[#fdc901] mt-1 mr-3" />
               <div>
-                <p className="text-gray-600 font-medium">Email</p>
+                <p className="text-gray-600 font-medium">
+                  {t("contact.email")}
+                </p>
                 <a href="mailto:info@company.com" className="hover:underline">
                   info@exceledge.com
                 </a>
@@ -80,7 +88,7 @@ export const ContactUs = () => {
                 className="block text-gray-500 text-sm font-bold mb-2"
                 htmlFor="name"
               >
-                Name
+                {t("contact.form.name")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -89,7 +97,7 @@ export const ContactUs = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                placeholder="Your Name"
+                placeholder={`${t("contact.form.placeholderName")}`}
                 required
               />
             </div>
@@ -99,7 +107,7 @@ export const ContactUs = () => {
                 className="block text-gray-500 text-sm font-bold mb-2"
                 htmlFor="email"
               >
-                Email
+                {t("contact.form.email")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -118,7 +126,7 @@ export const ContactUs = () => {
                 className="block text-gray-500 text-sm font-bold mb-2"
                 htmlFor="phone"
               >
-                Phone
+                {t("contact.form.phone")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
@@ -136,7 +144,7 @@ export const ContactUs = () => {
                 className="block text-gray-500 text-sm font-bold mb-2"
                 htmlFor="message"
               >
-                Message
+                {t("contact.form.message")}
               </label>
               <textarea
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline h-32"
@@ -144,7 +152,7 @@ export const ContactUs = () => {
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
-                placeholder="Your message here..."
+                placeholder={`${t("contact.form.placeholderMessage")}`}
                 required
               />
             </div>
@@ -154,7 +162,7 @@ export const ContactUs = () => {
                 className="bg-[#fdc901] hover:text-[#fdc901] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Send Message
+                {t("contact.form.send")}
               </button>
             </div>
           </form>

@@ -1,0 +1,303 @@
+{
+    "hero": {
+      "headline": "Hanga udushya kandi wunguke hamwe na ",
+      "highlight":"Exceledge",
+      "description": "Muri Exceledge, dutanga ibisubizo by’ubucuruzi n’imari byihuse kandi by’umwuga kugira ngo dufashe urwego rwawe gukura. Uhereye ku kwishyura byihuse kugeza ku nama z’inzobere, dufasha ba rwiyemezamirimo bato n’abacuruzi bakomeye. Tujyane, utere imbere mu buryo bugezweho bwo gukora ubucuruzi.",
+      "join": "Iyandikishe ubu",
+      "login": "Injira ubu"
+    },
+    "navigation":{
+        "home":"Ahabanza",
+        "about":"Abo turibo",
+        "services":"Serivisi",
+        "faq":"Sobanukirwa",
+        "pricing":"Ibiciro",
+        "announcements":"Amatangazo",
+        "login": "Injira",
+        "register": "Iyandikishe"
+    },
+    "impact": {
+    "title": "Ingaruka zacu mu mibare",
+    "clients": "Abakiriya batwizeye",
+    "services": "Serivisi zatanzwe",
+    "tins": "TINs zashyizwe ku murongo",
+    "businesses": "Ubucuruzi buri kuri Google"
+  },
+  "whyChooseUs": {
+    "title": "Impamvu zatuma uhitamo twe",
+    "description": "Twiyemeje gufasha ubucuruzi bwawe kugera ku ntsinzi mu Rwanda",
+    "compliance": {
+      "title": "Impuguke mu bijyanye no kubahiriza amategeko",
+      "desc": "Twemeza ko ubucuruzi bwawe bukurikiza amategeko yose y’imisoro n'andi mategeko."
+    },
+    "team": {
+      "title": "Itsinda ry’inzobere",
+      "desc": "Dufite ubunararibonye bw’imyaka mu gutanga serivisi z’imisoro n’ubucuruzi ku bigo byose."
+    },
+    "innovation": {
+      "title": "Ibisubizo by’iterambere",
+      "desc": "Duhuza ubunararibonye bwa gakondo n’ikoranabuhanga rigezweho kugira ngo tugere ku musaruro uruseho."
+    }
+  },
+  "testimonials": {
+    "title": "Ibyo abakiriya bacu bavuga",
+    "jean": {
+      "quote": "Serivisi zabo zo gucunga TIN ziratugirira akamaro cyane kandi ziturinda ibihano. Turabashimira cyane.",
+      "name": "Jean Mutesi",
+      "role": "Nyiri Ubucuruzi Buto"
+    },
+    "robert": {
+      "quote": "Kugerageza ubucuruzi bwacu kuri Google Maps byaduhesheje kumenyekana cyane. Bakoze akazi koroheje kandi neza.",
+      "name": "Robert Mugisha",
+      "role": "Nyiri Resitora"
+    },
+    "claire": {
+      "quote": "Serivisi zabo z’ibaruramari n’imisoro ni ingenzi cyane ku rugendo rw’iterambere ry’ikigo cyacu. Ubumenyi bwabo bwadufashije kunyura mu mategeko agoye y’imisoro.",
+      "name": "Claire Uwimana",
+      "role": "Umuyobozi wa Tech Startup"
+    }
+  },
+  "cta": {
+    "title": "Witeguye Gutangira?",
+    "desc": "Twandikire uyu munsi tuganire uko twagufasha guteza imbere ubucuruzi bwawe mu Rwanda.",
+    "viewServices": "Reba Serivisi Zose"
+  },
+  "contact": {
+    "title": "Twandikire",
+    "address": "Aderesi",
+    "city": "Kigali, Rwanda",
+    "phone": "Telefone",
+    "email": "Email",
+    "form": {
+      "name": "Amazina",
+      "placeholderName": "Amazina yawe",
+      "email": "Email",
+      "placeholderEmail": "email.yawe@urugero.com",
+      "phone": "Telefoni",
+      "placeholderPhone": "(+250) 756-7890",
+      "message": "Ubutumwa",
+      "placeholderMessage": "Andika ubutumwa bwawe hano...",
+      "send": "Ohereza"
+    }
+  },
+  "services": {
+    "fixed": {
+      "tin": {
+        "name": "Gucunga TIN (Ukwezi kose)",
+        "description": "Dutanga serivisi zo gucunga TIN (Inomero y’Indangamuntu y’Imisoro) buri kwezi hashingiwe ku musaruro w’inyungu ya sosiyete yawe. Ibiciro byacu bigenda bihinduka bitewe n’ubushobozi bw’umukiriya:\n\n- Umusaruro uri hagati ya 0 – 10,000,000 RWF: 10,000 RWF buri kwezi\n- Hagati ya 10,000,001 – 20,000,000 RWF: 20,000 RWF buri kwezi\n- 20,000,001 – 50,000,000 RWF: 100,000 RWF buri kwezi\n- 50,000,001 – 100,000,000 RWF: 300,000 RWF buri kwezi\n- Kurenga 100,000,001 RWF: 500,000 RWF buri kwezi.",
+        "range": "10,000 - 500,000 RWF/buri kwezi"
+      },
+      "google": {
+        "name": "Kwandikwa kuri Google Map",
+        "description": "Emerera ubucuruzi bwawe umwanya ugaragara kuri Google Map inshuro imwe. Harimo: gukora profili, kwemezwa kw’ubucuruzi, gushyiraho aderesi n'icyiciro nyacyo, kuvugurura nimero za telefoni, hamwe n'amafoto 5. Byongera ugaragarire abakiriya ku rugero rwa 70%, kandi utangirwa ubufasha mu minsi 30. Fata iyi poromosiyo mbere y'uko irangira!",
+        "feeLabel": "Ubwishyu rimwe",
+        "price": "39,999 RWF"
+      },
+      "library": {
+        "name": "Isomero rya Digital n’Ububiko bw’Ibikoresho",
+        "description": "Fungura uburenganzira budahagarara bwo kugera ku bitabo, amajwi n’amashusho — ndetse n’ubushobozi bwo gushyiramo ibyawe bwite:\n\n- Ibyifashishwa by'umwuga bihora bivugururwa\n- Kwihuza n'ibyo wihitiyemo byoroshye\n- Bigerwaho igihe cyose kuri telefoni\n- Ibigenewe abanyamuryango gusa",
+        "feeLabel": "Ubwishyu buri kwezi",
+        "price": "3,600 RWF/buri kwezi"
+      }
+    },
+    "negotiable": {
+      "accounting": {
+        "name": "Serivisi z'Imari na Imisoro",
+        "description": "Serivisi z'imari n'ubushobozi mu bijyanye n'imisoro.",
+        "bookkeeping": "Serivisi z'Imari (Ibitabo by'imari, umushahara, n'ibindi)",
+        "software": "Gutanga Porogaramu z'Imari",
+        "migration": "Guhindura Amakuru y'Imari",
+        "taxFiling": "Gutangaza Imisoro no Kuyishyura",
+        "refunds": "Gukurikirana Gusubizwa k'Imisoro",
+        "compliance": "Inkunga yo Gukurikiza Ibyo RRA, RSSB, RDB, RPPA bisaba"
+      },
+      "advisory": {
+        "name": "Inama & Amahugurwa",
+        "description": "Inama za kinyamwuga no guteza imbere ubumenyi.",
+        "tax": "Inama ku Misoro no Ubuyobozi",
+        "training": "Amahugurwa ya Excel, EBM, Porogaramu z'Imari",
+        "tender": "Amahugurwa yo Gutegura Gutsindira Ibikorwa"
+      },
+      "documents": {
+        "name": "Ubufasha mu Gushyira mu bikorwa Impapuro n'Ibyemezo",
+        "description": "Ubufasha mu kubona impapuro n'ibyemezo by'ingenzi by'ubucuruzi.",
+        "certificates": "TCC, Icyemezo cya RSSB, Icyemezo cy'Ubuzima bwiza",
+        "ebm": "Icyemezo cya EBM, Icyemezo cya VAT",
+        "ownership": "Ibyemezo by'Umukoresha w'Imishinga, n'ibindi."
+      },
+      "financial": {
+        "name": "Inkunga y'Imari n'Iterambere ry'Ubucuruzi",
+        "description": "Serivisi zose mu iterambere ry'ubucuruzi.",
+        "loan": "Ubufasha mu Gusaba Inguzanyo",
+        "website": "Iterambere ry'Urubuga rw'Ikoranabuhanga",
+        "social": "Imiyoboro ya Sosiyete n'Ubushobozi bwo Kuyamamaza",
+        "manuals": "Iterambere ry'Amabwiriza y'Ibikorwa"
+      }
+    },
+    "ourServices": "Serivisi Zacu",
+    "transparentPricing": "Ibiciro byumvikana ku serivisi z'ingenzi z'ubucuruzi n'ibisubizo byihariye bihuye n'ibikenewe by'ubucuruzi bwawe",
+    "fixedPriceServices": "Serivisi zifite igiciro gihamye",
+    "negotiableServices": "Serivisi Zishobora Gucuruzwa"
+  },
+  "about":{
+    "aboutUs": "Abo Turibo",
+    "aboutUsDescription": "Dutanga ibisubizo byimbitse by’imari n’ikoranabuhanga bigenewe ubucuruzi bwo mu Rwanda, tukagufasha kubahiriza imisoro, kwiyandikisha kuri murandasi, no kubona ibikoresho by’ingirakamaro.",
+    "tinManagement": "Iyoborwa rya TIN",
+    "tinDescription": "Igiciro cyacu cyateguwe mu byiciro cyubahiriza ibigo by’ubucuruzi byose, kuva ku bitangira kugera ku binini, kugirango bigume mu murongo w’amategeko y’imisoro mu rugendo rwose rw’ubucuruzi.",
+    "monthlyMaintenance": "Kubungabunga buri kwezi hashingiwe ku musaruro",
+    "pricingTiers": "Ibiciro bitanu kuva ku 10,000 kugeza ku 500,000 RWF/buri kwezi",
+    "digitalSolutions": "Ibisubizo by'ikoranabuhanga",
+    "digitalDescription": "Iyandikishe kandi wiyubakire izina kuri murandasi ukoresheje serivisi zacu zo gutangiza rimwe ndetse n'ibikoresho bihoraho by'ikoranabuhanga.",
+    "googleSetup": "Kwiyandikisha kuri Google Business (39,999 RWF)",
+    "libraryAccess": "Kwinjira muri Digital Library (3,600 RWF/buri kwezi)",
+    "ourApproach": "Uko Dukora",
+    "approachDescription": "Duhuza ubunararibonye bw’iwacu n’ibisubizo bijyanye n’igihe kugira ngo dutange serivisi zinoze mu miterere y’ubucuruzi bw’u Rwanda.",
+    "transparentPricing": "Ibiciro bigaragara kandi biteguye mu byiciro",
+    "paymentOptions": "Uburyo bwinshi bwo kwishyura bwizewe",
+    "subscriptionProcess": "Uburyo bworoshye bwo kwiyandikisha",
+    "ourTeam": "Itsinda ryacu",
+    "ready": "Witeguye Gutangira?",
+    "cta": "Hitamo mu biciro byacu bigaragara kandi wiyandikishe mu minota mike. Turahari kugira ngo tugufashe mu rugendo rwo gukura k’ubucuruzi bwawe.",
+    "viewPricing": "Reba Ibiciro"
+  },
+    "fqa": {
+      "faqs": [
+        {
+          "question": "Ni izihe nzira zo kwishyura wemera?",
+          "answer": "Twemera amafaranga ya mobile (MTN, Airtel), transfers za banki, hamwe na carte za kredit/debit (Visa, Mastercard). Ibikorwa byose byo kwishyura bikorwa mu buryo bwizewe binyuze mu nzira yacu yo kwishyura."
+        },
+        {
+          "question": "Nabasha gute kwiyandikisha mu mirimo ya TIN Management?",
+          "answer": "Hitamo gusa igiciro cy'ubucuruzi bwawe mu byiciro byacu by'ibiciro, hanyuma tuzaguha amabwiriza yihuse yo kwinjira. Uzakenera gutanga amakuru y'ibanze ku bucuruzi bwawe n'amakuru y'ubwishyu."
+        },
+        {
+          "question": "Mbona kubohora umwandiko wanjye wa Digital Library igihe icyo aricyo cyose?",
+          "answer": "Yego, ushobora kubohora ubusabe bwawe igihe icyo aricyo cyose binyuze muri dashboard yawe. Uzabona gukomeza kugera ku bikorwa kugeza igihe cyose waba wiyandikishije."
+        },
+        {
+          "question": "Bimara igihe kingana iki gukoresha Google Location?",
+          "answer": "Bikunze gufata iminsi 2-3 nyuma yo kubona kwemeza kwishyura. Tuzitwara ku bikorwa byose byo kwemeza hamwe na Google kandi tukakumenyesha igihe ubucuruzi bwawe buzaba bukoreshwa kuri Maps."
+        },
+        {
+          "question": "Serivisi za accounting zanyu ziraboneka ku bucuruzi mpuzamahanga?",
+          "answer": "Ubu, tuzwi cyane mu gutegura ibikorwa by'imisoro n'imari by'u Rwanda. Ku bucuruzi mpuzamahanga, turagusaba kutwandikira kugira ngo tuganire ku buryo bwo gutanga serivisi."
+        },
+        {
+          "question": "Serivisi zanyu zo gutanga inama ku misoro zirimo iki?",
+          "answer": "Abajyanama bacu batanga inama ku kunoza imisoro, kubahiriza amategeko ya RRA, gucunga VAT, no gutegura igenzura. Iyi serivisi ni iyo kugendana n'ibikenewe by'umwihariko ku bucuruzi bwawe."
+        },
+        {
+          "question": "Nshobora kubona ubufasha ku bijyanye no kubahiriza RSSB?",
+          "answer": "Yego, turafasha mu kwandikisha RSSB, gutanga ibitekerezo by’ukwezi, kwiyandikisha abakozi, no kubona ibyangombwa nk'ibice by'ubufasha bwacu bwo kubahiriza amategeko."
+        },
+        {
+          "question": "Bimara igihe kingana iki kugirango mfashe mu gusaba inguzanyo?",
+          "answer": "Igihe cyacu gisanzwe cyo gutunganya ibyangombwa ni iminsi 5-7 nyuma yo kwakira inyandiko zisabwa zose. Dukorana n'inzego nyinshi za banki kugirango tubone amabwiriza meza."
+        },
+        {
+          "question": "Ni iki gituma porogaramu zanyu z'amahugurwa zitandukanye?",
+          "answer": "Duharanira ibibazo by'ukuri by'ubucuruzi mu Rwanda no gutanga ubufasha nyuma y'amahugurwa. Abatoza bacu bose ni abanyamwuga bafite uburambe mu kazi."
+        },
+        {
+          "question": "Ibiciro byanyu birashobora kuganirwaho ku masezerano yo mu gihe kirekire?",
+          "answer": "Yego, dutanga ibiciro by'igabanyirizo ku kwiyandikisha k'umwaka muri serivisi za TIN Management n'ibijyanye n'imari. Hamagara itsinda ryacu ry'ubucuruzi kugirango tubonere ibisubizo byihariye."
+        },
+        {
+          "question": "Ni ibihe byangombwa bikenewe mu kwiyandikisha VAT?",
+          "answer": "By'umwihariko: Icyemezo cya TIN, inyandiko z'ubucuruzi, amakuru ya banki, n'amasezerano y'ubukode bw'ahantu. Tuzatanga urutonde rwose rw’ibikenewe mu gihe cy'ibanze."
+        },
+        {
+          "question": "Murafasha kubikuza amafaranga y'umusoro kuva kuri RRA?",
+          "answer": "Yego, tuzwi cyane mu gukurikirana amafaranga y'umusoro, harimo gutegura inyandiko, kuzishyikiriza, no gukurikirana iterambere ry'ibikorwa na RRA."
+        }
+      ],
+    "title": "Ibibazo Bikunze Kubazwa",
+    "subtitle": "Ibikenewe byose biri hano, byateguwe neza kandi byoroshye kubibona."
+    },
+        "pricing": {
+          "tin-0-10m": {
+            "name": "Iyandikwa rya TIN (0-10M RWF)",
+            "description": "Gucunga TIN buri kwezi ku bucuruzi buto"
+          },
+          "tin-10-20m": {
+            "name": "Iyandikwa rya TIN (10-20M RWF)",
+            "description": "Gucunga TIN buri kwezi ku bucuruzi buri gukura"
+          },
+          "tin-20-50m": {
+            "name": "Iyandikwa rya TIN (20-50M RWF)",
+            "description": "Gucunga TIN buri kwezi ku bucuruzi buringaniye"
+          },
+          "tin-50-100m": {
+            "name": "Iyandikwa rya TIN (50-100M RWF)",
+            "description": "Gucunga TIN buri kwezi ku bucuruzi bunini"
+          },
+          "tin-100m-plus": {
+            "name": "Iyandikwa rya TIN (100M+ RWF)",
+            "description": "Gucunga TIN buri kwezi ku bigo binini cyane"
+          },
+          "google-location": {
+            "name": "Gushyira kuri Google Maps",
+            "description": "Serivisi imwe yo gushyira ubucuruzi bwawe kuri Google Maps"
+          },
+          "digital-library": {
+            "name": "Kwinjira muri Digital Library",
+            "description": "Ubunyamuryango buri kwezi ku isomero ryacu ryo kuri murandasi"
+          },
+          "paymentSuccess": "Kwishyura byagenze neza!"
+        },
+        "payment": {
+            "service": "Serivisi",
+            "amount": "Amafaranga",
+            "subscription_period": "Igihe cy’ubunyamuryango",
+            "months": "amezi",
+            "month": "ukwezi",
+            "method": "Uburyo bwo kwishyura",
+            "mtn": "MTN Mobile Money",
+            "airtel": "Airtel Money",
+            "thank_you": "Urakoze kwishyura. Uzakira ubutumwa bwo kwemeza kuri telefoni yawe vuba.",
+            "back": "Subira kuri Serivisi"
+          },
+          "paymentFailed": {
+            "title": "Kwishyura Byanze",
+            "service": "Serivisi",
+            "amount": "Amafaranga",
+            "thankYou": "Ntitwashoboye gutunganya ubwishyu bwawe. Nyamuneka reba amafaranga yawe kuri mobile money hanyuma wongere ugerageze. Niba ikibazo gikomeza, hamagara serivisi yacu y'ubufasha.",
+            "back": "Subira kuri Serivisi",
+            "tryAgain": "Gerageza Byongeye"
+          },
+          "servicesPricing": {
+    "title": "Serivisi Zacu & Igiciro",
+    "description": "Igiciro cyumvikanyweho ku gaciro kadasanzwe - menya neza gahunda ikubereye",
+    "service": "Serivisi",
+    "descriptionHeader": "Ibisobanuro",
+    "price": "Igiciro",
+    "action": "Igikorwa",
+    "subscribe": "Iyandikishe",
+    "purchase": "Gura"
+  },
+  "paymentsCompletion":{
+    "completePayment": "Kwishura",
+    "service": "Serivisi",
+    "amount": "Amafaranga",
+    "duration": "Igihe cy'ukwezi",
+    "selectPaymentMethod": "Hitamo uburyo bwo kwishyura",
+    "mtn": "MTN Mobile Money",
+    "airtel": "Airtel Money",
+    "enterPhoneNumber": "Injiza nimero ya telefone yawe ya {provider}:",
+    "phonePlaceholder": "nko. {placeholder}",
+    "paymentRequest": "Uzabona ubusabe bwo kwishyura kuri iri nimero",
+    "cancel": "Subira inyuma",
+    "confirmPayment": "Emeza Kwishura",
+    "processing": "Birimo gukorwa..."
+  },
+  "processPayment":{
+    "processingPayment": "Birimo gukorwa kwishyura",
+    "paymentRequest": "Wasabye kwishyura {serviceName}",
+    "amount": "Amafaranga: {amount}",
+    "checkPhone": "Reba kuri telefone yawe kugirango ubone ubutumwa bw'ubusabe bwo kwishyura",
+    "paymentInstruction": "Cira *182*7*1# kugirango ushyure",
+    "paymentInstructionAirtel": "Cira amabwiriza ya Airtel Money kugirango ushyure"
+  }             
+  }
+  
+  

@@ -1,8 +1,43 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import AboutImg from "../../assets/bussnessTeam.jpg";
+import { TeamMember } from "../common/OurTeam";
+import { useTranslation } from "react-i18next";
+
+// Dummy team data
+const teamMembers = [
+  {
+    id: 1,
+    imageUrl: "https://randomuser.me/api/portraits/women/44.jpg",
+    name: "Jane Smith",
+    role: "CEO & Founder",
+    contacts: "+250781234567",
+  },
+  {
+    id: 2,
+    imageUrl: "https://randomuser.me/api/portraits/men/32.jpg",
+    name: "John Doe",
+    role: "CTO",
+    contacts: "johandoe@gmail.com",
+  },
+  {
+    id: 3,
+    imageUrl: "https://randomuser.me/api/portraits/women/68.jpg",
+    name: "Sarah Johnson",
+    role: "Marketing Director",
+    contacts: "sarhJson@gmail.com",
+  },
+  {
+    id: 4,
+    imageUrl: "https://randomuser.me/api/portraits/men/75.jpg",
+    name: "Michael Brown",
+    role: "Lead Developer",
+    contacts: "+2533094686",
+  },
+];
 
 export const AboutSection = () => {
+  const { t } = useTranslation<string>();
   return (
     <>
       {" "}
@@ -16,12 +51,10 @@ export const AboutSection = () => {
           />
           <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-end">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
-              About Us
+              {t("about.aboutUs")}
             </h1>
             <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4  mb-8">
-              We provide comprehensive financial and digital solutions tailored
-              for Rwandan businesses, helping you navigate tax compliance,
-              establish online presence, and access valuable resources.
+              {t("about.aboutUsDescription")}
             </p>
           </div>
         </div>
@@ -46,13 +79,9 @@ export const AboutSection = () => {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-[#fdc901] mb-3">
-              TIN Management
+              {t("about.tinManagement")}
             </h3>
-            <p className="text-gray-600 mb-4">
-              Our tiered pricing structure accommodates businesses of all sizes,
-              from startups to enterprises, ensuring proper tax compliance at
-              every growth stage.
-            </p>
+            <p className="text-gray-600 mb-4">{t("about.tinDescription")}</p>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start">
                 <svg
@@ -68,7 +97,7 @@ export const AboutSection = () => {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Monthly maintenance based on turnover</span>
+                <span>{t("about.monthlyMaintenance")}</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -84,7 +113,7 @@ export const AboutSection = () => {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Five pricing tiers from 10,000 to 500,000 RWF/month</span>
+                <span>{t("about.pricingTiers")}</span>
               </li>
             </ul>
           </div>
@@ -107,11 +136,10 @@ export const AboutSection = () => {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-[#fdc901] mb-3">
-              Digital Solutions
+              {t("about.digitalSolutions")}
             </h3>
             <p className="text-gray-600 mb-4">
-              Establish and grow your online presence with our one-time setup
-              services and ongoing digital resources.
+              {t("about.digitalDescription")}
             </p>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start">
@@ -128,7 +156,7 @@ export const AboutSection = () => {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Google Business Profile setup (39,999 RWF)</span>
+                <span>{t("about.googleSetup")}</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -144,7 +172,7 @@ export const AboutSection = () => {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Digital Library access (3,600 RWF/month)</span>
+                <span>{t("about.libraryAccess")}</span>
               </li>
             </ul>
           </div>
@@ -167,11 +195,10 @@ export const AboutSection = () => {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-[#fdc901] mb-3">
-              Our Approach
+              {t("about.ourApproach")}
             </h3>
             <p className="text-gray-600 mb-4">
-              We combine local expertise with modern solutions to deliver
-              services that actually work in the Rwandan context.
+              {t("about.approachDescription")}
             </p>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start">
@@ -188,7 +215,7 @@ export const AboutSection = () => {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Transparent, tiered pricing</span>
+                <span>{t("about.transparentPricing")}</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -204,7 +231,7 @@ export const AboutSection = () => {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Multiple secure payment options</span>
+                <span>{t("about.paymentOptions")}</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -220,23 +247,35 @@ export const AboutSection = () => {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Simple subscription process</span>
+                <span>{t("about.subscriptionProcess")}</span>
               </li>
             </ul>
           </div>
         </div>
+        <div className="container mx-auto py-12 px-4">
+          <h1 className="text-4xl font-bold text-center mb-12">
+            {t("about.ourTeam")}
+          </h1>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            {teamMembers.map((member) => (
+              <TeamMember
+                key={member.id}
+                imageUrl={member.imageUrl}
+                name={member.name}
+                role={member.role}
+                contacts={member.contacts}
+              />
+            ))}
+          </div>
+        </div>
         <div className="bg-yellow-50 rounded-lg p-8 text-center max-w-4xl mx-auto">
           <h3 className="text-2xl font-bold text-[#fdc901] mb-4">
-            Ready to Get Started?
+            {t("about.ready")}
           </h3>
-          <p className="text-gray-600 mb-6">
-            Choose from our transparent pricing options and subscribe in
-            minutes. We're here to support your business growth every step of
-            the way.
-          </p>
+          <p className="text-gray-600 mb-6">{t("about.cta")}</p>
           <button className="bg-[#fdc901] hover:text-[#fdc901] text-white font-medium py-2 px-6 rounded-md transition-colors">
-            <Link to="/pricing">View Pricing Options</Link>
+            <Link to="/pricing">{t("about.viewPricing")}</Link>
           </button>
         </div>
       </div>

@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import { useTranslation } from "react-i18next";
 export const StatsSection = () => {
   const [animatedValues, setAnimatedValues] = useState([0, 0, 0, 0]);
   const statsRef = useRef<HTMLDivElement>(null);
   const animationDuration = 2000; // 2 seconds
   const startTimeRef = useRef<number | null>(null);
+  const { t } = useTranslation<string>();
 
   const targetStats = [
-    { id: 1, name: "Trusted Clients", value: 1200 },
-    { id: 2, name: "Services Delivered", value: 3500 },
-    { id: 3, name: "TINs Managed", value: 850 },
-    { id: 4, name: "Businesses on Google", value: 420 },
+    { id: 1, name: t("impact.clients"), value: 1200 },
+    { id: 2, name: t("impact.services"), value: 3500 },
+    { id: 3, name: t("impact.tins"), value: 850 },
+    { id: 4, name: t("impact.businesses"), value: 420 },
   ];
 
   const animateNumbers = (timestamp: number) => {
@@ -39,7 +40,7 @@ export const StatsSection = () => {
           }
         });
       },
-      { threshold: 0.1 } // Trigger when 10% of component is visible
+      { threshold: 0.1 }
     );
 
     if (statsRef.current) {
@@ -57,7 +58,7 @@ export const StatsSection = () => {
     <div ref={statsRef} className="py-16 px-4">
       <div className="container mx-auto">
         <h2 className="text-3xl font-bold text-center text-gray-600 mb-12">
-          Our Impact in Numbers
+          {t("impact.title")}
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

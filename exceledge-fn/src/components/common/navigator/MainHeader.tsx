@@ -16,6 +16,8 @@ import { jwtDecode } from "jwt-decode";
 import { fetchUserProfile } from "../../../services/service";
 import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import { LanguageSwitcher } from "../LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 interface UserData {
   firstName: string;
@@ -23,7 +25,9 @@ interface UserData {
   email: string;
   role: string;
 }
+
 export const token = localStorage.getItem("accessToken");
+
 export const MainHeader: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -32,23 +36,25 @@ export const MainHeader: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { t } = useTranslation<string>();
+
   const links = [
-    { to: "/", label: "Home" },
-    { to: "/about", label: "About us" },
-    { to: "/services", label: "Services" },
-    { to: "/questions", label: "FAQ" },
-    { to: "/pricing", label: "Pricing" },
-    { to: "/pages/announcements", label: "Announcements" },
+    { to: "/", label: t("navigation.home") },
+    { to: "/about", label: t("navigation.about") },
+    { to: "/services", label: t("navigation.services") },
+    { to: "/questions", label: t("navigation.faq") },
+    { to: "/pricing", label: t("navigation.pricing") },
+    { to: "/pages/announcements", label: t("navigation.announcements") },
   ];
 
   const authLinks = [
-    { to: "/login", label: "Login" },
-    { to: "/sign-in", label: "Register" },
+    { to: "/login", label: t("navigation.login") },
+    { to: "/sign-in", label: t("navigation.register") },
   ];
+
   useEffect(() => {
     const loadUserProfile = async () => {
       if (!token) {
@@ -232,20 +238,7 @@ export const MainHeader: React.FC = () => {
 
             <div className="flex items-center space-x-2 border-l border-gray-600 pl-4 ml-2">
               <div className="relative">
-                <select
-                  className="appearance-none bg-black text-yellow-300 hover:text-white pl-2 pr-8 py-1 rounded focus:outline-none cursor-pointer"
-                  defaultValue="eng"
-                >
-                  <option value="kiny" className="bg-black flex items-center">
-                    <span className="mr-1">🇷🇼</span> Kiny
-                  </option>
-                  <option value="eng" className="bg-black flex items-center">
-                    <span className="mr-1">🇬🇧</span> Eng
-                  </option>
-                  <option value="fr" className="bg-black flex items-center">
-                    <span className="mr-1">🇫🇷</span> Fr
-                  </option>
-                </select>
+                <LanguageSwitcher />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                   <svg
                     className="w-4 h-4 text-yellow-300"
@@ -332,39 +325,108 @@ export const MainHeader: React.FC = () => {
               className="md:hidden focus:outline-none ml-4"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             >
-              {isSidebarOpen ? <X size={28} /> : <Menu size={28} />}
+              {isSidebarOpen ? "" : <Menu size={28} />}
             </button>
           </div>
-          {isSidebarOpen && (
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsSidebarOpen(false)}
-            >
-              <div
-                className="absolute top-32 left-0 w-full bg-white shadow-lg z-50"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <nav className="flex flex-col p-4 space-y-4 text-lg">
-                  {links.map((link) => (
-                    <Link
-                      key={link.to}
-                      to={link.to}
-                      onClick={() => setIsSidebarOpen(false)}
-                      className={`hover:text-[#fdc901] ${
-                        location.pathname === link.to
-                          ? "text-[#fdc901] font-bold"
-                          : "text-black"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Mobile Sidebar */}
+      {isSidebarOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+
+          {/* Sidebar */}
+          <div className="fixed top-0 left-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out">
+            <div className="flex flex-col h-full">
+              {/* Sidebar header */}
+              <div className="flex items-center justify-between p-4 border-b">
+                <Link
+                  to="/"
+                  className="flex items-center gap-2 text-2xl font-bold"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <img src={logo} alt="Exceledge" width="100" height="100" />
+                </Link>
+                <button
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="p-2 rounded-md hover:bg-gray-100"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Navigation links */}
+              <nav className="flex-1 overflow-y-auto p-4 space-y-4">
+                {links.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setIsSidebarOpen(false)}
+                    className={`block py-3 px-4 rounded-md hover:bg-gray-100 text-lg ${
+                      location.pathname === link.to
+                        ? "text-[#fdc901] font-bold bg-gray-50"
+                        : "text-gray-800"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+
+              {/* Auth section */}
+              <div className="p-4 border-t">
+                {isLoggedIn ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center text-white font-bold">
+                      {isFetching ? (
+                        <BeatLoader size={8} color="white" />
+                      ) : userData ? (
+                        `${userData.firstName.charAt(
+                          0
+                        )}${userData.secondName.charAt(0)}`.toUpperCase()
+                      ) : (
+                        "US"
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-medium">
+                        {userData?.firstName} {userData?.secondName}
+                      </p>
+                      <button
+                        onClick={handleLogout}
+                        className="text-sm text-gray-600 hover:text-gray-900"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col space-y-3">
+                    {authLinks.map((link) => (
+                      <Link
+                        key={link.to}
+                        to={link.to}
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`py-2 px-4 rounded-md text-center ${
+                          link.to === "/login"
+                            ? "border border-yellow-500 text-yellow-500 hover:bg-yellow-50"
+                            : "bg-[#fdc901] text-white hover:bg-yellow-600"
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };

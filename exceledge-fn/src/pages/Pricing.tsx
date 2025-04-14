@@ -3,14 +3,15 @@ import io from "socket.io-client";
 import { MainLayout } from "../components/layouts/MainLayout";
 import Pricing from "../assets/price-value.webp";
 import { Service } from "../../types";
-import { allServicesData } from "../data/services.data";
+import { useServicesData } from "../data/services.data";
 import { initiatePayment } from "../services/service";
 import { API_URL } from "../services/service";
+import { useTranslation } from "react-i18next";
 type PaymentStatus = "pending" | "processing" | "success" | "failed" | null;
-const allServices = allServicesData;
 const api_url: any = API_URL;
 const socket = io(api_url);
 export const PricingPage = () => {
+  const allServices = useServicesData();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPaymentProcessing, setShowPaymentProcessing] = useState(false);
@@ -21,6 +22,7 @@ export const PricingPage = () => {
   const [selectedProvider, setSelectedProvider] = useState<
     "mtn" | "airtel" | null
   >(null);
+  const { t } = useTranslation<string>();
 
   const handleProceedToPayment = (service: Service) => {
     setSelectedService(service);
@@ -122,29 +124,32 @@ export const PricingPage = () => {
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-green-500 mb-2">
-            Payment Successful!
+            {t("pricing.paymentSuccess")}
           </h2>
           <div className="text-left bg-green-50 p-4 rounded-md my-6">
             <p className="font-medium">
-              Service:{" "}
+              {t("payment.service")}{" "}
               <span className="text-green-600">{selectedService.name}</span>
             </p>
             <p className="font-medium">
-              Amount:{" "}
+              {t("payment.amount")}{" "}
               <span className="text-green-600">
                 {formatPrice(calculateTotalPrice())}
               </span>
             </p>
             {selectedService.isMonthly && (
               <p className="font-medium">
-                Subscription period:{" "}
+                {t("payment.subscription_period")}{" "}
                 <span className="text-green-600">
-                  {months} {months > 1 ? "months" : "month"}
+                  {months}{" "}
+                  {months > 1
+                    ? `${t("payment.months")}`
+                    : `${t("payment.month")}`}
                 </span>
               </p>
             )}
             <p className="font-medium">
-              Method:{" "}
+              {t("payment.method")}{" "}
               <span className="text-green-600">
                 {selectedProvider === "mtn"
                   ? "MTN Mobile Money"
@@ -152,15 +157,12 @@ export const PricingPage = () => {
               </span>
             </p>
           </div>
-          <p className="text-gray-600 mb-6">
-            Thank you for your payment. You will receive a confirmation message
-            to your phone shortly.
-          </p>
+          <p className="text-gray-600 mb-6">{t("payment.thank_you")}</p>
           <button
             onClick={resetPayment}
             className="bg-[#fdc901] hover:bg-[#e6b800] text-white font-bold py-2 px-6 rounded-md transition-colors"
           >
-            Back to Services
+            {t("payment.back")}
           </button>
         </div>
       </div>
@@ -188,31 +190,27 @@ export const PricingPage = () => {
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-red-500 mb-2">
-            Payment Failed
+            {t("paymentFailed.title")}
           </h2>
           <div className="text-left bg-red-50 p-4 rounded-md my-6">
             <p className="font-medium">
-              Service:{" "}
+              {t("paymentFailed.service")}:{" "}
               <span className="text-red-600">{selectedService?.name}</span>
             </p>
             <p className="font-medium">
-              Amount:{" "}
+              {t("paymentFailed.amount")}:{" "}
               <span className="text-red-600">
                 {selectedService && formatPrice(calculateTotalPrice())}
               </span>
             </p>
           </div>
-          <p className="text-gray-600 mb-6">
-            We couldn't process your payment. Please check your mobile money
-            account balance and try again. If the problem persists, contact our
-            support.
-          </p>
+          <p className="text-gray-600 mb-6">{t("paymentFailed.thankYou")}</p>
           <div className="flex space-x-3 justify-center">
             <button
               onClick={resetPayment}
               className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md transition-colors"
             >
-              Back to Services
+              {t("paymentFailed.back")}
             </button>
             <button
               onClick={() => {
@@ -222,7 +220,7 @@ export const PricingPage = () => {
               }}
               className="bg-[#fdc901] hover:bg-[#e6b800] text-white font-bold py-2 px-6 rounded-md transition-colors"
             >
-              Try Again
+              {t("paymentFailed.tryAgain")}
             </button>
           </div>
         </div>
@@ -241,11 +239,10 @@ export const PricingPage = () => {
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-end">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
-              Our Services & Pricing
+              {t("servicesPricing.title")}
             </h1>
             <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-8">
-              Transparent pricing for exceptional value - discover the perfect
-              plan for your needs
+              {t("servicesPricing.description")}
             </p>
           </div>
         </div>
@@ -255,10 +252,18 @@ export const PricingPage = () => {
           <table className="min-w-full bg-white rounded-lg overflow-hidden">
             <thead className="bg-[#fdc901] text-white">
               <tr>
-                <th className="py-3 px-4 text-left">Service</th>
-                <th className="py-3 px-4 text-left">Description</th>
-                <th className="py-3 px-4 text-left">Price</th>
-                <th className="py-3 px-4 text-left">Action</th>
+                <th className="py-3 px-4 text-left">
+                  {t("servicesPricing.service")}
+                </th>
+                <th className="py-3 px-4 text-left">
+                  {t("servicesPricing.descriptionHeader")}
+                </th>
+                <th className="py-3 px-4 text-left">
+                  {t("servicesPricing.price")}
+                </th>
+                <th className="py-3 px-4 text-left">
+                  {t("servicesPricing.action")}
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -283,7 +288,9 @@ export const PricingPage = () => {
                       onClick={() => handleProceedToPayment(service)}
                       className="bg-[#fdc901] hover:bg-[#e6b800] text-white py-2 px-4 rounded-md text-sm font-medium transition-colors"
                     >
-                      {service.isMonthly ? "Subscribe" : "Purchase"}
+                      {service.isMonthly
+                        ? `${t("servicesPricing.subscribe")}`
+                        : `${t("servicesPricing.purchase")}`}
                     </button>
                   </td>
                 </tr>
@@ -297,11 +304,13 @@ export const PricingPage = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg max-w-md w-full p-6">
               <h3 className="text-xl font-bold text-[#fdc901] mb-4">
-                Complete Payment
+                {t("paymentsCompletion.completePayment")}
               </h3>
 
               <div className="mb-6">
-                <h4 className="font-medium text-gray-500 mb-2">Service:</h4>
+                <h4 className="font-medium text-gray-500 mb-2">
+                  {t("paymentsCompletion.service")}
+                </h4>
                 <p className="text-[#fdc901] font-medium">
                   {selectedService.name}
                 </p>
@@ -314,7 +323,7 @@ export const PricingPage = () => {
                 {selectedService.isMonthly && (
                   <div className="w-1/2 pr-2">
                     <h4 className="font-medium text-gray-500 mb-2">
-                      Duration:
+                      {t("paymentsCompletion.duration")}
                     </h4>
                     <select
                       value={months}
@@ -333,7 +342,10 @@ export const PricingPage = () => {
                     selectedService.isMonthly ? "w-1/2 pl-2" : "w-full"
                   }`}
                 >
-                  <h4 className="font-medium text-gray-500 mb-2">Amount:</h4>
+                  <h4 className="font-medium text-gray-500 mb-2">
+                    {" "}
+                    {t("paymentsCompletion.amount")}
+                  </h4>
                   <p className="text-[#fdc901] font-bold text-xl">
                     {formatPrice(calculateTotalPrice())}
                     {selectedService.isMonthly && (
@@ -347,7 +359,7 @@ export const PricingPage = () => {
 
               <div className="mb-6">
                 <h4 className="font-medium text-gray-500 mb-3">
-                  Select payment method:
+                  {t("paymentsCompletion.selectPaymentMethod")}
                 </h4>
                 <div className="flex space-x-4">
                   <label className="flex-1 flex items-center space-x-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
@@ -377,10 +389,6 @@ export const PricingPage = () => {
 
               {selectedProvider && (
                 <div className="mb-6">
-                  <h4 className="font-medium text-gray-500 mb-2">
-                    Enter your {selectedProvider === "mtn" ? "MTN" : "Airtel"}{" "}
-                    phone number:
-                  </h4>
                   <input
                     type="tel"
                     value={phoneNumber}
@@ -391,7 +399,7 @@ export const PricingPage = () => {
                     className="w-full p-2 border border-gray-300 rounded-md"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    You'll receive a payment request on this number
+                    {t("paymentsCompletion.paymentRequest")}
                   </p>
                 </div>
               )}
@@ -401,7 +409,7 @@ export const PricingPage = () => {
                   onClick={() => setShowPaymentModal(false)}
                   className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md font-medium transition-colors"
                 >
-                  Cancel
+                  {t("paymentsCompletion.cancel")}
                 </button>
                 <button
                   onClick={handlePaymentSubmit}
@@ -412,7 +420,9 @@ export const PricingPage = () => {
                       : "bg-[#fdc901] hover:bg-[#e6b800] text-white"
                   }`}
                 >
-                  {isProcessing ? "Processing..." : "Confirm Payment"}
+                  {isProcessing
+                    ? `${t("paymentsCompletion.processing")}`
+                    : `${t("paymentsCompletion.confirmPayment")}`}
                 </button>
               </div>
             </div>
@@ -446,29 +456,26 @@ export const PricingPage = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-gray-700 mb-2">
-                Processing Payment
+                {t("processPayment.processingPayment")}
               </h3>
               <p className="text-gray-600 mb-4">
-                You have requested payment for{" "}
+                {t("processPayment.paymentRequest")}{" "}
                 <strong>{selectedService?.name}</strong>
                 <br />
-                Amount:{" "}
+                {t("processPayment.amount")}:{" "}
                 <strong>
                   {selectedService && formatPrice(calculateTotalPrice())}
                 </strong>
               </p>
               <div className="bg-yellow-50 p-4 rounded-md text-left">
                 <p className="font-medium text-gray-700">
-                  Check your phone for a payment request notification
+                  {t("processPayment.checkPhone")}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
                   {selectedProvider === "mtn" ? (
-                    <>
-                      Or dial <strong>*182*7*1#</strong> to complete your
-                      payment
-                    </>
+                    <>{t("processPayment.paymentInstruction")}</>
                   ) : (
-                    <>Or follow Airtel Money prompts to complete your payment</>
+                    <>{t("processPayment.paymentInstructionAirtel")}</>
                   )}
                 </p>
               </div>

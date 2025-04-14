@@ -379,5 +379,12 @@
   "errors": {
     "registration_failed": "Registration failed. Please try again.",
     "google_error": "Google authentication error. Please try again."
-  }
+  },
+  "announcement": {
+    "announcements": "Announcements",
+    "bookmarkReminder": "Bookmark our page to ensure you never miss an announcement or limited-time offer.",
+    "title": "No Announcements Yet",
+    "message": "Thank you for visiting our announcements page. Currently, there are no announcements available. We encourage you to check back again soon!"
+  },
+  "alreadyHaveAccount": "Ufite konti?"
 }

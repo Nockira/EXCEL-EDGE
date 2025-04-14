@@ -323,5 +323,12 @@
   "errors": {
     "registration_failed": "L'inscription a échoué. Veuillez réessayer.",
     "google_error": "Erreur d'authentification Google. Veuillez réessayer."
-  }
+  },
+  "announcement": {
+    "announcements": "Annonces",
+    "bookmarkReminder": "Ajoutez notre page aux favoris pour ne jamais manquer une annonce ou une offre à durée limitée.",
+    "title": "Pas encore d'annonces",
+    "message": "Merci de visiter notre page des annonces. Actuellement, il n'y a aucune annonce disponible. Nous vous encourageons à revenir bientôt !"
+  },
+  "alreadyHaveAccount": "Vous avez déjà un compte ?"
 }

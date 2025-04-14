@@ -8,6 +8,7 @@ import {
 import { MainLayout } from "../components/layouts/MainLayout";
 import AnnouncementImg from "../assets/Announcement.jpeg";
 import { fetchAnnouncement } from "../services/service";
+import { useTranslation } from "react-i18next";
 
 type Announcement = {
   id: number;
@@ -28,6 +29,7 @@ export const Announcements = () => {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [err, setErr] = useState<Error | null>(null);
+  const { t } = useTranslation<string>();
 
   useEffect(() => {
     const getAnnouncements = async () => {
@@ -81,12 +83,11 @@ export const Announcements = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
-              Announcements
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
+              {t("announcement.announcements")}
             </h1>
             <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-4">
-              Bookmark our page to ensure you never miss an announcement or
-              limited-time offer.
+              {/* {t("announcement.bookmarkReminder")} */}
             </p>
           </div>
         </div>
@@ -173,16 +174,12 @@ export const Announcements = () => {
               ))}
             </div>
           ) : (
-            <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
+            <div className="min-h-[30vh] flex flex-col items-center justify-center text-center px-4">
               <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-                No Announcements Yet
+                {t("announcement.title")}
               </h1>
               <p className="text-lg md:text-xl text-gray-600 max-w-xl">
-                Thank you for visiting our announcements page.
-                <br />
-                Currently, there are no announcements available.
-                <br />
-                We encourage you to check back again soon!
+                {t("announcement.message")}
               </p>
             </div>
           )}

@@ -1,12 +1,12 @@
 {
-    "hero": {
-      "headline": "Innovate and Grow Your Business with",
-      "highlight":"Exceledge",
-      "description": "At Exceledge, we deliver smart, efficient financial and business solutions to fuel your growth. From instant payments to expert advice, we empower startups and enterprises alike. Join us and elevate the way you do business.",
-      "join": "Join us now",
-      "login": "Log in now"
-    },
-    "navigation": {
+  "hero": {
+    "headline": "Innovate and Grow Your Business with",
+    "highlight": "Exceledge",
+    "description": "At Exceledge, we deliver smart, efficient financial and business solutions to fuel your growth. From instant payments to expert advice, we empower startups and enterprises alike. Join us and elevate the way you do business.",
+    "join": "Join us now",
+    "login": "Log in now"
+  },
+  "navigation": {
     "home": "Home",
     "about": "About us",
     "services": "Services",
@@ -79,8 +79,8 @@
       "placeholderMessage": "Your message here...",
       "send": "Send Message"
     }
-},
-   "services": {
+  },
+  "services": {
     "fixed": {
       "tin": {
         "name": "TIN Management (Monthly Subscription)",
@@ -140,7 +140,7 @@
     "negotiableServices": "Negotiable Services"
   },
 
-  "about":{
+  "about": {
     "aboutUs": "About Us",
     "aboutUsDescription": "We provide comprehensive financial and digital solutions tailored for Rwandan businesses, helping you navigate tax compliance, establish online presence, and access valuable resources.",
     "tinManagement": "TIN Management",
@@ -161,199 +161,223 @@
     "cta": "Choose from our transparent pricing options and subscribe in minutes. We're here to support your business growth every step of the way.",
     "viewPricing": "View Pricing Options"
   },
-    "fqa": {
-      "faqs": [
-        {
-          "question": "What payment methods do you accept?",
-          "answer": "We accept mobile money (MTN, Airtel), bank transfers, and credit/debit cards (Visa, Mastercard). All payments are processed securely through our payment gateway."
-        },
-        {
-          "question": "How do I subscribe to TIN Management services?",
-          "answer": "Simply select your business turnover range from our pricing options, and you'll be guided through a quick onboarding process. You'll need to provide basic business details and payment information."
-        },
-        {
-          "question": "Can I cancel my Digital Library subscription anytime?",
-          "answer": "Yes, you can cancel your subscription at any time through your account dashboard. Your access will continue until the end of your current billing period."
-        },
-        {
-          "question": "How long does Google Location setup take?",
-          "answer": "Typically 2-3 business days after payment confirmation. We'll handle all verification processes with Google and notify you once your business is live on Maps."
-        },
-        {
-          "question": "Are your accounting services available for international businesses?",
-          "answer": "Currently, we specialize in Rwandan tax and accounting compliance. For international businesses, we recommend contacting us for a custom consultation."
-        },
-        {
-          "question": "What's included in your tax advisory services?",
-          "answer": "Our advisors provide guidance on tax optimization, compliance with RRA regulations, VAT management, and preparation for audits. This is a personalized service tailored to your business needs."
-        },
-        {
-          "question": "Can I get assistance with RSSB compliance?",
-          "answer": "Absolutely. We help with RSSB registration, monthly declarations, employee enrollment, and certificate acquisition as part of our compliance support services."
-        },
-        {
-          "question": "How quickly can you help with loan applications?",
-          "answer": "Our standard processing time is 5-7 business days after receiving all required documents. We work with multiple financial institutions to find you the best terms."
-        },
-        {
-          "question": "What makes your training programs unique?",
-          "answer": "We focus on practical, Rwanda-specific case studies and provide post-training support. All our trainers are certified professionals with real-world experience."
-        },
-        {
-          "question": "Are your prices negotiable for long-term contracts?",
-          "answer": "Yes, we offer discounted rates for annual subscriptions to TIN Management and Accounting Services. Contact our sales team for custom quotes."
-        },
-        {
-          "question": "What documents do I need for VAT registration?",
-          "answer": "Typically: TIN certificate, business registration documents, bank details, and premises lease agreement. We'll provide a complete checklist during onboarding."
-        },
-        {
-          "question": "Can you help recover tax refunds from RRA?",
-          "answer": "Yes, we specialize in tax refund follow-ups, including document preparation, submission, and progress tracking with RRA officials."
-        }
-      ],
-      "title": "Frequently Asked Questions",
-      "subtitle": "Everything you need to know is right here, neatly organized and easy to find."
+  "fqa": {
+    "faqs": [
+      {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept mobile money (MTN, Airtel), bank transfers, and credit/debit cards (Visa, Mastercard). All payments are processed securely through our payment gateway."
+      },
+      {
+        "question": "How do I subscribe to TIN Management services?",
+        "answer": "Simply select your business turnover range from our pricing options, and you'll be guided through a quick onboarding process. You'll need to provide basic business details and payment information."
+      },
+      {
+        "question": "Can I cancel my Digital Library subscription anytime?",
+        "answer": "Yes, you can cancel your subscription at any time through your account dashboard. Your access will continue until the end of your current billing period."
+      },
+      {
+        "question": "How long does Google Location setup take?",
+        "answer": "Typically 2-3 business days after payment confirmation. We'll handle all verification processes with Google and notify you once your business is live on Maps."
+      },
+      {
+        "question": "Are your accounting services available for international businesses?",
+        "answer": "Currently, we specialize in Rwandan tax and accounting compliance. For international businesses, we recommend contacting us for a custom consultation."
+      },
+      {
+        "question": "What's included in your tax advisory services?",
+        "answer": "Our advisors provide guidance on tax optimization, compliance with RRA regulations, VAT management, and preparation for audits. This is a personalized service tailored to your business needs."
+      },
+      {
+        "question": "Can I get assistance with RSSB compliance?",
+        "answer": "Absolutely. We help with RSSB registration, monthly declarations, employee enrollment, and certificate acquisition as part of our compliance support services."
+      },
+      {
+        "question": "How quickly can you help with loan applications?",
+        "answer": "Our standard processing time is 5-7 business days after receiving all required documents. We work with multiple financial institutions to find you the best terms."
+      },
+      {
+        "question": "What makes your training programs unique?",
+        "answer": "We focus on practical, Rwanda-specific case studies and provide post-training support. All our trainers are certified professionals with real-world experience."
+      },
+      {
+        "question": "Are your prices negotiable for long-term contracts?",
+        "answer": "Yes, we offer discounted rates for annual subscriptions to TIN Management and Accounting Services. Contact our sales team for custom quotes."
+      },
+      {
+        "question": "What documents do I need for VAT registration?",
+        "answer": "Typically: TIN certificate, business registration documents, bank details, and premises lease agreement. We'll provide a complete checklist during onboarding."
+      },
+      {
+        "question": "Can you help recover tax refunds from RRA?",
+        "answer": "Yes, we specialize in tax refund follow-ups, including document preparation, submission, and progress tracking with RRA officials."
+      }
+    ],
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know is right here, neatly organized and easy to find."
+  },
+  "pricing": {
+    "tin-0-10m": {
+      "name": "TIN Management (0-10M RWF)",
+      "description": "Monthly TIN management for small businesses",
+      "fr": {
+        "name": "Gestion TIN (0-10M RWF)",
+        "description": "Gestion mensuelle de TIN pour les petites entreprises"
+      },
+      "rw": {
+        "name": "Iyandikwa rya TIN (0-10M RWF)",
+        "description": "Gucunga TIN buri kwezi ku bucuruzi buto"
+      }
     },
-        "pricing": {
-          "tin-0-10m": {
-            "name": "TIN Management (0-10M RWF)",
-            "description": "Monthly TIN management for small businesses",
-            "fr": {
-              "name": "Gestion TIN (0-10M RWF)",
-              "description": "Gestion mensuelle de TIN pour les petites entreprises"
-            },
-            "rw": {
-              "name": "Iyandikwa rya TIN (0-10M RWF)",
-              "description": "Gucunga TIN buri kwezi ku bucuruzi buto"
-            }
-          },
-          "tin-10-20m": {
-            "name": "TIN Management (10-20M RWF)",
-            "description": "Monthly TIN management for growing businesses",
-            "fr": {
-              "name": "Gestion TIN (10-20M RWF)",
-              "description": "Gestion mensuelle de TIN pour les entreprises en croissance"
-            },
-            "rw": {
-              "name": "Iyandikwa rya TIN (10-20M RWF)",
-              "description": "Gucunga TIN buri kwezi ku bucuruzi buri gukura"
-            }
-          },
-          "tin-20-50m": {
-            "name": "TIN Management (20-50M RWF)",
-            "description": "Monthly TIN management for medium businesses",
-            "fr": {
-              "name": "Gestion TIN (20-50M RWF)",
-              "description": "Gestion mensuelle de TIN pour les entreprises moyennes"
-            },
-            "rw": {
-              "name": "Iyandikwa rya TIN (20-50M RWF)",
-              "description": "Gucunga TIN buri kwezi ku bucuruzi buringaniye"
-            }
-          },
-          "tin-50-100m": {
-            "name": "TIN Management (50-100M RWF)",
-            "description": "Monthly TIN management for large businesses",
-            "fr": {
-              "name": "Gestion TIN (50-100M RWF)",
-              "description": "Gestion mensuelle de TIN pour les grandes entreprises"
-            },
-            "rw": {
-              "name": "Iyandikwa rya TIN (50-100M RWF)",
-              "description": "Gucunga TIN buri kwezi ku bucuruzi bunini"
-            }
-          },
-          "tin-100m-plus": {
-            "name": "TIN Management (100M+ RWF)",
-            "description": "Monthly TIN management for enterprise businesses",
-            "fr": {
-              "name": "Gestion TIN (100M+ RWF)",
-              "description": "Gestion mensuelle de TIN pour les entreprises de grande taille"
-            },
-            "rw": {
-              "name": "Iyandikwa rya TIN (100M+ RWF)",
-              "description": "Gucunga TIN buri kwezi ku bigo binini cyane"
-            }
-          },
-          "google-location": {
-            "name": "Google Location Setup",
-            "description": "One-time service to establish your business on Google Maps",
-            "fr": {
-              "name": "Configuration de l'emplacement Google",
-              "description": "Service unique pour enregistrer votre entreprise sur Google Maps"
-            },
-            "rw": {
-              "name": "Gushyira kuri Google Maps",
-              "description": "Serivisi imwe yo gushyira ubucuruzi bwawe kuri Google Maps"
-            }
-          },
-          "digital-library": {
-            "name": "Digital Library Access",
-            "description": "Monthly subscription to our resource library",
-            "fr": {
-              "name": "Accès à la Bibliothèque Numérique",
-              "description": "Abonnement mensuel à notre bibliothèque de ressources"
-            },
-            "rw": {
-              "name": "Kwinjira muri Digital Library",
-              "description": "Ubunyamuryango buri kwezi ku isomero ryacu ryo kuri murandasi"
-            }
-          },
-          "paymentSuccess": "Payment Successful!"
-        },
-        "payment": {
-            "service": "Service",
-            "amount": "Amount",
-            "subscription_period": "Subscription period",
-            "months": "months",
-            "month": "month",
-            "method": "Method",
-            "mtn": "MTN Mobile Money",
-            "airtel": "Airtel Money",
-            "thank_you": "Thank you for your payment. You will receive a confirmation message to your phone shortly.",
-            "back": "Back to Services"
-         },
-         "paymentFailed": {
-            "title": "Payment Failed",
-            "service": "Service",
-            "amount": "Amount",
-            "thankYou": "We couldn't process your payment. Please check your mobile money account balance and try again. If the problem persists, contact our support.",
-            "back": "Back to Services",
-            "tryAgain": "Try Again"
-          },
-          "servicesPricing": {
-            "title": "Our Services & Pricing",
-            "description": "Transparent pricing for exceptional value - discover the perfect plan for your needs",
-            "service": "Service",
-            "descriptionHeader": "Description",
-            "price": "Price",
-            "action": "Action",
-            "subscribe": "Subscribe",
-            "purchase": "Purchase"
-          },
-          "paymentsCompletion":{
-            "completePayment": "Complete Payment",
-            "service": "Service",
-            "amount": "Amount",
-            "duration": "Duration",
-            "selectPaymentMethod": "Select payment method",
-            "mtn": "MTN Mobile Money",
-            "airtel": "Airtel Money",
-            "enterPhoneNumber": "Enter your {provider} phone number:",
-            "phonePlaceholder": "e.g. {placeholder}",
-            "paymentRequest": "You'll receive a payment request on this number",
-            "cancel": "Cancel",
-            "confirmPayment": "Confirm Payment",
-            "processing": "Processing..."
-          },
-          "processPayment":{
-            "processingPayment": "Processing Payment",
-            "paymentRequest": "You have requested payment for {serviceName}",
-            "amount": "Amount: {amount}",
-            "checkPhone": "Check your phone for a payment request notification",
-            "paymentInstruction": "Or dial *182*7*1# to complete your payment",
-            "paymentInstructionAirtel": "Or follow Airtel Money prompts to complete your payment"
-          }                       
+    "tin-10-20m": {
+      "name": "TIN Management (10-20M RWF)",
+      "description": "Monthly TIN management for growing businesses",
+      "fr": {
+        "name": "Gestion TIN (10-20M RWF)",
+        "description": "Gestion mensuelle de TIN pour les entreprises en croissance"
+      },
+      "rw": {
+        "name": "Iyandikwa rya TIN (10-20M RWF)",
+        "description": "Gucunga TIN buri kwezi ku bucuruzi buri gukura"
+      }
+    },
+    "tin-20-50m": {
+      "name": "TIN Management (20-50M RWF)",
+      "description": "Monthly TIN management for medium businesses",
+      "fr": {
+        "name": "Gestion TIN (20-50M RWF)",
+        "description": "Gestion mensuelle de TIN pour les entreprises moyennes"
+      },
+      "rw": {
+        "name": "Iyandikwa rya TIN (20-50M RWF)",
+        "description": "Gucunga TIN buri kwezi ku bucuruzi buringaniye"
+      }
+    },
+    "tin-50-100m": {
+      "name": "TIN Management (50-100M RWF)",
+      "description": "Monthly TIN management for large businesses",
+      "fr": {
+        "name": "Gestion TIN (50-100M RWF)",
+        "description": "Gestion mensuelle de TIN pour les grandes entreprises"
+      },
+      "rw": {
+        "name": "Iyandikwa rya TIN (50-100M RWF)",
+        "description": "Gucunga TIN buri kwezi ku bucuruzi bunini"
+      }
+    },
+    "tin-100m-plus": {
+      "name": "TIN Management (100M+ RWF)",
+      "description": "Monthly TIN management for enterprise businesses",
+      "fr": {
+        "name": "Gestion TIN (100M+ RWF)",
+        "description": "Gestion mensuelle de TIN pour les entreprises de grande taille"
+      },
+      "rw": {
+        "name": "Iyandikwa rya TIN (100M+ RWF)",
+        "description": "Gucunga TIN buri kwezi ku bigo binini cyane"
+      }
+    },
+    "google-location": {
+      "name": "Google Location Setup",
+      "description": "One-time service to establish your business on Google Maps",
+      "fr": {
+        "name": "Configuration de l'emplacement Google",
+        "description": "Service unique pour enregistrer votre entreprise sur Google Maps"
+      },
+      "rw": {
+        "name": "Gushyira kuri Google Maps",
+        "description": "Serivisi imwe yo gushyira ubucuruzi bwawe kuri Google Maps"
+      }
+    },
+    "digital-library": {
+      "name": "Digital Library Access",
+      "description": "Monthly subscription to our resource library",
+      "fr": {
+        "name": "Accès à la Bibliothèque Numérique",
+        "description": "Abonnement mensuel à notre bibliothèque de ressources"
+      },
+      "rw": {
+        "name": "Kwinjira muri Digital Library",
+        "description": "Ubunyamuryango buri kwezi ku isomero ryacu ryo kuri murandasi"
+      }
+    },
+    "paymentSuccess": "Payment Successful!"
+  },
+  "payment": {
+    "service": "Service",
+    "amount": "Amount",
+    "subscription_period": "Subscription period",
+    "months": "months",
+    "month": "month",
+    "method": "Method",
+    "mtn": "MTN Mobile Money",
+    "airtel": "Airtel Money",
+    "thank_you": "Thank you for your payment. You will receive a confirmation message to your phone shortly.",
+    "back": "Back to Services"
+  },
+  "paymentFailed": {
+    "title": "Payment Failed",
+    "service": "Service",
+    "amount": "Amount",
+    "thankYou": "We couldn't process your payment. Please check your mobile money account balance and try again. If the problem persists, contact our support.",
+    "back": "Back to Services",
+    "tryAgain": "Try Again"
+  },
+  "servicesPricing": {
+    "title": "Our Services & Pricing",
+    "description": "Transparent pricing for exceptional value - discover the perfect plan for your needs",
+    "service": "Service",
+    "descriptionHeader": "Description",
+    "price": "Price",
+    "action": "Action",
+    "subscribe": "Subscribe",
+    "purchase": "Purchase"
+  },
+  "paymentsCompletion": {
+    "completePayment": "Complete Payment",
+    "service": "Service",
+    "amount": "Amount",
+    "duration": "Duration",
+    "selectPaymentMethod": "Select payment method",
+    "mtn": "MTN Mobile Money",
+    "airtel": "Airtel Money",
+    "enterPhoneNumber": "Enter your {provider} phone number:",
+    "phonePlaceholder": "e.g. {placeholder}",
+    "paymentRequest": "You'll receive a payment request on this number",
+    "cancel": "Cancel",
+    "confirmPayment": "Confirm Payment",
+    "processing": "Processing..."
+  },
+  "processPayment": {
+    "processingPayment": "Processing Payment",
+    "paymentRequest": "You have requested payment for {serviceName}",
+    "amount": "Amount: {amount}",
+    "checkPhone": "Check your phone for a payment request notification",
+    "paymentInstruction": "Or dial *182*7*1# to complete your payment",
+    "paymentInstructionAirtel": "Or follow Airtel Money prompts to complete your payment"
+  },
+  "login": {
+    "title": "Login to Exceledge.",
+    "phone": "Phone number",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "register": "You don't have an account? Register Here",
+    "or": "Or",
+    "googleSignIn": "Sign in with Google",
+    "loginButton": "Login",
+    "loggingIn": "Logging in..."
+  },
+  "user_register": {
+    "create_account": "Create Account",
+    "phone_number": "Phone number",
+    "password": "Password",
+    "sign_up_with_google": "Sign up with Google",
+    "or": "or",
+    "sign_up": "Sign up",
+    "log_in_here": "Log in here",
+    "processing": "Processing..."
+  },
+  "errors": {
+    "registration_failed": "Registration failed. Please try again.",
+    "google_error": "Google authentication error. Please try again."
+  }
 }
-  

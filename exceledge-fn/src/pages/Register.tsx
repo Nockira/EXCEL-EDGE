@@ -8,6 +8,7 @@ import { TextInput } from "../components/common/inputText";
 import { RegisterSchema } from "../schemas/authSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 const api_url = process.env.REACT_APP_API_BASE_URL;
 interface RegisterFormData {
   phone: string;
@@ -20,6 +21,7 @@ export const UserRegister: React.FC = () => {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { t } = useTranslation<string>();
 
   const {
     register,
@@ -44,7 +46,7 @@ export const UserRegister: React.FC = () => {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message);
       } else {
-        toast.error("Registration failed. Please try again.");
+        toast.error(`${`${t("errors.registration_failed")}`}`);
       }
     } finally {
       setIsLoading(false);
@@ -62,7 +64,7 @@ export const UserRegister: React.FC = () => {
       <div className="flex justify-center sm:pr-[20%] sm:pb-[4%] sm:pl-[20%] text-white">
         <div className="bg-white sm:rounded-[3%] shadow-md sm:w-[70%] w-full text-black p-6">
           <p className="text-xl font-bold mb-4 text-center text-[#fdc901] ">
-            Create Account.
+            {t("user_register.create_account")}
           </p>
           {submitError && (
             <div className="mb-4 p-2 bg-red-100 text-red-500 rounded">
@@ -101,19 +103,21 @@ export const UserRegister: React.FC = () => {
               />
               <path fill="none" d="M0 0h48v48H0z" />
             </svg>
-            <span>Sign up with Google</span>
+            <span>{t("user_register.sign_up_with_google")}</span>
           </button>
 
           <div className="relative flex items-center py-4">
             <div className="flex-grow border-t border-gray-300"></div>
-            <span className="flex-shrink mx-4 text-gray-500">or</span>
+            <span className="flex-shrink mx-4 text-gray-500">
+              {t("user_register.or")}
+            </span>
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <TextInput
               name="phone"
-              label="Phone number"
+              label={`${t("user_register.phone_number")}`}
               type="text"
               register={register}
               error={errors.phone?.message}
@@ -123,7 +127,7 @@ export const UserRegister: React.FC = () => {
             <div className="relative">
               <TextInput
                 name="password"
-                label="Password"
+                label={`${t("user_register.password")}`}
                 type={showPassword ? "text" : "password"}
                 register={register}
                 error={errors.password?.message}
@@ -144,7 +148,9 @@ export const UserRegister: React.FC = () => {
               className="w-full bg-[#fdc901] text-white py-2 rounded-[20px] hover:bg-[#fdc901] disabled:bg-yellow-400"
               disabled={isLoading}
             >
-              {isLoading ? "Processing..." : "Sign up"}
+              {isLoading
+                ? `${`${t("user_register.processing")}`}`
+                : `${`${t("user_register.sign_up")}`}`}
             </button>
           </form>
 
@@ -154,7 +160,7 @@ export const UserRegister: React.FC = () => {
               to={"/login"}
               className="text-[#fdc901] hover:underline font-medium"
             >
-              Log in here
+              {t("user_register.log_in_here")}
             </Link>
           </div>
         </div>

@@ -2,16 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import logo from "../../../assets/vdlogo.png";
+import { useTranslation } from "react-i18next";
 
 export const Footer: React.FC = () => {
+  const { t } = useTranslation<string>();
   return (
     <footer className="bg-black text-white py-8">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4 px-4 md:px-8">
-        <div className="flex flex-col gap-4">
+        <div className="flex items-center flex-col gap-4">
           <Link to="/" className="flex  gap-2 text-2xl font-bold">
             <img src={logo} alt="Village Deals Logo" width="150" height="150" />
           </Link>
-          <p className="text-lg">Trade smarter, Live Better.</p>
+          <p className="text-lg">Innovating Your Business Growth</p>
           <div className="flex gap-4">
             <a
               href="https://facebook.com"
@@ -39,13 +41,13 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col gap-4">
           <h3 className="text-lg font-bold">Quick Links</h3>
           <Link to="/about" className="text-normal">
-            About us
+            {t("navigation.about")}
           </Link>
           <Link to="/services" className="text-normal">
-            Services
+            {t("navigation.services")}
           </Link>
           <Link to="/questions" className="text-normal">
-            FQA
+            {t("navigation.faq")}
           </Link>
         </div>
         <div className="flex flex-col gap-4">

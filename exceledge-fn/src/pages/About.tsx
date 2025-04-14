@@ -4,7 +4,7 @@ import { AboutSection } from "../components/landing/AboutPage";
 const About: React.FC = () => {
   return (
     <MainLayout>
-      <div className="p-4">
+      <div className="">
         <AboutSection />
       </div>
     </MainLayout>

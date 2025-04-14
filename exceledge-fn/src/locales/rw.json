@@ -303,7 +303,7 @@
     "phone": "Numero ya telefone",
     "password": "Ijambo ry'ibanga",
     "forgotPassword": "Wibagiwe Ijambo ry'Ibanga?",
-    "register": "Ntidufite konti? Iyandikishe Hano",
+    "register": "Nta konti ufite ? Iyandikishe Hano",
     "or": "Cyangwa",
     "googleSignIn": "Injira ukoresheje Google",
     "loginButton": "Injira",
@@ -322,5 +322,12 @@
   "errors": {
     "registration_failed": "Kwiyandikisha byananiranye. Gerageza kongera.",
     "google_error": "Ikosa ryabaye mu kwinjira na Google. Gerageza kongera."
-  }
+  },
+  "announcement": {
+    "announcements": "Amatangazo",
+    "bookmarkReminder": "Bika uru rupapuro muri favorit kugira ngo utazacikwa n'itangazo cyangwa itanga ryo mu gihe gito.",
+    "title": "Nta Matangazo Araboneka",
+    "message": "Murakoze gusura page yacu y'amatangazo. Ubu nta matangazo araboneka. Turabashishikariza kongera kudusura vuba!"
+  },
+  "alreadyHaveAccount": "Ufite konti?"
 }

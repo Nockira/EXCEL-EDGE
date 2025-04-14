@@ -10,8 +10,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { preventAuthAccess } from "../services/service";
 const api_url = process.env.REACT_APP_API_BASE_URL;
-
 interface LoginFormData {
   phone: string;
   password: string;
@@ -27,6 +27,7 @@ interface DecodedToken {
 }
 
 export const Login: React.FC = () => {
+  preventAuthAccess();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -93,7 +94,7 @@ export const Login: React.FC = () => {
             </div>
           )}
           <button
-            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-[#757575] font-medium py-2.5 px-4 rounded-full hover:bg-gray-50 hover:shadow-sm disabled:opacity-50 mb-4 transition-all"
+            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-500 text-[#757575] font-medium py-2.5 px-4 rounded-full hover:bg-gray-50 hover:shadow-sm disabled:opacity-50 mb-4 transition-all"
             onClick={() => {
               window.location.href = `${api_url}/users/google-auth`;
             }}
@@ -134,6 +135,7 @@ export const Login: React.FC = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
             <TextInput
               name="phone"
+              placeholder="+2507..."
               label={`${t("login.phone")}`}
               type="text"
               register={register}
@@ -160,7 +162,7 @@ export const Login: React.FC = () => {
             </div>
             <Link
               to={"/reset-password"}
-              className="text-sm text-[#fdc901] hover:underline"
+              className="text-xs text-blue-500 underline -mt-4  hover:underline"
             >
               {t("login.forgotPassword")}
             </Link>
@@ -175,12 +177,11 @@ export const Login: React.FC = () => {
             </button>
           </form>
           <div className="py-2">
-            {t("login.register")}{" "}
             <Link
               to={"/sign-in"}
-              className="text-sm text-[#fdc901] hover:underline"
+              className="text-xs text-blue-500 underline -mb-8  hover:underline"
             >
-              Here
+              {t("login.register")}{" "}
             </Link>
           </div>
         </div>

@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { ChevronDown, LogOut, User } from "lucide-react";
-import { fetchUserProfile } from "../../services/service";
+import { fetchUserProfile, requireAdmin } from "../../services/service";
 import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
@@ -23,6 +23,7 @@ interface UserData {
 }
 
 export const AdminDashboard = () => {
+  requireAdmin();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);

@@ -1,7 +1,5 @@
 import axios from "axios";
 import { jwtDecode, JwtPayload } from "jwt-decode";
-import { token } from "../components/common/navigator/MainHeader";
-
 interface ExtendedJwtPayload extends JwtPayload {
   id: string;
   role: string;
@@ -11,15 +9,12 @@ export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 export const API_URL = process.env.REACT_APP_API_URL;
 export const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-// Configure axios instance with auth token
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
-
-// Add request interceptor to include the token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
@@ -32,6 +27,80 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("accessToken");
+      window.location.href = "/login";
+      return Promise.reject(error);
+    }
+    if (error.response?.status === 403) {
+      window.location.href = "/";
+      return Promise.reject(error);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export const isAuthenticated = (): boolean => {
+  const token = localStorage.getItem("accessToken");
+  if (!token) return false;
+
+  try {
+    const decoded = jwtDecode<ExtendedJwtPayload>(token);
+    if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+      localStorage.removeItem("accessToken");
+      return false;
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const isAdmin = (): boolean => {
+  const token = localStorage.getItem("accessToken");
+  if (!token) return false;
+
+  try {
+    const decoded = jwtDecode<ExtendedJwtPayload>(token);
+    return decoded.role === "ADMIN";
+  } catch (error) {
+    return false;
+  }
+};
+export const preventAuthAccess = (): void => {
+  if (isAuthenticated()) {
+    window.location.href = "/";
+  }
+};
+
+export const requireAdmin = (): void => {
+  if (!isAdmin()) {
+    window.location.href = "/";
+  }
+};
+
+export const getCurrentUser = () => {
+  const token = localStorage.getItem("accessToken");
+  if (!token) return null;
+
+  try {
+    const decoded = jwtDecode<ExtendedJwtPayload>(token);
+    return {
+      id: decoded.id,
+      role: decoded.role,
+    };
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    return null;
+  }
+};
 
 export const fetchAllUsers = async () => {
   try {
@@ -52,21 +121,14 @@ export const fetchUserProfile = async (userId: string) => {
     throw error;
   }
 };
-export const getCurrentUser = () => {
-  if (!token) throw new Error("Token is null");
-  try {
-    const decoded = jwtDecode<ExtendedJwtPayload>(token);
-    return {
-      id: decoded.id,
-      role: decoded.role,
-    };
-  } catch (error) {
-    console.error("Error decoding token:", error);
-    return null;
-  }
-};
+
 export const deleteUser = async (userId: string) => {
   try {
+    if (!isAdmin()) {
+      throw new Error(
+        "Unauthorized: Only admin users can delete announcements"
+      );
+    }
     const response = await api.delete(`/users/${userId}`);
     return response.data;
   } catch (error) {
@@ -123,6 +185,11 @@ export const uploadAvatar = async (userId: string, file: File) => {
 
 export const getAllTransactions = async () => {
   try {
+    if (!isAdmin()) {
+      throw new Error(
+        "Unauthorized: Only admin users can delete announcements"
+      );
+    }
     const transactions = await api.get("/transactions");
     return transactions;
   } catch (error) {
@@ -159,6 +226,11 @@ export const fetchAnnouncement = async () => {
 //Announcement services
 export const createAnnouncement = async (data: any) => {
   try {
+    if (!isAdmin()) {
+      throw new Error(
+        "Unauthorized: Only admin users can delete announcements"
+      );
+    }
     const response = await api.post(`/announcements`, {
       title: data.title,
       content: data.content,
@@ -199,6 +271,11 @@ export const updateAnnouncement = async (
 
 export const deleteAnnouncement = async (id: string) => {
   try {
+    if (!isAdmin()) {
+      throw new Error(
+        "Unauthorized: Only admin users can delete announcements"
+      );
+    }
     const response = await api.delete(`/announcements/${id}`);
     return response.data;
   } catch (error) {

@@ -7,9 +7,11 @@ import { useServicesData } from "../data/services.data";
 import { initiatePayment } from "../services/service";
 import { API_URL } from "../services/service";
 import { useTranslation } from "react-i18next";
+
 type PaymentStatus = "pending" | "processing" | "success" | "failed" | null;
 const api_url: any = API_URL;
 const socket = io(api_url);
+
 export const PricingPage = () => {
   const allServices = useServicesData();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
@@ -76,6 +78,7 @@ export const PricingPage = () => {
       setIsProcessing(false);
     }
   };
+
   const resetPayment = () => {
     setSelectedService(null);
     setSelectedProvider(null);
@@ -247,242 +250,258 @@ export const PricingPage = () => {
           </div>
         </div>
       </div>
+
       <div className="container mx-auto py-12 px-4">
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-lg overflow-hidden">
-            <thead className="bg-[#fdc901] text-white">
-              <tr>
-                <th className="py-3 px-4 text-left">
-                  {t("servicesPricing.service")}
-                </th>
-                <th className="py-3 px-4 text-left">
-                  {t("servicesPricing.descriptionHeader")}
-                </th>
-                <th className="py-3 px-4 text-left">
-                  {t("servicesPricing.price")}
-                </th>
-                <th className="py-3 px-4 text-left">
-                  {t("servicesPricing.action")}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {allServices.map((service) => (
-                <tr key={service.id} className="hover:bg-gray-50">
-                  <td className="py-4 px-4">
-                    <div className="font-medium text-[#fdc901]">
-                      {service.name}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {service.category}
-                    </div>
-                  </td>
-                  <td className="py-4 px-4 text-gray-600">
-                    {service.description}
-                  </td>
-                  <td className="py-4 px-4 font-bold text-[#fdc901]">
-                    {service.price}
-                  </td>
-                  <td className="py-4 px-4">
-                    <button
-                      onClick={() => handleProceedToPayment(service)}
-                      className="bg-[#fdc901] hover:bg-[#e6b800] text-white py-2 px-4 rounded-md text-sm font-medium transition-colors"
-                    >
-                      {service.isMonthly
-                        ? `${t("servicesPricing.subscribe")}`
-                        : `${t("servicesPricing.purchase")}`}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {/* First row with 4 cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {allServices.slice(0, 4).map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              handleProceedToPayment={handleProceedToPayment}
+              t={t}
+            />
+          ))}
         </div>
 
-        {/* Payment Modal */}
-        {showPaymentModal && selectedService && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg max-w-md w-full p-6">
-              <h3 className="text-xl font-bold text-[#fdc901] mb-4">
-                {t("paymentsCompletion.completePayment")}
-              </h3>
-
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-500 mb-2">
-                  {t("paymentsCompletion.service")}
-                </h4>
-                <p className="text-[#fdc901] font-medium">
-                  {selectedService.name}
-                </p>
-                <p className="text-gray-600 text-sm">
-                  {selectedService.description}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between mb-6">
-                {selectedService.isMonthly && (
-                  <div className="w-1/2 pr-2">
-                    <h4 className="font-medium text-gray-500 mb-2">
-                      {t("paymentsCompletion.duration")}
-                    </h4>
-                    <select
-                      value={months}
-                      onChange={(e) => setMonths(Number(e.target.value))}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                    >
-                      <option value={1}>1 Month</option>
-                      <option value={3}>3 Months</option>
-                      <option value={6}>6 Months</option>
-                      <option value={12}>12 Months</option>
-                    </select>
-                  </div>
-                )}
-                <div
-                  className={`${
-                    selectedService.isMonthly ? "w-1/2 pl-2" : "w-full"
-                  }`}
-                >
-                  <h4 className="font-medium text-gray-500 mb-2">
-                    {" "}
-                    {t("paymentsCompletion.amount")}
-                  </h4>
-                  <p className="text-[#fdc901] font-bold text-xl">
-                    {formatPrice(calculateTotalPrice())}
-                    {selectedService.isMonthly && (
-                      <span className="text-sm font-normal text-gray-600 ml-1">
-                        ({months} {months > 1 ? "months" : "month"})
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-500 mb-3">
-                  {t("paymentsCompletion.selectPaymentMethod")}
-                </h4>
-                <div className="flex space-x-4">
-                  <label className="flex-1 flex items-center space-x-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="mtn"
-                      checked={selectedProvider === "mtn"}
-                      onChange={() => setSelectedProvider("mtn")}
-                      className="h-5 w-5 text-[#fdc901]"
-                    />
-                    <span>MTN Mobile Money</span>
-                  </label>
-                  <label className="flex-1 flex items-center space-x-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="airtel"
-                      checked={selectedProvider === "airtel"}
-                      onChange={() => setSelectedProvider("airtel")}
-                      className="h-5 w-5 text-[#fdc901]"
-                    />
-                    <span>Airtel Money</span>
-                  </label>
-                </div>
-              </div>
-
-              {selectedProvider && (
-                <div className="mb-6">
-                  <input
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder={`e.g. ${
-                      selectedProvider === "mtn" ? "0781234567" : "0731234567"
-                    }`}
-                    className="w-full p-2 border border-gray-300 rounded-md"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    {t("paymentsCompletion.paymentRequest")}
-                  </p>
-                </div>
-              )}
-
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setShowPaymentModal(false)}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md font-medium transition-colors"
-                >
-                  {t("paymentsCompletion.cancel")}
-                </button>
-                <button
-                  onClick={handlePaymentSubmit}
-                  disabled={!selectedProvider || !phoneNumber || isProcessing}
-                  className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
-                    !selectedProvider || !phoneNumber || isProcessing
-                      ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-[#fdc901] hover:bg-[#e6b800] text-white"
-                  }`}
-                >
-                  {isProcessing
-                    ? `${t("paymentsCompletion.processing")}`
-                    : `${t("paymentsCompletion.confirmPayment")}`}
-                </button>
-              </div>
-            </div>
+        {/* Second row with 3 cards (centered) */}
+        {allServices.length > 4 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center">
+            {allServices.slice(4, 7).map((service) => (
+              <ServiceCard
+                key={service.id}
+                service={service}
+                handleProceedToPayment={handleProceedToPayment}
+                t={t}
+              />
+            ))}
           </div>
         )}
+      </div>
 
-        {/* Payment Processing Modal */}
-        {showPaymentProcessing && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg max-w-md w-full p-6 text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="animate-spin h-8 w-8 text-yellow-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-700 mb-2">
-                {t("processPayment.processingPayment")}
-              </h3>
-              <p className="text-gray-600 mb-4">
-                {t("processPayment.paymentRequest")}{" "}
-                <strong>{selectedService?.name}</strong>
-                <br />
-                {t("processPayment.amount")}:{" "}
-                <strong>
-                  {selectedService && formatPrice(calculateTotalPrice())}
-                </strong>
+      {/* Payment Modal */}
+      {showPaymentModal && selectedService && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full p-6">
+            <h3 className="text-xl font-bold text-[#fdc901] mb-4">
+              {t("paymentsCompletion.completePayment")}
+            </h3>
+
+            <div className="mb-6">
+              <h4 className="font-medium text-gray-500 mb-2">
+                {t("paymentsCompletion.service")}
+              </h4>
+              <p className="text-[#fdc901] font-medium">
+                {selectedService.name}
               </p>
-              <div className="bg-yellow-50 p-4 rounded-md text-left">
-                <p className="font-medium text-gray-700">
-                  {t("processPayment.checkPhone")}
-                </p>
-                <p className="text-sm text-gray-600 mt-1">
-                  {selectedProvider === "mtn" ? (
-                    <>{t("processPayment.paymentInstruction")}</>
-                  ) : (
-                    <>{t("processPayment.paymentInstructionAirtel")}</>
+              <p className="text-gray-600 text-sm">
+                {selectedService.description}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between mb-6">
+              {selectedService.isMonthly && (
+                <div className="w-1/2 pr-2">
+                  <h4 className="font-medium text-gray-500 mb-2">
+                    {t("paymentsCompletion.duration")}
+                  </h4>
+                  <select
+                    value={months}
+                    onChange={(e) => setMonths(Number(e.target.value))}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  >
+                    <option value={1}>1 Month</option>
+                    <option value={3}>3 Months</option>
+                    <option value={6}>6 Months</option>
+                    <option value={12}>12 Months</option>
+                  </select>
+                </div>
+              )}
+              <div
+                className={`${
+                  selectedService.isMonthly ? "w-1/2 pl-2" : "w-full"
+                }`}
+              >
+                <h4 className="font-medium text-gray-500 mb-2">
+                  {" "}
+                  {t("paymentsCompletion.amount")}
+                </h4>
+                <p className="text-[#fdc901] font-bold text-xl">
+                  {formatPrice(calculateTotalPrice())}
+                  {selectedService.isMonthly && (
+                    <span className="text-sm font-normal text-gray-600 ml-1">
+                      ({months} {months > 1 ? "months" : "month"})
+                    </span>
                   )}
                 </p>
               </div>
             </div>
+
+            <div className="mb-6">
+              <h4 className="font-medium text-gray-500 mb-3">
+                {t("paymentsCompletion.selectPaymentMethod")}
+              </h4>
+              <div className="flex space-x-4">
+                <label className="flex-1 flex items-center space-x-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="mtn"
+                    checked={selectedProvider === "mtn"}
+                    onChange={() => setSelectedProvider("mtn")}
+                    className="h-5 w-5 text-[#fdc901]"
+                  />
+                  <span>MTN Mobile Money</span>
+                </label>
+                <label className="flex-1 flex items-center space-x-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="airtel"
+                    checked={selectedProvider === "airtel"}
+                    onChange={() => setSelectedProvider("airtel")}
+                    className="h-5 w-5 text-[#fdc901]"
+                  />
+                  <span>Airtel Money</span>
+                </label>
+              </div>
+            </div>
+
+            {selectedProvider && (
+              <div className="mb-6">
+                <input
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder={`e.g. ${
+                    selectedProvider === "mtn" ? "0781234567" : "0731234567"
+                  }`}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {t("paymentsCompletion.paymentRequest")}
+                </p>
+              </div>
+            )}
+
+            <div className="flex space-x-3">
+              <button
+                onClick={() => setShowPaymentModal(false)}
+                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md font-medium transition-colors"
+              >
+                {t("paymentsCompletion.cancel")}
+              </button>
+              <button
+                onClick={handlePaymentSubmit}
+                disabled={!selectedProvider || !phoneNumber || isProcessing}
+                className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
+                  !selectedProvider || !phoneNumber || isProcessing
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-[#fdc901] hover:bg-[#e6b800] text-white"
+                }`}
+              >
+                {isProcessing
+                  ? `${t("paymentsCompletion.processing")}`
+                  : `${t("paymentsCompletion.confirmPayment")}`}
+              </button>
+            </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Payment Processing Modal */}
+      {showPaymentProcessing && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full p-6 text-center">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="animate-spin h-8 w-8 text-yellow-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">
+              {t("processPayment.processingPayment")}
+            </h3>
+            <p className="text-gray-600 mb-4">
+              {t("processPayment.paymentRequest")}{" "}
+              <strong>{selectedService?.name}</strong>
+              <br />
+              {t("processPayment.amount")}:{" "}
+              <strong>
+                {selectedService && formatPrice(calculateTotalPrice())}
+              </strong>
+            </p>
+            <div className="bg-yellow-50 p-4 rounded-md text-left">
+              <p className="font-medium text-gray-700">
+                {t("processPayment.checkPhone")}
+              </p>
+              <p className="text-sm text-gray-600 mt-1">
+                {selectedProvider === "mtn" ? (
+                  <>{t("processPayment.paymentInstruction")}</>
+                ) : (
+                  <>{t("processPayment.paymentInstructionAirtel")}</>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </MainLayout>
+  );
+};
+
+const ServiceCard = ({
+  service,
+  handleProceedToPayment,
+  t,
+}: {
+  service: Service;
+  handleProceedToPayment: (service: Service) => void;
+  t: any;
+}) => {
+  return (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
+      <div className="p-6">
+        <div className=" items-center justify-between mb-4">
+          <h3 className="text-xl font-bold text-[#e6b800]">{service.name}</h3>
+          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+            {service.category}
+          </span>
+        </div>
+
+        <p className="text-gray-600 mb-5">{service.description}</p>
+
+        <div className="flex items-center justify-center mb-6">
+          <span className="text-normal font-medium text-black">
+            {service.price}
+          </span>
+        </div>
+
+        <button
+          onClick={() => handleProceedToPayment(service)}
+          className="w-full bg-[#e6b800] hover:bg-[#e6b800] text-white py-2 px-4 rounded-md font-medium transition-colors"
+        >
+          {service.isMonthly
+            ? `${t("servicesPricing.subscribe")}`
+            : `${t("servicesPricing.purchase")}`}
+        </button>
+      </div>
+    </div>
   );
 };

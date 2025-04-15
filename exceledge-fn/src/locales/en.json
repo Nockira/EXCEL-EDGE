@@ -386,5 +386,12 @@
     "title": "No Announcements Yet",
     "message": "Thank you for visiting our announcements page. Currently, there are no announcements available. We encourage you to check back again soon!"
   },
-  "alreadyHaveAccount": "Ufite konti?"
+  "alreadyHaveAccount": "Already have an account?",
+  "tin_management": {
+    "welcome": "Welcome to Exceledge, become a member and benefit from the following:",
+    "tin": "TIN Management",
+    "google": "Google Location Establishment",
+    "library": "Books & Media Library",
+    "accounting_services": "Accounting & Tax Services"
+  }
 }

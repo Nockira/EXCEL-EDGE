@@ -329,5 +329,12 @@
     "title": "Nta Matangazo Araboneka",
     "message": "Murakoze gusura page yacu y'amatangazo. Ubu nta matangazo araboneka. Turabashishikariza kongera kudusura vuba!"
   },
-  "alreadyHaveAccount": "Ufite konti?"
+  "alreadyHaveAccount": "Ufite konti?",
+  "tin_management": {
+    "welcome": "Murakaza neza kuri Exceledge, ibere umunyamuryango maze ugire inyungu zikurikira:",
+    "tin": "Gucunga TIN",
+    "google": "Gushyira Bussines kuri Google",
+    "library": "Isomero ry’Ibitabo",
+    "accounting_services": "Serivisi z’Ibaruramari n’Imisoro"
+  }
 }

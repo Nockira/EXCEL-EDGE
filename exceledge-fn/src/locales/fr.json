@@ -330,5 +330,12 @@
     "title": "Pas encore d'annonces",
     "message": "Merci de visiter notre page des annonces. Actuellement, il n'y a aucune annonce disponible. Nous vous encourageons à revenir bientôt !"
   },
-  "alreadyHaveAccount": "Vous avez déjà un compte ?"
+  "alreadyHaveAccount": "Vous avez déjà un compte ?",
+  "tin_management": {
+    "welcome": "Bienvenue chez Exceledge, devenez membre et profitez des avantages suivants :",
+    "tin": "Gestion du TIN",
+    "google": "Établissement de l’emplacement Google",
+    "library": "Bibliothèque de livres et de médias",
+    "accounting_services": "Services de comptabilité et de fiscalité"
+  }
 }

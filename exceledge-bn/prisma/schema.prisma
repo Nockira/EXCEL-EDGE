@@ -24,6 +24,8 @@ model User {
   Transaction Transaction[]
 
   Announcement Announcement[]
+
+  Book Book[]
 }
 
 model Transaction {
@@ -47,6 +49,24 @@ model Announcement {
   content   String
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+model Book {
+  id            String   @id @default(uuid())
+  title         String
+  author        String
+  language      String
+  coverImageUrl String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  createdBy     User     @relation(fields: [creatorId], references: [id])
+  creatorId     String
+  pdfUrl        String?
+  audioUrl      String?
+  videoUrl      String?
+
+  @@index([title])
+  @@index([author])
 }
 
 enum PaymentMethod {

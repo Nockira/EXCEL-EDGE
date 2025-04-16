@@ -829,6 +829,181 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /books:
+    post:
+      summary: Create a new book
+      security:
+        - BearerAuth: []
+      description: Upload book details along with optional files.
+      tags:
+        - Books
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "Clean Code"
+                author:
+                  type: string
+                  example: "Robert C. Martin"
+                language:
+                  type: string
+                  example: "English"
+                coverImage:
+                  type: string
+                  format: binary
+                pdf:
+                  type: string
+                  format: binary
+                audio:
+                  type: string
+                  format: binary
+                video:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - author
+                - language
+      responses:
+        '201':
+          description: Book created successfully
+        '400':
+          description: Bad request
+        '500':
+          description: Server error
+
+    get:
+      summary: Get all books
+      tags:
+        - Books
+      responses:
+        '200':
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+        '500':
+          description: Server error
+
+  /books/search:
+    get:
+      summary: Filter books
+      tags:
+        - Books
+      parameters:
+        - in: query
+          name: title
+          schema:
+            type: string
+        - in: query
+          name: author
+          schema:
+            type: string
+        - in: query
+          name: language
+          schema:
+            type: string
+        - in: query
+          name: format
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Filtered books
+        '500':
+          description: Server error
+
+  /books/{id}:
+    get:
+      summary: Get a book by ID
+      security:
+        - BearerAuth: []
+      tags:
+        - Books
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book details
+        '404':
+          description: Book not found
+        '500':
+          description: Server error
+
+    patch:
+      summary: Update a book
+      security:
+        - BearerAuth: []
+      tags:
+        - Books
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                author:
+                  type: string
+                language:
+                  type: string
+                coverImage:
+                  type: string
+                  format: binary
+                pdf:
+                  type: string
+                  format: binary
+                audio:
+                  type: string
+                  format: binary
+                video:
+                  type: string
+                  format: binary
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book updated
+        '404':
+          description: Book not found
+        '500':
+          description: Server error
+
+    delete:
+      summary: Delete a book
+      security:
+        - BearerAuth: []
+      tags:
+        - Books
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Book deleted
+        '500':
+          description: Server error
 
 components:
   securitySchemes:
@@ -1121,4 +1296,35 @@ components:
         error:
           type: string
           description: Error message
+    Book:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            title:
+              type: string
+            author:
+              type: string
+            language:
+              type: string
+            coverImageUrl:
+              type: string
+              format: uri
+            pdfUrl:
+              type: string
+              format: uri
+            audioUrl:
+              type: string
+              format: uri
+            videoUrl:
+              type: string
+              format: uri
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+
 

@@ -14,3 +14,22 @@ export interface ILogin {
   phone?: string;
   password: string;
 }
+export interface CreateBookInput {
+  title: string;
+  author: string;
+  language: string;
+  coverImageUrl?: string | null;
+  pdfUrl?: string | null;
+  audioUrl?: string | null;
+  videoUrl?: string | null;
+  creatorId: string;
+}
+export interface UpdateBookInput {
+  title?: string;
+  author?: string;
+  language?: string;
+  coverImageUrl?: string | null;
+  pdfUrl?: string | null;
+  audioUrl?: string | null;
+  videoUrl?: string | null;
+}

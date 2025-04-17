@@ -8,12 +8,30 @@ export const createBook = async (data: CreateBookInput) => {
 
 export const getAllBooks = async () => {
   return await prisma.book.findMany({
+    include: {
+      createdBy: {
+        select: {
+          firstName: true,
+          secondName: true,
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 };
 
 export const getBookById = async (id: string) => {
-  return await prisma.book.findUnique({ where: { id } });
+  return await prisma.book.findUnique({
+    where: { id },
+    include: {
+      createdBy: {
+        select: {
+          firstName: true,
+          secondName: true,
+        },
+      },
+    },
+  });
 };
 
 export const updateBook = async (id: string, data: UpdateBookInput) => {
@@ -48,6 +66,14 @@ export const filterBooks = async ({ title, author, language }: FilterInput) => {
 
   return await prisma.book.findMany({
     where: filters,
+    include: {
+      createdBy: {
+        select: {
+          firstName: true,
+          secondName: true,
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 };

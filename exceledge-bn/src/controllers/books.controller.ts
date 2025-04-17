@@ -10,8 +10,6 @@ import {
 import cloudinary from "../configs/cloudinary";
 import { Readable } from "stream";
 import { UploadApiResponse } from "cloudinary";
-import { prisma } from "../utils/prisma.service";
-
 interface MulterFile {
   fieldname: string;
   originalname: string;
@@ -40,7 +38,12 @@ const uploadToCloudinary = (
     }
 
     const uploadStream = cloudinary.uploader.upload_stream(
-      { resource_type: resourceType },
+      {
+        resource_type: resourceType,
+        use_filename: true,
+        unique_filename: false,
+        filename_override: file.originalname,
+      },
       (error: any, result: UploadApiResponse | undefined) => {
         if (error) {
           return reject(error);
@@ -88,7 +91,10 @@ export const create = async (
     };
 
     const book = await createBook(bookData);
-    res.status(201).json(book);
+    res.status(201).json({
+      message: "New book uploaded successful",
+      book,
+    });
   } catch (err) {
     console.error("Error creating book:", err);
     res.status(500).json({
@@ -103,7 +109,10 @@ export const findAll = async (
 ): Promise<void> => {
   try {
     const books = await getAllBooks();
-    res.status(200).json(books);
+    res.status(200).json({
+      message: "Books",
+      books,
+    });
   } catch (err) {
     res.status(500).json({
       error: err instanceof Error ? err.message : "An unknown error occurred",
@@ -118,7 +127,10 @@ export const findOne = async (
   try {
     const book = await getBookById(req.params.id);
     if (!book) return res.status(404).json({ message: "Book not found" });
-    return res.status(200).json(book);
+    return res.status(200).json({
+      message: "book",
+      book,
+    });
   } catch (err) {
     res.status(500).json({
       error: err instanceof Error ? err.message : "An unknown error occurred",
@@ -157,7 +169,10 @@ export const update = async (req: BookRequest, res: Response) => {
       };
 
       const book = await updateBook(req.params.id, bookData);
-      res.status(200).json(book);
+      res.status(200).json({
+        message: "Books details updated successful",
+        book,
+      });
     }
   } catch (err) {
     console.error("Error updating book:", err);
@@ -169,8 +184,13 @@ export const update = async (req: BookRequest, res: Response) => {
 
 export const remove = async (req: ExpressRequest, res: Response) => {
   try {
-    await deleteBook(req.params.id);
-    res.status(204).send();
+    const existingBook = await getBookById(req.params.id);
+    if (!existingBook) {
+      res.status(404).json({ message: "Book not found" });
+    } else {
+      await deleteBook(req.params.id);
+      res.status(204).send({ message: "Book deleted successful" });
+    }
   } catch (err) {
     res.status(500).json({
       error: err instanceof Error ? err.message : "An unknown error occurred",
@@ -187,7 +207,10 @@ export const search = async (req: ExpressRequest, res: Response) => {
       language: typeof language === "string" ? language : undefined,
       format: typeof format === "string" ? format : undefined,
     });
-    res.status(200).json(books);
+    res.status(200).json({
+      message: "search funds",
+      books,
+    });
   } catch (err) {
     res.status(500).json({
       error: err instanceof Error ? err.message : "An unknown error occurred",

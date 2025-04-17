@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createBookSchema } from "../../../schemas/bookSchema";
 import {
   FiBook,
   FiDownload,
@@ -10,22 +11,32 @@ import {
   FiVideo,
   FiChevronLeft,
   FiChevronRight,
+  FiEdit,
+  FiTrash2,
+  FiImage,
 } from "react-icons/fi";
+import * as yup from "yup";
 
-interface Resource {
+interface Book {
   id: number;
-  name: string;
+  title: string;
+  author: string;
   type: string;
   date: string;
   language: string;
   downloads: number;
+  coverImageFile?: File;
+  pdfFile?: File;
+  audioFile?: File;
+  videoFile?: File;
 }
 
 export const Resources = () => {
-  const [resources, setResources] = useState<Resource[]>([
+  const [books, setBooks] = useState<Book[]>([
     {
       id: 1,
-      name: "User Guide",
+      title: "User Guide",
+      author: "Admin Team",
       type: "PDF",
       date: "2023-06-15",
       language: "English",
@@ -33,7 +44,8 @@ export const Resources = () => {
     },
     {
       id: 2,
-      name: "Tutorial Video",
+      title: "Tutorial Video",
+      author: "Video Team",
       type: "Video",
       date: "2023-06-10",
       language: "Kinyarwanda",
@@ -41,16 +53,17 @@ export const Resources = () => {
     },
     {
       id: 3,
-      name: "Training Audio",
+      title: "Training Audio",
+      author: "Audio Team",
       type: "Audio",
       date: "2023-06-05",
       language: "French",
       downloads: 567,
     },
-    // Add more dummy data as needed
     ...Array.from({ length: 25 }, (_, i) => ({
       id: i + 4,
-      name: `Resource ${i + 4}`,
+      title: `Book ${i + 4}`,
+      author: `Author ${i + 4}`,
       type: ["PDF", "Video", "Audio"][Math.floor(Math.random() * 3)],
       date: new Date(Date.now() - Math.floor(Math.random() * 10000000000))
         .toISOString()
@@ -65,58 +78,166 @@ export const Resources = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newResource, setNewResource] = useState({
-    name: "",
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currentBook, setCurrentBook] = useState<Book | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [newBook, setNewBook] = useState<
+    Omit<Book, "id" | "date" | "downloads"> & {
+      coverImageFile?: File;
+      pdfFile?: File;
+      audioFile?: File;
+      videoFile?: File;
+    }
+  >({
+    title: "",
+    author: "",
     type: "PDF",
     language: "English",
-    file: null as File | null,
   });
-  const resourcesPerPage = 10;
 
-  // Filter resources based on search term
-  const filteredResources = resources.filter(
-    (resource) =>
-      resource.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      resource.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      resource.language.toLowerCase().includes(searchTerm.toLowerCase())
+  const booksPerPage = 10;
+
+  // Filter books based on search term
+  const filteredBooks = books.filter(
+    (book) =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.language.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Pagination logic
-  const indexOfLastResource = currentPage * resourcesPerPage;
-  const indexOfFirstResource = indexOfLastResource - resourcesPerPage;
-  const currentResources = filteredResources.slice(
-    indexOfFirstResource,
-    indexOfLastResource
-  );
-  const totalPages = Math.ceil(filteredResources.length / resourcesPerPage);
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setNewResource({ ...newResource, file: e.target.files[0] });
+  const handleFileChange =
+    (field: "coverImageFile" | "pdfFile" | "audioFile" | "videoFile") =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files[0]) {
+        setNewBook({ ...newBook, [field]: e.target.files[0] });
+        // Clear any previous errors for this field
+        setErrors({ ...errors, [field]: "" });
+      }
+    };
+
+  const validateForm = async (): Promise<boolean> => {
+    try {
+      // Create a modified schema that doesn't require URLs
+      const modifiedSchema = createBookSchema.shape({
+        coverImageUrl: yup.mixed().notRequired(),
+        pdfUrl: yup.mixed().notRequired(),
+        audioUrl: yup.mixed().notRequired(),
+        videoUrl: yup.mixed().notRequired(),
+      });
+
+      await modifiedSchema.validate(newBook, { abortEarly: false });
+      setErrors({});
+      return true;
+    } catch (error: any) {
+      if (error.name === "ValidationError") {
+        const validationErrors: Record<string, string> = {};
+
+        error.inner.forEach((err: any) => {
+          if (err.path) {
+            validationErrors[err.path] = err.message;
+          }
+        });
+
+        setErrors(validationErrors);
+      }
+      return false;
     }
   };
 
-  const handleUpload = () => {
-    if (newResource.name && newResource.file) {
-      const newResourceItem: Resource = {
-        id: resources.length + 1,
-        name: newResource.name,
-        type: newResource.type,
+  const handleCreateOrUpdate = async () => {
+    if (!(await validateForm())) return;
+
+    if (isEditMode && currentBook) {
+      // Update existing book
+      const updatedBooks = books.map((book) =>
+        book.id === currentBook.id
+          ? {
+              ...newBook,
+              id: currentBook.id,
+              date: currentBook.date,
+              downloads: currentBook.downloads,
+            }
+          : book
+      );
+      setBooks(updatedBooks);
+    } else {
+      // Create new book
+      const newBookItem: Book = {
+        id: books.length + 1,
+        title: newBook.title,
+        author: newBook.author,
+        type: newBook.type,
         date: new Date().toISOString().split("T")[0],
-        language: newResource.language,
+        language: newBook.language,
         downloads: 0,
+        coverImageFile: newBook.coverImageFile,
+        pdfFile: newBook.pdfFile,
+        audioFile: newBook.audioFile,
+        videoFile: newBook.videoFile,
       };
-      setResources([newResourceItem, ...resources]);
-      setIsModalOpen(false);
-      setNewResource({
-        name: "",
-        type: "PDF",
-        language: "English",
-        file: null,
-      });
+      setBooks([newBookItem, ...books]);
     }
+
+    resetForm();
+    setIsModalOpen(false);
+  };
+
+  const handleEdit = (book: Book) => {
+    setCurrentBook(book);
+    setIsEditMode(true);
+    setNewBook({
+      title: book.title,
+      author: book.author,
+      type: book.type,
+      language: book.language,
+      coverImageFile: book.coverImageFile,
+      pdfFile: book.pdfFile,
+      audioFile: book.audioFile,
+      videoFile: book.videoFile,
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = (id: number) => {
+    if (window.confirm("Are you sure you want to delete this book?")) {
+      setBooks(books.filter((book) => book.id !== id));
+    }
+  };
+
+  const handleDownload = (book: Book) => {
+    // In a real app, this would trigger the actual download from the uploaded file
+    console.log(`Downloading ${book.title}`);
+    // Update download count
+    setBooks(
+      books.map((b) =>
+        b.id === book.id ? { ...b, downloads: b.downloads + 1 } : b
+      )
+    );
+
+    // Simulate download (in a real app, you would use the actual file)
+    alert(`Downloading ${book.title} (${book.type})`);
+  };
+
+  const resetForm = () => {
+    setNewBook({
+      title: "",
+      author: "",
+      type: "PDF",
+      language: "English",
+    });
+    setErrors({});
+    setIsEditMode(false);
+    setCurrentBook(null);
   };
 
   const getFileIcon = (type: string) => {
@@ -134,13 +255,16 @@ export const Resources = () => {
     <div className="p-4 sm:p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold flex items-center">
-          <FiBook className="mr-2" /> Resources
+          <FiBook className="mr-2" /> Books
         </h2>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            resetForm();
+            setIsModalOpen(true);
+          }}
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg flex items-center"
         >
-          <FiUpload className="mr-2" /> Upload New
+          <FiUpload className="mr-2" /> Add New Book
         </button>
       </div>
 
@@ -149,7 +273,7 @@ export const Resources = () => {
           <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Search resources..."
+            placeholder="Search books..."
             className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
             value={searchTerm}
             onChange={(e) => {
@@ -166,7 +290,10 @@ export const Resources = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
+                  Title
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Author
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Type
@@ -183,29 +310,46 @@ export const Resources = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {currentResources.length > 0 ? (
-                currentResources.map((resource) => (
-                  <tr key={resource.id}>
+              {currentBooks.length > 0 ? (
+                currentBooks.map((book) => (
+                  <tr key={book.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {resource.name}
+                        {book.title}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-500">{book.author}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                        {getFileIcon(resource.type)} {resource.type}
+                        {getFileIcon(book.type)} {book.type}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {resource.language}
+                      {book.language}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(resource.date).toLocaleDateString()}
+                      {new Date(book.date).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button className="text-yellow-600 hover:text-yellow-900 mr-3 flex items-center">
-                        <FiDownload className="mr-1" /> Download (
-                        {resource.downloads})
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                      <button
+                        onClick={() => handleDownload(book)}
+                        className="text-yellow-600 hover:text-yellow-900 flex items-center"
+                      >
+                        <FiDownload className="mr-1" /> ({book.downloads})
+                      </button>
+                      <button
+                        onClick={() => handleEdit(book)}
+                        className="text-blue-600 hover:text-blue-900 flex items-center"
+                      >
+                        <FiEdit className="mr-1" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(book.id)}
+                        className="text-red-600 hover:text-red-900 flex items-center"
+                      >
+                        <FiTrash2 className="mr-1" />
                       </button>
                     </td>
                   </tr>
@@ -213,10 +357,10 @@ export const Resources = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={6}
                     className="px-6 py-4 text-center text-sm text-gray-500"
                   >
-                    No resources found
+                    No books found
                   </td>
                 </tr>
               )}
@@ -225,7 +369,7 @@ export const Resources = () => {
         </div>
 
         {/* Pagination */}
-        {filteredResources.length > resourcesPerPage && (
+        {filteredBooks.length > booksPerPage && (
           <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
             <div className="flex-1 flex justify-between sm:hidden">
               <button
@@ -255,17 +399,11 @@ export const Resources = () => {
               <div>
                 <p className="text-sm text-gray-700">
                   Showing{" "}
+                  <span className="font-medium">{indexOfFirstBook + 1}</span> to{" "}
                   <span className="font-medium">
-                    {indexOfFirstResource + 1}
+                    {Math.min(indexOfLastBook, filteredBooks.length)}
                   </span>{" "}
-                  to{" "}
-                  <span className="font-medium">
-                    {Math.min(indexOfLastResource, filteredResources.length)}
-                  </span>{" "}
-                  of{" "}
-                  <span className="font-medium">
-                    {filteredResources.length}
-                  </span>{" "}
+                  of <span className="font-medium">{filteredBooks.length}</span>{" "}
                   results
                 </p>
               </div>
@@ -320,116 +458,263 @@ export const Resources = () => {
         )}
       </div>
 
-      {/* Upload Modal */}
+      {/* Book Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl">
             <div className="p-4 border-b flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Upload New Resource</h3>
+              <h3 className="text-lg font-semibold">
+                {isEditMode ? "Edit Book" : "Add New Book"}
+              </h3>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  resetForm();
+                }}
                 className="text-gray-500 hover:text-gray-700"
               >
                 <FiX size={20} />
               </button>
             </div>
             <div className="p-4">
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Resource Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                  value={newResource.name}
-                  onChange={(e) =>
-                    setNewResource({ ...newResource, name: e.target.value })
-                  }
-                  placeholder="Enter resource name"
-                />
+              {/* First row - Title and Author */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Title*
+                  </label>
+                  <input
+                    type="text"
+                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                      errors.title
+                        ? "border-red-500 focus:ring-red-200"
+                        : "focus:ring-yellow-400"
+                    }`}
+                    value={newBook.title}
+                    onChange={(e) =>
+                      setNewBook({ ...newBook, title: e.target.value })
+                    }
+                    placeholder="Enter book title"
+                  />
+                  {errors.title && (
+                    <p className="text-red-500 text-xs mt-1">{errors.title}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Author*
+                  </label>
+                  <input
+                    type="text"
+                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                      errors.author
+                        ? "border-red-500 focus:ring-red-200"
+                        : "focus:ring-yellow-400"
+                    }`}
+                    value={newBook.author}
+                    onChange={(e) =>
+                      setNewBook({ ...newBook, author: e.target.value })
+                    }
+                    placeholder="Enter author name"
+                  />
+                  {errors.author && (
+                    <p className="text-red-500 text-xs mt-1">{errors.author}</p>
+                  )}
+                </div>
               </div>
 
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Resource Type
-                </label>
-                <select
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                  value={newResource.type}
-                  onChange={(e) =>
-                    setNewResource({ ...newResource, type: e.target.value })
-                  }
-                >
-                  <option value="PDF">Document (PDF)</option>
-                  <option value="Video">Video</option>
-                  <option value="Audio">Audio</option>
-                </select>
+              {/* Second row - Type and Language */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Book Type
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                    value={newBook.type}
+                    onChange={(e) =>
+                      setNewBook({ ...newBook, type: e.target.value })
+                    }
+                  >
+                    <option value="PDF">Document (PDF)</option>
+                    <option value="Video">Video</option>
+                    <option value="Audio">Audio</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Language*
+                  </label>
+                  <select
+                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                      errors.language
+                        ? "border-red-500 focus:ring-red-200"
+                        : "focus:ring-yellow-400"
+                    }`}
+                    value={newBook.language}
+                    onChange={(e) =>
+                      setNewBook({ ...newBook, language: e.target.value })
+                    }
+                  >
+                    <option value="English">English</option>
+                    <option value="Kinyarwanda">Kinyarwanda</option>
+                    <option value="French">French</option>
+                  </select>
+                  {errors.language && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.language}
+                    </p>
+                  )}
+                </div>
               </div>
 
+              {/* Third row - Cover Image Upload */}
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Language
-                </label>
-                <select
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                  value={newResource.language}
-                  onChange={(e) =>
-                    setNewResource({ ...newResource, language: e.target.value })
-                  }
-                >
-                  <option value="English">English</option>
-                  <option value="Kinyarwanda">Kinyarwanda</option>
-                  <option value="French">French</option>
-                </select>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  File
+                  Cover Image
                 </label>
                 <div className="flex items-center justify-center w-full">
-                  <label className="flex flex-col w-full h-32 border-2 border-dashed rounded-lg hover:bg-gray-50 hover:border-gray-300">
-                    <div className="flex flex-col items-center justify-center pt-7">
-                      <FiUpload className="w-8 h-8 text-gray-400" />
-                      <p className="pt-1 text-sm text-gray-500">
-                        {newResource.file
-                          ? newResource.file.name
-                          : "Drag and drop your file here or click to browse"}
-                      </p>
+                  <label className="flex flex-col w-full h-20 border-2 border-dashed rounded-lg hover:bg-gray-50 hover:border-gray-300">
+                    <div className="flex flex-col items-center justify-center pt-2">
+                      {newBook.coverImageFile ? (
+                        <>
+                          <FiImage className="w-6 h-6 text-gray-400" />
+                          <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
+                            {newBook.coverImageFile.name}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <FiUpload className="w-6 h-6 text-gray-400" />
+                          <p className="pt-1 text-xs text-gray-500">
+                            Click to browse cover image
+                          </p>
+                        </>
+                      )}
                     </div>
                     <input
                       type="file"
                       className="opacity-0"
-                      onChange={handleFileChange}
+                      onChange={handleFileChange("coverImageFile")}
+                      accept="image/*"
+                    />
+                  </label>
+                </div>
+                {errors.coverImageFile && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.coverImageFile}
+                  </p>
+                )}
+              </div>
+
+              {/* Fourth row - Content File Upload */}
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  {newBook.type === "PDF"
+                    ? "PDF File"
+                    : newBook.type === "Video"
+                    ? "Video File"
+                    : "Audio File"}
+                </label>
+                <div className="flex items-center justify-center w-full">
+                  <label className="flex flex-col w-full h-20 border-2 border-dashed rounded-lg hover:bg-gray-50 hover:border-gray-300">
+                    <div className="flex flex-col items-center justify-center pt-2">
+                      {newBook.type === "PDF" && newBook.pdfFile ? (
+                        <>
+                          <FiFile className="w-6 h-6 text-gray-400" />
+                          <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
+                            {newBook.pdfFile.name}
+                          </p>
+                        </>
+                      ) : newBook.type === "Video" && newBook.videoFile ? (
+                        <>
+                          <FiVideo className="w-6 h-6 text-gray-400" />
+                          <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
+                            {newBook.videoFile.name}
+                          </p>
+                        </>
+                      ) : newBook.type === "Audio" && newBook.audioFile ? (
+                        <>
+                          <FiMusic className="w-6 h-6 text-gray-400" />
+                          <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
+                            {newBook.audioFile.name}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <FiUpload className="w-6 h-6 text-gray-400" />
+                          <p className="pt-1 text-xs text-gray-500">
+                            Click to browse{" "}
+                            {newBook.type === "PDF"
+                              ? "PDF"
+                              : newBook.type === "Video"
+                              ? "video"
+                              : "audio"}{" "}
+                            file
+                          </p>
+                        </>
+                      )}
+                    </div>
+                    <input
+                      type="file"
+                      className="opacity-0"
+                      onChange={
+                        newBook.type === "PDF"
+                          ? handleFileChange("pdfFile")
+                          : newBook.type === "Video"
+                          ? handleFileChange("videoFile")
+                          : handleFileChange("audioFile")
+                      }
                       accept={
-                        newResource.type === "PDF"
+                        newBook.type === "PDF"
                           ? ".pdf"
-                          : newResource.type === "Video"
+                          : newBook.type === "Video"
                           ? "video/*"
                           : "audio/*"
                       }
                     />
                   </label>
                 </div>
+                {(errors.pdfFile || errors.videoFile || errors.audioFile) && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.pdfFile || errors.videoFile || errors.audioFile}
+                  </p>
+                )}
               </div>
 
-              <div className="flex justify-end space-x-2">
+              {/* Action buttons */}
+              <div className="flex justify-end space-x-2 mt-6">
                 <button
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    resetForm();
+                  }}
                   className="px-4 py-2 border rounded-lg hover:bg-gray-100"
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={handleUpload}
-                  disabled={!newResource.name || !newResource.file}
+                  onClick={handleCreateOrUpdate}
+                  disabled={
+                    !newBook.title ||
+                    !newBook.author ||
+                    !newBook.language ||
+                    (newBook.type === "PDF" && !newBook.pdfFile) ||
+                    (newBook.type === "Video" && !newBook.videoFile) ||
+                    (newBook.type === "Audio" && !newBook.audioFile)
+                  }
                   className={`px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 ${
-                    !newResource.name || !newResource.file
+                    !newBook.title ||
+                    !newBook.author ||
+                    !newBook.language ||
+                    (newBook.type === "PDF" && !newBook.pdfFile) ||
+                    (newBook.type === "Video" && !newBook.videoFile) ||
+                    (newBook.type === "Audio" && !newBook.audioFile)
                       ? "opacity-50 cursor-not-allowed"
                       : ""
                   }`}
                 >
-                  Upload
+                  {isEditMode ? "Update Book" : "Add Book"}
                 </button>
               </div>
             </div>

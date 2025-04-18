@@ -8,8 +8,6 @@ export const createBookSchema = yup.object({
     .min(2, "Language must be at least 2 characters")
     .max(50, "Language must be at most 50 characters")
     .required("Language is required"),
-  type: yup.string().required("Type is required"),
-
   coverImageFile: yup
     .mixed<File>()
     .test("fileType", "Please upload an image file", (value) => {
@@ -18,13 +16,29 @@ export const createBookSchema = yup.object({
     }),
 
   pdfFile: yup.mixed<File>().when("type", ([type], schema) => {
-    return type === "PDF"
-      ? schema
-          .required("PDF file is required")
-          .test("fileType", "Please upload a PDF file", (value) => {
-            return value && value.type === "application/pdf";
-          })
-      : schema.notRequired();
+    if (type === "DOCUMENT") {
+      return schema
+        .required("A document file is required")
+        .test(
+          "fileType",
+          "Only PDF, DOC, DOCX, TXT or ODT files are allowed",
+          (value) => {
+            if (!value) return false;
+
+            const allowedTypes = [
+              "application/pdf",
+              "application/msword",
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              "text/plain",
+              "application/vnd.oasis.opendocument.text",
+            ];
+
+            return allowedTypes.includes(value.type);
+          }
+        );
+    }
+
+    return schema.notRequired();
   }),
 
   videoFile: yup.mixed<File>().when("type", ([type], schema) => {

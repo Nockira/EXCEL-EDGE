@@ -283,3 +283,43 @@ export const deleteAnnouncement = async (id: string) => {
     throw error;
   }
 };
+
+export const getAllBooks = async () => {
+  try {
+    const response = await api.get(`/books`);
+    return response.data.books;
+  } catch (error) {
+    console.error("Error deleting user user profile:", error);
+    throw error;
+  }
+};
+
+export const uploadBook = async (data: FormData) => {
+  try {
+    const response = await api.post("/books", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user user profile:", error);
+    throw error;
+  }
+};
+
+export const updateBook = async (id: string, data: FormData) => {
+  try {
+    const response = await api.patch(`/books/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user user profile:", error);
+    throw error;
+  }
+};

@@ -83,13 +83,13 @@ export const create = async (
 
     const bookData = {
       ...req.body,
+      type: req.body.type?.split(",").map((t: string) => t.trim()),
       creatorId: user.id,
       coverImageUrl,
       pdfUrl,
       audioUrl,
       videoUrl,
     };
-
     const book = await createBook(bookData);
     res.status(201).json({
       message: "New book uploaded successful",
@@ -162,6 +162,7 @@ export const update = async (req: BookRequest, res: Response) => {
 
       const bookData = {
         ...req.body,
+        type: req.body.type?.split(",").map((t: string) => t.trim()),
         coverImageUrl,
         pdfUrl,
         audioUrl,

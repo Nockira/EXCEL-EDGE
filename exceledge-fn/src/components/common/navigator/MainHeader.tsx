@@ -37,6 +37,7 @@ export const MainHeader: React.FC = () => {
     { to: "/services", label: t("navigation.services") },
     { to: "/questions", label: t("navigation.faq") },
     { to: "/pricing", label: t("navigation.pricing") },
+    { to: "/books", label: t("navigation.book") },
     { to: "/pages/announcements", label: t("navigation.announcements") },
   ];
 

@@ -15,6 +15,7 @@ import { Payments } from "../components/common/dashboards/Payment";
 import { Resources } from "../components/common/dashboards/Resources";
 import { AnnouncementsDashboard } from "../components/common/dashboards/Announcement";
 import { Profile } from "../pages/Profile";
+import { BookLibrary } from "../pages/Books";
 
 const Home = lazy(() => import("../pages/Home"));
 const About = lazy(() => import("../pages/About"));
@@ -35,6 +36,7 @@ const AppRoutes = () => {
         <Route path="/questions" element={<Questions />} />
         <Route path="/services" element={<Service />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/books" element={<BookLibrary />} />
         <Route path="/pages/announcements" element={<Announcements />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-in" element={<UserRegister />} />

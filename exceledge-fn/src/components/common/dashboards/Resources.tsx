@@ -302,7 +302,7 @@ export const Resources = () => {
             resetForm();
             setIsModalOpen(true);
           }}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg flex items-center"
+          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg flex items-center sm:text-normal text-sm"
         >
           <FiUpload className="mr-2" /> Add New Book
         </button>
@@ -529,7 +529,7 @@ export const Resources = () => {
       {/* Book Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl h-[80vh] overflow-y-auto">
             <div className="p-4 border-b flex justify-between items-center">
               <h3 className="text-lg font-semibold">
                 {isEditMode ? "Edit Book" : "Add New Book"}

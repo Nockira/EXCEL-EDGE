@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 export const HeroSection = () => {
   const { t } = useTranslation<string>();
+  const token = localStorage.getItem("accessToken") || "";
 
   return (
     <div className="h-[80vh] w-full items-center justify-center text-white overflow-hidden">
@@ -25,19 +26,24 @@ export const HeroSection = () => {
         <p className="sm:text-lg sm:block hidden text-normal w-[90%] sm:w-[60%] mb-6">
           {t("hero.description")}
         </p>
-
-        <Link
-          to="/sign-in"
-          className="sm:mt-6 mt-2 sm:inline-block hidden bg-[#fdc901] text-white px-6 sm:py-3 py-2 rounded-lg text-lg font-semibold hover:text-black transition"
-        >
-          {t("hero.join")}
-        </Link>
-        <Link
-          to="/login"
-          className="sm:mt-6 mt-2 sm:hidden inline-block bg-[#fdc901] text-center text-white px-6 sm:py-3 py-2 rounded-lg text-lg font-semibold hover:text-black w-full transition"
-        >
-          {t("hero.login")}
-        </Link>
+        {!token ? (
+          <div>
+            <Link
+              to="/sign-in"
+              className="sm:mt-6 mt-2 sm:inline-block hidden bg-[#fdc901] text-white px-6 sm:py-3 py-2 rounded-lg text-lg font-semibold hover:text-black transition"
+            >
+              {t("hero.join")}
+            </Link>
+            <Link
+              to="/login"
+              className="sm:mt-6 mt-2 sm:hidden inline-block bg-[#fdc901] text-center text-white px-6 sm:py-3 py-2 rounded-full text-lg font-semibold hover:text-black w-full transition"
+            >
+              {t("hero.login")}
+            </Link>
+          </div>
+        ) : (
+          " "
+        )}
       </div>
     </div>
   );

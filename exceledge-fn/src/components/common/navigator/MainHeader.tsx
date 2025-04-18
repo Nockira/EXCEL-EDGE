@@ -98,7 +98,7 @@ export const MainHeader: React.FC = () => {
     setIsLoggedIn(false);
     setUserData(null);
     localStorage.removeItem("accessToken");
-    navigate("/");
+    navigate("/", { replace: true });
     toast.success("Logged out successfully");
   };
 

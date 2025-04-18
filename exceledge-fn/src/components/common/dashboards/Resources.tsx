@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createBookSchema } from "../../../schemas/bookSchema";
+import { BeatLoader } from "react-spinners";
 import {
   FiBook,
-  FiDownload,
   FiUpload,
   FiSearch,
   FiX,
@@ -16,13 +16,15 @@ import {
   FiImage,
 } from "react-icons/fi";
 import * as yup from "yup";
+import { getAllBooks, uploadBook, updateBook } from "../../../services/service";
+import { toast } from "react-toastify";
 
 interface Book {
   id: number;
   title: string;
   author: string;
-  type: string;
-  date: string;
+  type: string[];
+  createdAt: string;
   language: string;
   downloads: number;
   coverImageFile?: File;
@@ -32,48 +34,28 @@ interface Book {
 }
 
 export const Resources = () => {
-  const [books, setBooks] = useState<Book[]>([
-    {
-      id: 1,
-      title: "User Guide",
-      author: "Admin Team",
-      type: "PDF",
-      date: "2023-06-15",
-      language: "English",
-      downloads: 1245,
-    },
-    {
-      id: 2,
-      title: "Tutorial Video",
-      author: "Video Team",
-      type: "Video",
-      date: "2023-06-10",
-      language: "Kinyarwanda",
-      downloads: 892,
-    },
-    {
-      id: 3,
-      title: "Training Audio",
-      author: "Audio Team",
-      type: "Audio",
-      date: "2023-06-05",
-      language: "French",
-      downloads: 567,
-    },
-    ...Array.from({ length: 25 }, (_, i) => ({
-      id: i + 4,
-      title: `Book ${i + 4}`,
-      author: `Author ${i + 4}`,
-      type: ["PDF", "Video", "Audio"][Math.floor(Math.random() * 3)],
-      date: new Date(Date.now() - Math.floor(Math.random() * 10000000000))
-        .toISOString()
-        .split("T")[0],
-      language: ["English", "Kinyarwanda", "French"][
-        Math.floor(Math.random() * 3)
-      ],
-      downloads: Math.floor(Math.random() * 1000),
-    })),
-  ]);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [err, setErr] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const allBooks = await getAllBooks();
+        setBooks(allBooks);
+      } catch (error) {
+        if (error instanceof Error) {
+          setErr(new Error(error.message));
+        } else {
+          setErr(new Error("An unknown error occurred"));
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBooks();
+  }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,9 +63,12 @@ export const Resources = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentBook, setCurrentBook] = useState<Book | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState<number | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const [newBook, setNewBook] = useState<
-    Omit<Book, "id" | "date" | "downloads"> & {
+    Omit<Book, "id" | "createdAt" | "downloads"> & {
       coverImageFile?: File;
       pdfFile?: File;
       audioFile?: File;
@@ -92,22 +77,23 @@ export const Resources = () => {
   >({
     title: "",
     author: "",
-    type: "PDF",
+    type: ["PDF"],
     language: "English",
   });
 
+  const bookTypes = ["PDF", "Video", "Audio"];
+
   const booksPerPage = 10;
+  const filteredBooks = books.filter((book) => {
+    const search = searchTerm.toLowerCase();
+    return (
+      (book.title?.toLowerCase() || "").includes(search) ||
+      (book.author?.toLowerCase() || "").includes(search) ||
+      book.type.some((type) => type.toLowerCase().includes(search)) ||
+      (book.language?.toLowerCase() || "").includes(search)
+    );
+  });
 
-  // Filter books based on search term
-  const filteredBooks = books.filter(
-    (book) =>
-      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.language.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  // Pagination logic
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
@@ -120,14 +106,31 @@ export const Resources = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {
         setNewBook({ ...newBook, [field]: e.target.files[0] });
-        // Clear any previous errors for this field
         setErrors({ ...errors, [field]: "" });
       }
     };
 
+  const handleTypeChange = (type: string) => {
+    setNewBook((prev) => {
+      if (prev.type.includes(type)) {
+        return {
+          ...prev,
+          type: prev.type.filter((t) => t !== type),
+          ...(type === "pdf" && { pdfFile: undefined }),
+          ...(type === "audio" && { audioFile: undefined }),
+          ...(type === "video" && { videoFile: undefined }),
+        };
+      } else {
+        return {
+          ...prev,
+          type: [...prev.type, type],
+        };
+      }
+    });
+  };
+
   const validateForm = async (): Promise<boolean> => {
     try {
-      // Create a modified schema that doesn't require URLs
       const modifiedSchema = createBookSchema.shape({
         coverImageUrl: yup.mixed().notRequired(),
         pdfUrl: yup.mixed().notRequired(),
@@ -157,39 +160,72 @@ export const Resources = () => {
   const handleCreateOrUpdate = async () => {
     if (!(await validateForm())) return;
 
-    if (isEditMode && currentBook) {
-      // Update existing book
-      const updatedBooks = books.map((book) =>
-        book.id === currentBook.id
-          ? {
-              ...newBook,
-              id: currentBook.id,
-              date: currentBook.date,
-              downloads: currentBook.downloads,
-            }
-          : book
-      );
-      setBooks(updatedBooks);
-    } else {
-      // Create new book
-      const newBookItem: Book = {
-        id: books.length + 1,
-        title: newBook.title,
-        author: newBook.author,
-        type: newBook.type,
-        date: new Date().toISOString().split("T")[0],
-        language: newBook.language,
-        downloads: 0,
-        coverImageFile: newBook.coverImageFile,
-        pdfFile: newBook.pdfFile,
-        audioFile: newBook.audioFile,
-        videoFile: newBook.videoFile,
-      };
-      setBooks([newBookItem, ...books]);
-    }
+    setIsLoading(true);
 
-    resetForm();
-    setIsModalOpen(false);
+    try {
+      const formData = new FormData();
+
+      // Always send these fields for new books
+      const isNew = !isEditMode || !currentBook;
+
+      if (isNew || newBook.title !== currentBook.title) {
+        formData.append("title", newBook.title);
+      }
+
+      if (isNew || newBook.author !== currentBook.author) {
+        formData.append("author", newBook.author);
+      }
+
+      if (isNew || newBook.language !== currentBook.language) {
+        formData.append("language", newBook.language);
+      }
+
+      if (
+        isNew ||
+        newBook.type.sort().join(",") !== currentBook.type.sort().join(",")
+      ) {
+        formData.append("type", newBook.type.join(","));
+      }
+
+      if (newBook.coverImageFile) {
+        formData.append("coverImage", newBook.coverImageFile);
+      }
+
+      if (newBook.type.includes("PDF") && newBook.pdfFile) {
+        formData.append("pdf", newBook.pdfFile);
+      }
+
+      if (newBook.type.includes("Audio") && newBook.audioFile) {
+        formData.append("audio", newBook.audioFile);
+      }
+
+      if (newBook.type.includes("Video") && newBook.videoFile) {
+        formData.append("video", newBook.videoFile);
+      }
+
+      if (isEditMode && currentBook) {
+        await updateBook(currentBook.id.toString(), formData);
+        const allBooks = await getAllBooks();
+        setBooks(allBooks);
+        toast.success("Book updated successfully");
+      } else {
+        await uploadBook(formData);
+        const allBooks = await getAllBooks();
+        setBooks(allBooks);
+        toast.success("New book created successfully");
+      }
+
+      resetForm();
+      setIsModalOpen(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`Error saving book: ${error.message}`);
+      } else {
+        toast.error("An unknown error occurred while saving the book.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleEdit = (book: Book) => {
@@ -208,31 +244,33 @@ export const Resources = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (id: number) => {
-    if (window.confirm("Are you sure you want to delete this book?")) {
-      setBooks(books.filter((book) => book.id !== id));
-    }
+  const handleDeleteClick = (id: number) => {
+    setBookToDelete(id);
+    setShowDeleteModal(true);
   };
 
-  const handleDownload = (book: Book) => {
-    // In a real app, this would trigger the actual download from the uploaded file
-    console.log(`Downloading ${book.title}`);
-    // Update download count
-    setBooks(
-      books.map((b) =>
-        b.id === book.id ? { ...b, downloads: b.downloads + 1 } : b
-      )
-    );
+  const confirmDelete = async () => {
+    if (bookToDelete === null) return;
 
-    // Simulate download (in a real app, you would use the actual file)
-    alert(`Downloading ${book.title} (${book.type})`);
+    setDeleteLoading(true);
+    try {
+      // await deleteBook(bookToDelete.toString());
+      setBooks(books.filter((book) => book.id !== bookToDelete));
+      toast.success("Book deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete book");
+    } finally {
+      setDeleteLoading(false);
+      setShowDeleteModal(false);
+      setBookToDelete(null);
+    }
   };
 
   const resetForm = () => {
     setNewBook({
       title: "",
       author: "",
-      type: "PDF",
+      type: ["PDF"],
       language: "English",
     });
     setErrors({});
@@ -240,15 +278,17 @@ export const Resources = () => {
     setCurrentBook(null);
   };
 
-  const getFileIcon = (type: string) => {
-    switch (type) {
-      case "Video":
-        return <FiVideo className="inline mr-1" />;
-      case "Audio":
-        return <FiMusic className="inline mr-1" />;
-      default:
-        return <FiFile className="inline mr-1" />;
-    }
+  const getFileIcons = (type: string[]) => {
+    return type.map((type) => {
+      switch (type) {
+        case "Video":
+          return <FiVideo key={type} className="inline mr-1" />;
+        case "Audio":
+          return <FiMusic key={type} className="inline mr-1" />;
+        default:
+          return <FiFile key={type} className="inline mr-1" />;
+      }
+    });
   };
 
   return (
@@ -310,7 +350,34 @@ export const Resources = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {currentBooks.length > 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-4 text-center">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg
+                        className="animate-spin h-8 w-8 text-yellow-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </td>
+                </tr>
+              ) : currentBooks.length > 0 ? (
                 currentBooks.map((book) => (
                   <tr key={book.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -322,23 +389,24 @@ export const Resources = () => {
                       <div className="text-sm text-gray-500">{book.author}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                        {getFileIcon(book.type)} {book.type}
-                      </span>
+                      <div className="flex flex-wrap gap-1">
+                        {book.type.map((type) => (
+                          <span
+                            key={type}
+                            className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"
+                          >
+                            {getFileIcons([type])} {type}
+                          </span>
+                        ))}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {book.language}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(book.date).toLocaleDateString()}
+                      {new Date(book.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                      <button
-                        onClick={() => handleDownload(book)}
-                        className="text-yellow-600 hover:text-yellow-900 flex items-center"
-                      >
-                        <FiDownload className="mr-1" /> ({book.downloads})
-                      </button>
+                    <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                       <button
                         onClick={() => handleEdit(book)}
                         className="text-blue-600 hover:text-blue-900 flex items-center"
@@ -346,7 +414,7 @@ export const Resources = () => {
                         <FiEdit className="mr-1" />
                       </button>
                       <button
-                        onClick={() => handleDelete(book.id)}
+                        onClick={() => handleDeleteClick(book.id)}
                         className="text-red-600 hover:text-red-900 flex items-center"
                       >
                         <FiTrash2 className="mr-1" />
@@ -527,19 +595,26 @@ export const Resources = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Book Type
+                    Book Types*
                   </label>
-                  <select
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                    value={newBook.type}
-                    onChange={(e) =>
-                      setNewBook({ ...newBook, type: e.target.value })
-                    }
-                  >
-                    <option value="PDF">Document (PDF)</option>
-                    <option value="Video">Video</option>
-                    <option value="Audio">Audio</option>
-                  </select>
+                  <div className="flex flex-wrap gap-2">
+                    {bookTypes.map((type) => (
+                      <label key={type} className="inline-flex items-center">
+                        <input
+                          type="checkbox"
+                          className="form-checkbox h-4 w-4 text-yellow-500 rounded focus:ring-yellow-400"
+                          checked={newBook.type.includes(type)}
+                          onChange={() => handleTypeChange(type)}
+                        />
+                        <span className="ml-2 text-sm text-gray-700">
+                          {type}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                  {errors.type && (
+                    <p className="text-red-500 text-xs mt-1">{errors.type}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -607,80 +682,126 @@ export const Resources = () => {
                 )}
               </div>
 
-              {/* Fourth row - Content File Upload */}
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  {newBook.type === "PDF"
-                    ? "PDF File"
-                    : newBook.type === "Video"
-                    ? "Video File"
-                    : "Audio File"}
-                </label>
-                <div className="flex items-center justify-center w-full">
-                  <label className="flex flex-col w-full h-20 border-2 border-dashed rounded-lg hover:bg-gray-50 hover:border-gray-300">
-                    <div className="flex flex-col items-center justify-center pt-2">
-                      {newBook.type === "PDF" && newBook.pdfFile ? (
-                        <>
-                          <FiFile className="w-6 h-6 text-gray-400" />
-                          <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
-                            {newBook.pdfFile.name}
-                          </p>
-                        </>
-                      ) : newBook.type === "Video" && newBook.videoFile ? (
-                        <>
-                          <FiVideo className="w-6 h-6 text-gray-400" />
-                          <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
-                            {newBook.videoFile.name}
-                          </p>
-                        </>
-                      ) : newBook.type === "Audio" && newBook.audioFile ? (
-                        <>
-                          <FiMusic className="w-6 h-6 text-gray-400" />
-                          <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
-                            {newBook.audioFile.name}
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <FiUpload className="w-6 h-6 text-gray-400" />
-                          <p className="pt-1 text-xs text-gray-500">
-                            Click to browse{" "}
-                            {newBook.type === "PDF"
-                              ? "PDF"
-                              : newBook.type === "Video"
-                              ? "video"
-                              : "audio"}{" "}
-                            file
-                          </p>
-                        </>
-                      )}
-                    </div>
-                    <input
-                      type="file"
-                      className="opacity-0"
-                      onChange={
-                        newBook.type === "PDF"
-                          ? handleFileChange("pdfFile")
-                          : newBook.type === "Video"
-                          ? handleFileChange("videoFile")
-                          : handleFileChange("audioFile")
-                      }
-                      accept={
-                        newBook.type === "PDF"
-                          ? ".pdf"
-                          : newBook.type === "Video"
-                          ? "video/*"
-                          : "audio/*"
-                      }
-                    />
+              {/* File uploads for each selected type */}
+              {newBook.type.includes("PDF") && (
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    PDF File*
                   </label>
+                  <div className="flex items-center justify-center w-full">
+                    <label className="flex flex-col w-full h-20 border-2 border-dashed rounded-lg hover:bg-gray-50 hover:border-gray-300">
+                      <div className="flex flex-col items-center justify-center pt-2">
+                        {newBook.pdfFile ? (
+                          <>
+                            <FiFile className="w-6 h-6 text-gray-400" />
+                            <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
+                              {newBook.pdfFile.name}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <FiUpload className="w-6 h-6 text-gray-400" />
+                            <p className="pt-1 text-xs text-gray-500">
+                              Click to browse PDF file
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      <input
+                        type="file"
+                        className="opacity-0"
+                        onChange={handleFileChange("pdfFile")}
+                        accept=".pdf,.doc,.docx,.txt,.odt"
+                      />
+                    </label>
+                  </div>
+                  {errors.pdfFile && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.pdfFile}
+                    </p>
+                  )}
                 </div>
-                {(errors.pdfFile || errors.videoFile || errors.audioFile) && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.pdfFile || errors.videoFile || errors.audioFile}
-                  </p>
-                )}
-              </div>
+              )}
+
+              {newBook.type.includes("Video") && (
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Video File*
+                  </label>
+                  <div className="flex items-center justify-center w-full">
+                    <label className="flex flex-col w-full h-20 border-2 border-dashed rounded-lg hover:bg-gray-50 hover:border-gray-300">
+                      <div className="flex flex-col items-center justify-center pt-2">
+                        {newBook.videoFile ? (
+                          <>
+                            <FiVideo className="w-6 h-6 text-gray-400" />
+                            <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
+                              {newBook.videoFile.name}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <FiUpload className="w-6 h-6 text-gray-400" />
+                            <p className="pt-1 text-xs text-gray-500">
+                              Click to browse video file
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      <input
+                        type="file"
+                        className="opacity-0"
+                        onChange={handleFileChange("videoFile")}
+                        accept="video/*"
+                      />
+                    </label>
+                  </div>
+                  {errors.videoFile && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.videoFile}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {newBook.type.includes("Audio") && (
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Audio File*
+                  </label>
+                  <div className="flex items-center justify-center w-full">
+                    <label className="flex flex-col w-full h-20 border-2 border-dashed rounded-lg hover:bg-gray-50 hover:border-gray-300">
+                      <div className="flex flex-col items-center justify-center pt-2">
+                        {newBook.audioFile ? (
+                          <>
+                            <FiMusic className="w-6 h-6 text-gray-400" />
+                            <p className="pt-1 text-xs text-gray-500 truncate w-full px-2">
+                              {newBook.audioFile.name}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <FiUpload className="w-6 h-6 text-gray-400" />
+                            <p className="pt-1 text-xs text-gray-500">
+                              Click to browse audio file
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      <input
+                        type="file"
+                        className="opacity-0"
+                        onChange={handleFileChange("audioFile")}
+                        accept="audio/*"
+                      />
+                    </label>
+                  </div>
+                  {errors.audioFile && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.audioFile}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Action buttons */}
               <div className="flex justify-end space-x-2 mt-6">
@@ -696,27 +817,67 @@ export const Resources = () => {
                 <button
                   onClick={handleCreateOrUpdate}
                   disabled={
-                    !newBook.title ||
-                    !newBook.author ||
-                    !newBook.language ||
-                    (newBook.type === "PDF" && !newBook.pdfFile) ||
-                    (newBook.type === "Video" && !newBook.videoFile) ||
-                    (newBook.type === "Audio" && !newBook.audioFile)
+                    !newBook.title || !newBook.author || !newBook.language
                   }
                   className={`px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 ${
-                    !newBook.title ||
-                    !newBook.author ||
-                    !newBook.language ||
-                    (newBook.type === "PDF" && !newBook.pdfFile) ||
-                    (newBook.type === "Video" && !newBook.videoFile) ||
-                    (newBook.type === "Audio" && !newBook.audioFile)
+                    !newBook.title || !newBook.author || !newBook.language
                       ? "opacity-50 cursor-not-allowed"
                       : ""
                   }`}
                 >
-                  {isEditMode ? "Update Book" : "Add Book"}
+                  {isEditMode ? (
+                    isLoading ? (
+                      <BeatLoader />
+                    ) : (
+                      "Update Book"
+                    )
+                  ) : isLoading ? (
+                    <BeatLoader />
+                  ) : (
+                    "Add Book"
+                  )}
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">Confirm Deletion</h3>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <FiX size={20} />
+              </button>
+            </div>
+            <p className="mb-6">
+              Are you sure you want to delete this book? This action cannot be
+              undone.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleteLoading}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50"
+              >
+                {deleteLoading ? (
+                  <BeatLoader size={8} color="white" />
+                ) : (
+                  "Delete"
+                )}
+              </button>
             </div>
           </div>
         </div>

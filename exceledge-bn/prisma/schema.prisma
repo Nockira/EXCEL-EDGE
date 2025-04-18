@@ -57,6 +57,7 @@ model Book {
   author        String
   language      String
   coverImageUrl String?
+  type          String[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   createdBy     User     @relation(fields: [creatorId], references: [id])

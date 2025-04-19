@@ -67,7 +67,7 @@ export const BookLibrary = () => {
   // PDF Viewer State
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pdfScale, setPdfScale] = useState(1);
+  // Removed duplicate declaration of pdfScale
   const [isPdfLoading, setIsPdfLoading] = useState(true);
 
   // Audio Player State
@@ -84,6 +84,25 @@ export const BookLibrary = () => {
   const [videoDuration, setVideoDuration] = useState(0);
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-redeclare
+  const [pdfScale, setPdfScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setPdfScale(0.6);
+      } else if (width < 1024) {
+        setPdfScale(0.9);
+      } else {
+        setPdfScale(1.2);
+      }
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -344,7 +363,7 @@ export const BookLibrary = () => {
     switch (selectedFormat) {
       case "pdf":
         return (
-          <div className="bg-white rounded-lg p-6 shadow-md h-full flex flex-col">
+          <div className="bg-white rounded-lg sm:p-6 p-2 shadow-md sm:ml-0 sm:mr-0 -ml-8 -mr-8 shadow-md sm:w-full">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">{book.title} - PDF</h2>
               <div className="flex items-center space-x-2">
@@ -361,39 +380,43 @@ export const BookLibrary = () => {
                 </div>
               )}
 
-              <div className="h-full overflow-auto p-4 flex justify-center">
+              <div className="overflow-auto p-4 flex justify-center">
                 {book?.pdfUrl ? (
-                  <Document
-                    file={book.pdfUrl}
-                    onLoadSuccess={onDocumentLoadSuccess}
-                    onLoadError={() => setIsPdfLoading(false)}
-                    loading={
-                      <div className="text-center py-8">
-                        <BeatLoader size={24} color="yellow" />
-                      </div>
-                    }
-                    error={
-                      <div className="text-red-500 text-center py-8">
-                        Failed to load PDF. Please try again later.
-                      </div>
-                    }
-                    className="pdf-document"
-                  >
-                    <Page
-                      pageNumber={pageNumber}
-                      scale={pdfScale}
-                      renderTextLayer={true}
-                      renderAnnotationLayer={true}
+                  <div className="w-full overflow-x-auto flex justify-center">
+                    <Document
+                      file={book.pdfUrl}
+                      onLoadSuccess={onDocumentLoadSuccess}
+                      onLoadError={() => setIsPdfLoading(false)}
                       loading={
-                        <div className="text-center py-8">Loading page...</div>
+                        <div className="text-center py-8">
+                          <BeatLoader size={24} color="yellow" />
+                        </div>
                       }
                       error={
                         <div className="text-red-500 text-center py-8">
-                          Failed to load page.
+                          Failed to load PDF. Please try again later.
                         </div>
                       }
-                    />
-                  </Document>
+                      className="pdf-document"
+                    >
+                      <Page
+                        pageNumber={pageNumber}
+                        scale={pdfScale}
+                        renderTextLayer={true}
+                        renderAnnotationLayer={true}
+                        loading={
+                          <div className="text-center py-8">
+                            Loading page...
+                          </div>
+                        }
+                        error={
+                          <div className="text-red-500 text-center py-8">
+                            Failed to load page.
+                          </div>
+                        }
+                      />
+                    </Document>
+                  </div>
                 ) : (
                   <p className="text-center text-gray-500 mt-4">
                     No PDF available
@@ -454,21 +477,12 @@ export const BookLibrary = () => {
                   <Maximize size={20} />
                 </button>
               </div>
-
-              <a
-                href={book.pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm"
-              >
-                Download PDF
-              </a>
             </div>
           </div>
         );
       case "audio":
         return (
-          <div className="bg-white rounded-lg p-6 shadow-md">
+          <div className="bg-white rounded-lg sm:p-6 p-2 shadow-md sm:ml-0 sm:mr-0 -ml-8 -mr-8 shadow-md sm:w-full">
             <div className="mb-4">
               <h2 className="text-xl font-semibold">{book.title} - Audio</h2>
               <p className="text-gray-600">
@@ -557,20 +571,13 @@ export const BookLibrary = () => {
                     className="w-24 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
                   />
                 </div>
-                <a
-                  href={book.audioUrl}
-                  download
-                  className="text-yellow-600 hover:text-yellow-800 text-sm"
-                >
-                  Download Audio
-                </a>
               </div>
             </div>
           </div>
         );
       case "video":
         return (
-          <div className="bg-white rounded-lg p-6 shadow-md">
+          <div className="bg-white rounded-lg sm:p-6 p-2 shadow-md sm:ml-0 sm:mr-0 -ml-8 -mr-8 shadow-md sm:w-full">
             <div className="mb-4">
               <h2 className="text-xl font-semibold">{book.title} - Video</h2>
               <p className="text-gray-600">
@@ -652,13 +659,6 @@ export const BookLibrary = () => {
                   <SkipForward size={20} />
                 </button>
               </div>
-              <a
-                href={book.videoUrl}
-                download
-                className="text-yellow-600 hover:text-yellow-800 text-sm"
-              >
-                Download Video
-              </a>
             </div>
           </div>
         );
@@ -789,7 +789,7 @@ export const BookLibrary = () => {
           />
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
-              Book Library
+              Books and Library
             </h1>
             <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-4">
               Explore our collection of books in multiple formats

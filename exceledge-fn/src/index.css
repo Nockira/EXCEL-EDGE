@@ -6,7 +6,7 @@ html {
 }
 body {
   margin: 0;
-   font-family: "Quicksand", "Lora", "Poppins", "Rubik", sans-serif;
+   font-family: "Nunito", "Inter", "Playfair Display", "DM Sans", "Merriweather";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f3f4f6;

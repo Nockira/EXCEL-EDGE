@@ -1019,6 +1019,121 @@ paths:
           description: Book deleted
         '500':
           description: Server error
+  /contact-request:
+    post:
+      summary: Send a contact request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Jane Doe
+                email:
+                  type: string
+                  format: email
+                  example: jane@example.com
+                phone:
+                  type: string
+                  example: "+250788123456"
+                message:
+                  type: string
+                  example: Hello! I’m reaching out regarding your services.
+              required:
+                - name
+                - email
+                - message
+      responses:
+        '200':
+          description: Contact request successfully sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400':
+          description: Invalid request
+
+  /notifications:
+    get:
+      summary: Fetch all notifications
+      responses:
+        '200':
+          description: List of notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+
+  /notifications/{id}:
+    get:
+      summary: Fetch a notification by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notification object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '404':
+          description: Notification not found
+
+    patch:
+      summary: Update a notification
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Jane Doe
+                email:
+                  type: string
+                  format: email
+                  example: jane@example.com
+                phone:
+                  type: string
+                  example: "+250788123456"
+                message:
+                  type: string
+                  example: Hello! I’m reaching out regarding your services.
+      responses:
+        '200':
+          description: Updated notification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+
+    delete:
+      summary: Delete a notification
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Notification deleted successfully
 
 components:
   securitySchemes:
@@ -1341,5 +1456,20 @@ components:
             updatedAt:
               type: string
               format: date-time
+    Notification:
+        type: object
+        properties:
+          id:
+            type: string
+            example: "notif_abc123"
+          type:
+            type: string
+            example: "contact_request"
+          message:
+            type: string
+            example: "New message from Jane Doe"
+          createdAt:
+            type: string
+            format: date-time
 
 

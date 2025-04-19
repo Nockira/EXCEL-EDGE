@@ -323,3 +323,50 @@ export const updateBook = async (id: string, data: FormData) => {
     throw error;
   }
 };
+
+// Define the ContactData interface
+interface ContactData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+export const sendRequest = async (data: ContactData) => {
+  try {
+    const response = await api.post(`/contact-request`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user user profile:", error);
+    throw error;
+  }
+};
+
+export const getNotifications = async () => {
+  try {
+    const response = await api.get("/notifications");
+    return response;
+  } catch (error) {
+    console.error("Error fetching notifications:", error);
+    throw error;
+  }
+};
+export const markNotificationAsRead = async (notificationId: string) => {
+  try {
+    const response = await api.patch(`/notifications/${notificationId}`, {
+      isRead: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error marking notification as read:", error);
+    throw error;
+  }
+};
+export const deleteNotification = async (notificationId: string) => {
+  try {
+    const response = await api.delete(`/notifications/${notificationId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting notification:", error);
+    throw error;
+  }
+};

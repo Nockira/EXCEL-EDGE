@@ -6,30 +6,13 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        slideInLeft: {
-          '0%': { transform: 'translateX(-100%)', opacity: '0' },
-          '100%': { transform: 'translateX(0)', opacity: '1' },
-        },
-        slidein: {
-          from: {
-            opacity: "0",
-            transform: "translateY(-10px)",
-          },
-          to: {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
-        },
-        marquee: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-100%)' },
+        'fade-scale': {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
         },
       },
       animation: {
-        slidein: "slidein 1s ease var(--slidein-delay, 1) forwards",
-        slideInLeft: 'slideInLeft 500ms ease-in-out var(--slidein-delay, 0ms) forwards', 
-        marquee: 'marquee 20s linear infinite',
-        paused: 'none',
+        'fade-scale': 'fade-scale 1s ease-in-out',
       },
     },
   },

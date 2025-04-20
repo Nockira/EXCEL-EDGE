@@ -84,19 +84,18 @@
   "services": {
     "fixed": {
       "tin": {
-        "name": "Gucunga TIN (Ukwezi kose)",
-        "description": "Dutanga serivisi zo gucunga TIN (Inomero y’Indangamuntu y’Imisoro) buri kwezi hashingiwe ku musaruro w’inyungu ya sosiyete yawe. Ibiciro byacu bigenda bihinduka bitewe n’ubushobozi bw’umukiriya:\n\n- Umusaruro uri hagati ya 0 – 10,000,000 RWF: 10,000 RWF buri kwezi\n- Hagati ya 10,000,001 – 20,000,000 RWF: 20,000 RWF buri kwezi\n- 20,000,001 – 50,000,000 RWF: 100,000 RWF buri kwezi\n- 50,000,001 – 100,000,000 RWF: 300,000 RWF buri kwezi\n- Kurenga 100,000,001 RWF: 500,000 RWF buri kwezi.",
-        "range": "10,000 - 500,000 RWF/buri kwezi"
+        "name": "Gucunga TIN ",
+        "description": "Dutanga serivisi zo gucunga TIN buri kwezi, hakurikijwe ingano y'ubucuruzi bwawe. Igiciro gihinduka bitewe n'inyungu ubucuruzi bukora—bizafasha ibigo bito kubona serivisi ku giciro gito, naho ibigo binini bikishyura mu buryo buboneye, buri mukiriya agahabwa ubufasha bukwiye ku giciro gikwiriye ubushobozi bwe"
       },
       "google": {
         "name": "Kwandikwa kuri Google Map",
-        "description": "Emerera ubucuruzi bwawe umwanya ugaragara kuri Google Map inshuro imwe. Harimo: gukora profili, kwemezwa kw’ubucuruzi, gushyiraho aderesi n'icyiciro nyacyo, kuvugurura nimero za telefoni, hamwe n'amafoto 5. Byongera ugaragarire abakiriya ku rugero rwa 70%, kandi utangirwa ubufasha mu minsi 30. Fata iyi poromosiyo mbere y'uko irangira!",
+        "description": "Andikisha ubucuruzi bwawe kuri Google Maps hamwe no kwemezwa, guhuza amakuru nyayo, no gushyiraho amafoto 5. Twizeza ko izina ryawe rizagaragara, tukazamura uko ugaragara aho ukorera, ndetse tukaguha ubufasha mu minsi 30. Fata iyi gahunda hakiri kare!",
         "feeLabel": "Ubwishyu rimwe",
         "price": "39,999 RWF"
       },
       "library": {
-        "name": "Isomero rya Digital n’Ububiko bw’Ibikoresho",
-        "description": "Fungura uburenganzira budahagarara bwo kugera ku bitabo, amajwi n’amashusho — ndetse n’ubushobozi bwo gushyiramo ibyawe bwite:\n\n- Ibyifashishwa by'umwuga bihora bivugururwa\n- Kwihuza n'ibyo wihitiyemo byoroshye\n- Bigerwaho igihe cyose kuri telefoni\n- Ibigenewe abanyamuryango gusa",
+        "name": "Isomero n' Ibitabo",
+        "description": "Bona uburyo budafite imbibi bwo gukoresha inyandiko z’inzobere, amajwi, amashusho, n'ibyo wiyunganyijeho. Uburenganzira buhoraho, binyuze kuri telefoni igihe cyose, hamwe n'ibikoresho bidasanzwe by'abanyamuryango.",
         "feeLabel": "Ubwishyu buri kwezi",
         "price": "3,600 RWF/buri kwezi"
       }
@@ -310,10 +309,21 @@
     "loginButton": "Injira",
     "loggingIn": "Injira..."
   },
+  "registration": {
+    "welcome": "Murakaza neza ",
+    "success_message": "Kwiyandikisha byakunze neza"
+  },
   "user_register": {
     "create_account": "Kora Konti",
     "phone_number": "Nimero ya telefone",
     "password": "Ijambo ry'ibanga",
+    "first_name": "Izina ribanza",
+    "first_name_placeholder": "Andika izina ribanza",
+    "last_name_placeholder": "Andika izina rikurikira",
+    "step_2_of_2": "Intambwe ya 2 mu 2",
+    "last_name": "Izina rikurikira",
+    "continue": "Komeza",
+    "complete_registration": "Ohereza",
     "sign_up_with_google": "Iyandikishe ukoresheje Google",
     "or": "cyangwa",
     "sign_up": "Iyandikishe",

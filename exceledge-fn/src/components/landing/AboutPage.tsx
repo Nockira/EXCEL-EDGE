@@ -3,36 +3,40 @@ import { Link } from "react-router-dom";
 import AboutImg from "../../assets/bussnessTeam.jpg";
 import { TeamMember } from "../common/OurTeam";
 import { useTranslation } from "react-i18next";
+import enockImg from "../../assets/enock.jpg";
+import edithImg from "../../assets/edith.png";
+import shemaImg from "../../assets/shema.png";
+import bertinImg from "../../assets/bertin.png";
 
 // Dummy team data
 const teamMembers = [
   {
     id: 1,
-    imageUrl: "https://randomuser.me/api/portraits/women/44.jpg",
-    name: "Jane Smith",
-    role: "CEO & Founder",
-    contacts: "+250781234567",
+    imageUrl: enockImg,
+    name: "Enock IRADUKUNDA",
+    role: "CPA(R), BSC, MBA",
+    contacts: "+250 788 701 837",
   },
   {
     id: 2,
-    imageUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-    name: "John Doe",
-    role: "CTO",
-    contacts: "johandoe@gmail.com",
+    imageUrl: edithImg,
+    name: "Edith INGABIRE",
+    role: "BSO Manager",
+    contacts: "+250 787 789 350",
   },
   {
     id: 3,
-    imageUrl: "https://randomuser.me/api/portraits/women/68.jpg",
-    name: "Sarah Johnson",
-    role: "Marketing Director",
-    contacts: "sarhJson@gmail.com",
+    imageUrl: shemaImg,
+    name: "Shema Darius",
+    role: "Head of Accounting",
+    contacts: "+250 783 032 954",
   },
   {
     id: 4,
-    imageUrl: "https://randomuser.me/api/portraits/men/75.jpg",
-    name: "Michael Brown",
-    role: "Lead Developer",
-    contacts: "+2533094686",
+    imageUrl: bertinImg,
+    name: "Bertin NIYONKURU",
+    role: "Software Developer",
+    contacts: "+250 783 021 801",
   },
 ];
 
@@ -50,10 +54,10 @@ export const AboutSection = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-end">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
+            <h1 className="text-3xl md:text-3xl font-bold text-white mb-2 text-center">
               {t("about.aboutUs")}
             </h1>
-            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4  mb-8">
+            <p className="text-xl md:text-xl text-white text-center max-w-2xl px-4  mb-8">
               {t("about.aboutUsDescription")}
             </p>
           </div>
@@ -78,7 +82,7 @@ export const AboutSection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-[#fdc901] mb-3">
+            <h3 className="text-xl font-bold mb-3">
               {t("about.tinManagement")}
             </h3>
             <p className="text-gray-600 mb-4">{t("about.tinDescription")}</p>
@@ -135,7 +139,7 @@ export const AboutSection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-[#fdc901] mb-3">
+            <h3 className="text-xl font-bold  mb-3">
               {t("about.digitalSolutions")}
             </h3>
             <p className="text-gray-600 mb-4">
@@ -194,9 +198,7 @@ export const AboutSection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-[#fdc901] mb-3">
-              {t("about.ourApproach")}
-            </h3>
+            <h3 className="text-xl font-bold mb-3">{t("about.ourApproach")}</h3>
             <p className="text-gray-600 mb-4">
               {t("about.approachDescription")}
             </p>
@@ -253,7 +255,7 @@ export const AboutSection = () => {
           </div>
         </div>
         <div className="container mx-auto py-12 px-4">
-          <h1 className="text-4xl font-bold text-center mb-12">
+          <h1 className="text-3xl font-bold text-center mb-12">
             {t("about.ourTeam")}
           </h1>
 

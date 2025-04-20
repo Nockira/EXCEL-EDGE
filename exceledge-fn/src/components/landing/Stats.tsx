@@ -131,8 +131,9 @@ export const StatsSection = () => {
                   )}
                 </div>
               </div>
-              <p className="text-3xl font-bold text-[#fdc901] mb-2">
-                {animatedValues[index].toLocaleString()}+
+              <p className="text-3xl font-bold  mb-2">
+                {animatedValues[index].toLocaleString()}
+                <span className="text-[#fdc901]">+</span>
               </p>
               <p className="text-gray-600 font-medium">{stat.name}</p>
             </div>

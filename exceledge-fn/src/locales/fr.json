@@ -84,19 +84,18 @@
   "services": {
     "fixed": {
       "tin": {
-        "name": "Gestion TIN (Abonnement Mensuel)",
-        "description": "Nous proposons des services mensuels de gestion du TIN (Numéro d'Identification Fiscale) en fonction du chiffre d'affaires de votre entreprise. Notre grille tarifaire est progressive pour garantir l'accessibilité et l'équité :\n\n- Pour un chiffre d'affaires entre 0 – 10,000,000 RWF : 10,000 RWF par mois\n- Entre 10,000,001 – 20,000,000 RWF : 20,000 RWF par mois\n- Entre 20,000,001 – 50,000,000 RWF : 100,000 RWF par mois\n- Entre 50,000,001 – 100,000,000 RWF : 300,000 RWF par mois\n- Au-delà de 100,000,001 RWF : 500,000 RWF par mois.",
-        "range": "10,000 - 500,000 RWF/mois"
+        "name": "Gestion TIN",
+        "description": "We offer monthly TIN management services with pricing tailored to your business size. Fees adjust based on turnover—ensuring affordability for small businesses and fair rates for larger ones, so every client gets the support they need at a cost they can manage"
       },
       "google": {
         "name": "Mise en place sur Google Map",
-        "description": "Obtenez une inscription vérifiée unique sur Google Map. Cela inclut la création de profil, la vérification de l’entreprise, la configuration précise de l’adresse et de la catégorie, l’optimisation des coordonnées, et le téléchargement de 5 photos. Augmentez votre visibilité locale immédiatement avec un placement garanti, un soutien pendant 30 jours et un historique prouvé d’augmentation de 70% des recherches clients. Profitez de ce tarif de lancement maintenant !",
+        "description": "Inscrivez votre entreprise sur Google Maps avec vérification, infos optimisées et 5 photos. Visibilité locale garantie, assistance pendant 30 jours, et résultats prouvés. Profitez de cette offre spéciale dès maintenant !",
         "feeLabel": "Frais uniques",
         "price": "39,999 RWF"
       },
       "library": {
         "name": "Bibliothèque Numérique et Média",
-        "description": "Accès illimité à notre bibliothèque croissante de guides texte, outils audio et vidéos – avec la possibilité de télécharger et gérer vos propres contenus :\n\n- Ressources professionnelles toujours à jour\n- Intégration facile de contenus personnalisés\n- Accès mobile 24h/24 et 7j/7\n- Contenus exclusifs réservés aux membres",
+        "description": "Accédez sans limite aux guides pros, outils audio/vidéo et gérez vos propres contenus. Disponible 24h/24 sur mobile avec des ressources exclusives réservées aux membres",
         "feeLabel": "Abonnement mensuel",
         "price": "3,600 RWF/mois"
       }
@@ -315,6 +314,13 @@
     "create_account": "Créer un compte",
     "phone_number": "Numéro de téléphone",
     "password": "Mot de passe",
+    "first_name": "Prénom",
+    "first_name_placeholder": "Entrez votre prénom",
+    "last_name_placeholder": "Entrez votre nom",
+    "step_2_of_2": "Étape 2 sur 2",
+    "last_name": "Nom",
+    "continue": "Continuer",
+    "complete_registration": "Soumettre",
     "sign_up_with_google": "Inscrivez-vous avec Google",
     "or": "ou",
     "sign_up": "S'inscrire",
@@ -324,6 +330,10 @@
   "errors": {
     "registration_failed": "L'inscription a échoué. Veuillez réessayer.",
     "google_error": "Erreur d'authentification Google. Veuillez réessayer."
+  },
+  "registration": {
+    "welcome": "Bienvenue",
+    "success_message": "Inscription terminée avec succès"
   },
   "announcement": {
     "announcements": "Annonces",

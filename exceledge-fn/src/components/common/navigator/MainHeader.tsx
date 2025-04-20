@@ -36,7 +36,6 @@ export const MainHeader: React.FC = () => {
     { to: "/about", label: t("navigation.about") },
     { to: "/services", label: t("navigation.services") },
     { to: "/questions", label: t("navigation.faq") },
-    { to: "/pricing", label: t("navigation.pricing") },
     { to: "/books", label: t("navigation.book") },
     { to: "/pages/announcements", label: t("navigation.announcements") },
   ];
@@ -194,42 +193,30 @@ export const MainHeader: React.FC = () => {
   return (
     <>
       <div
-        className={`bg-black text-yellow-300 text-sm py-2 px-8 md:px-8 w-full fixed top-0 left-0 z-40 transition-all duration-300 ${
+        className={`bg-black text-yellow-300 text-sm py-0 w-full fixed top-0 left-0 z-40 transition-all duration-300 ${
           topHeaderVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <SubHeader />
       </div>
       <div
-        className={`fixed top-8 left-0 w-full z-50 transition-all duration-300 ${
+        className={`bg-[#fdc900] fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white text-black shadow-lg"
-            : "bg-white shadow-md text-black"
+            ? "bg-[#fdc900] text-black shadow-lg"
+            : "bg-[#fdc900] shadow-md text-black"
         }`}
-        style={{ top: topHeaderVisible ? "42px" : "0" }}
+        style={{ top: topHeaderVisible ? "8rem" : "0" }}
       >
-        <div className="container mx-auto flex justify-between items-center py-4 px-4 md:px-8">
-          <Link to="/" className="flex items-center gap-2 text-2xl font-bold">
-            <img
-              src={logo}
-              alt="Exceledge"
-              width="100"
-              height="100"
-              className=" 
-              "
-            />
-          </Link>
+        <div className="container mx-auto flex justify-between items-center py-2 px-4 md:px-8">
           <div className="flex items-center text-lg">
             {/* Desktop Links */}
-            <div className="hidden md:flex space-x-6">
+            <div className="hidden md:flex font-medium space-x-6">
               {links.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`hover:text-yellow-300 ${
-                    location.pathname === link.to
-                      ? "text-yellow-300 font-bold"
-                      : ""
+                  className={`hover:text-white ${
+                    location.pathname === link.to ? "text-white font-bold" : ""
                   }`}
                 >
                   {link.label}

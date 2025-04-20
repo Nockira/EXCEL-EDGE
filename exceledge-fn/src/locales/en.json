@@ -84,19 +84,18 @@
   "services": {
     "fixed": {
       "tin": {
-        "name": "TIN Management (Monthly Subscription)",
-        "description": "We offer monthly TIN (Tax Identification Number) management services based on your business turnover. Our pricing structure is tiered to ensure affordability and fairness:\n\n- For businesses with a turnover between 0 – 10,000,000 RWF, the monthly fee is 10,000 RWF.\n- For turnover between 10,000,001 – 20,000,000 RWF, the fee is 20,000 RWF per month.\n- Businesses with 20,000,001 – 50,000,000 RWF in turnover pay 100,000 RWF monthly.\n- For turnover between 50,000,001 – 100,000,000 RWF, the monthly charge is 300,000 RWF.\n- Any business exceeding 100,000,001 RWF in turnover is charged 500,000 RWF per month.",
-        "range": "10,000 - 500,000 RWF/month"
+        "name": "TIN Management",
+        "description": "We offer monthly TIN management services with pricing tailored to your business size. Fees adjust based on turnover—ensuring affordability for small businesses and fair rates for larger ones, so every client gets the support they need at a cost they can manage"
       },
       "google": {
         "name": "Google Location Establishment",
-        "description": "Secure your one-time verified listing on Google Map. Including profile creation, business verification, accurate address/category setup, contact details optimization, and 5 photo uploads. Boost local visibility immediately with guaranteed placement, ongoing support for 30 days, and a proven track record of helping businesses increase customer searches by 70%. Act now to lock in this launch price!",
+        "description": "Get your business listed on Google Maps with verified setup, optimized contact info, and 5 photos. We guarantee placement, boost your local visibility, and provide 30 days of support — all with proven results. Secure this launch offer today!",
         "feeLabel": "One-time fee",
         "price": "39,999 RWF"
       },
       "library": {
-        "name": "Digital Books & Media Library",
-        "description": "Unlock unlimited access to our growing library of text guides, audio tools, and video resources – plus the ability to upload and manage your own custom content.\n\n- Always-updated professional resources\n- Seamless custom content integration\n- Mobile-friendly 24/7 access\n- Exclusive member-only materials",
+        "name": "Books & Library",
+        "description": "Get unlimited access to expert guides, audio/video tools, and your own uploaded content. Enjoy 24/7 mobile access, exclusive resources, and seamless content management – all in one platform.",
         "feeLabel": "Monthly access",
         "price": "3,600 RWF/month"
       }
@@ -142,7 +141,7 @@
   },
 
   "about": {
-    "aboutUs": "About Us",
+    "aboutUs": "About",
     "aboutUsDescription": "We provide comprehensive financial and digital solutions tailored for Rwandan businesses, helping you navigate tax compliance, establish online presence, and access valuable resources.",
     "tinManagement": "TIN Management",
     "tinDescription": "Our tiered pricing structure accommodates businesses of all sizes, from startups to enterprises, ensuring proper tax compliance at every growth stage.",
@@ -254,19 +253,19 @@
       }
     },
     "tin-50-100m": {
-      "name": "TIN Management (50-100M RWF)",
+      "name": "TIN Management (50-200M RWF)",
       "description": "Monthly TIN management for large businesses",
       "fr": {
-        "name": "Gestion TIN (50-100M RWF)",
+        "name": "Gestion TIN (50-200M RWF)",
         "description": "Gestion mensuelle de TIN pour les grandes entreprises"
       },
       "rw": {
-        "name": "Iyandikwa rya TIN (50-100M RWF)",
+        "name": "Iyandikwa rya TIN (50-200M RWF)",
         "description": "Gucunga TIN buri kwezi ku bucuruzi bunini"
       }
     },
     "tin-100m-plus": {
-      "name": "TIN Management (100M+ RWF)",
+      "name": "TIN Management (200M+ RWF)",
       "description": "Monthly TIN management for enterprise businesses",
       "fr": {
         "name": "Gestion TIN (100M+ RWF)",
@@ -367,10 +366,22 @@
     "loginButton": "Login",
     "loggingIn": "Logging in..."
   },
+  "registration": {
+    "welcome": "Welcome ",
+    "success_message": "Registration completed successfully"
+  },
+
   "user_register": {
     "create_account": "Create Account",
     "phone_number": "Phone number",
     "password": "Password",
+    "first_name": "First Name",
+    "first_name_placeholder": "First Name",
+    "last_name_placeholder": "Last Name",
+    "step_2_of_2": "Step 2 of 2",
+    "last_name": "Second Name",
+    "continue": "Continue",
+    "complete_registration": "Submit",
     "sign_up_with_google": "Sign up with Google",
     "or": "or",
     "sign_up": "Sign up",

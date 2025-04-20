@@ -8,11 +8,12 @@ export const userRegister = async (req: Request, res: Response) => {
   try {
     const userData: IRegisterUser = req.body;
     const newUser = await register(userData);
-
+    const token = await generateToken(userData);
     res.status(201).json({
       success: true,
       message: "User registered successfully",
       data: newUser,
+      token,
     });
   } catch (error) {
     console.error("Registration error:", error);

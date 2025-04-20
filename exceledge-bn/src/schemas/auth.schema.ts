@@ -11,6 +11,14 @@ export const registerUserSchema = Joi.object({
     "string.min": "Password must be at least 8 characters long",
     "any.required": "Password is required",
   }),
+  firstName: Joi.string().min(2).max(50).required().messages({
+    "string.min": "First name must be at least 2 characters long",
+    "any.required": "First name is required",
+  }),
+  secondName: Joi.string().min(2).max(50).required().messages({
+    "string.min": "Last name must be at least 2 characters long",
+    "any.required": "Last name is required",
+  }),
 });
 
 export const googleAuthSchema = Joi.object({

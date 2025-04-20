@@ -16,6 +16,7 @@ import { Resources } from "../components/common/dashboards/Resources";
 import { AnnouncementsDashboard } from "../components/common/dashboards/Announcement";
 import { Profile } from "../pages/Profile";
 import { BookLibrary } from "../pages/Books";
+import { ContactUsPage } from "../pages/ContactsUsPage";
 
 const Home = lazy(() => import("../pages/Home"));
 const About = lazy(() => import("../pages/About"));
@@ -41,6 +42,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/sign-in" element={<UserRegister />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/auth/callback" element={<GoogleAuthCallback />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />}>

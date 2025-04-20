@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import logo from "../assets/vdlogo-removebg-preview.png";
+import { FaEye, FaEyeSlash, FaCheckCircle } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import { TextInput } from "../components/common/inputText";
 import { LoginSchema } from "../schemas/authSchema";
@@ -12,12 +11,22 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { preventAuthAccess } from "../services/service";
 import { SubHeader } from "../components/common/navigator/SubHeader";
-import { FaCheckCircle } from "react-icons/fa";
+import { countries } from "../data/countries";
+
 const api_url = process.env.REACT_APP_API_BASE_URL;
+
 interface LoginFormData {
   phone: string;
   password: string;
 }
+
+interface CountryCode {
+  code: string;
+  name: string;
+  flag: string;
+  dialCode: string;
+}
+
 interface DecodedToken {
   id: string;
   email: string;
@@ -33,6 +42,10 @@ export const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(
+    countries.find((c) => c.code === "RW")!
+  );
+  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation<string>();
 
@@ -50,12 +63,21 @@ export const Login: React.FC = () => {
     setSubmitError(null);
 
     try {
-      const response = await axios.post(`${api_url}/users/login`, data);
-      localStorage.setItem("accessToken", response.data.accessToken);
-      toast.success(response.data.message || "Welcome!☺️");
-      reset();
-      const token = localStorage.getItem("accessToken");
+      // Combine country code with phone number for login
+      const loginData = {
+        phone: `${selectedCountry.dialCode}${data.phone}`,
+        password: data.password,
+      };
 
+      const response = await axios.post(`${api_url}/users/login`, loginData);
+      localStorage.setItem("accessToken", response.data.accessToken);
+      const token: any = localStorage.getItem("accessToken");
+      const decoded = jwtDecode<DecodedToken>(token);
+      toast.success(
+        `${response.data.message} ${decoded.firstName} ${decoded.secondName}` ||
+          `Welcome!☺️ ${decoded.firstName} ${decoded.secondName}`
+      );
+      reset();
       if (token) {
         const decoded = jwtDecode<DecodedToken>(token);
         if (decoded.role === "ADMIN") {
@@ -71,30 +93,26 @@ export const Login: React.FC = () => {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message);
       } else {
-        toast.error("Registration failed. Please try again.");
+        toast.error("Login failed. Please try again.");
       }
     } finally {
       setIsLoading(false);
     }
   };
+
+  const handleCountrySelect = (country: CountryCode) => {
+    setSelectedCountry(country);
+    setShowCountryDropdown(false);
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <div className="bg-black text-yellow-300">
         <SubHeader />
       </div>
 
-      <div className="flex flex-col md:flex-row flex-1  pt-16 gap-6">
-        {/* Left side - Logo */}
+      <div className="flex flex-col md:flex-row flex-1 pt-16 gap-6">
         <div className="ml-[8%] w-full md:w-1/2 lg:w-1/2 md:justify-end">
-          <div className="w-full">
-            <Link to="/" className="flex flex-col items-start gap-4">
-              <img
-                src={logo}
-                alt="excel-edge"
-                className="w-40 h-40 object-contain"
-              />
-            </Link>
-          </div>
           <div className="sm:block hidden pr-[30%]">
             <h1 className="font-bold text-xl">{t("tin_management.welcome")}</h1>
             <div className="py-2 text-lg">
@@ -121,9 +139,7 @@ export const Login: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* Right side - Login Form */}
-        <div className="w-full md:w-1/2 lg:w-1/2 max-w-md mt-12">
+        <div className="w-full md:w-1/2 lg:w-1/2 max-w-md ">
           <div className="bg-white rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold mb-6 text-center text-[#fdc901]">
               {t("login.title")}
@@ -180,15 +196,68 @@ export const Login: React.FC = () => {
 
             {/* Login Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <TextInput
-                name="phone"
-                placeholder="+2507..."
-                label={`${t("user_register.phone_number")}`}
-                type="text"
-                register={register}
-                error={errors.phone?.message}
-                disabled={isLoading}
-              />
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {t("user_register.phone_number")}
+                </label>
+                <div className="flex">
+                  <div className="relative">
+                    <button
+                      type="button"
+                      className="flex items-center justify-between w-28 px-3 py-2 bg-white border border-r-0 border-gray-600 rounded-l-full focus:outline-none focus:ring-1 focus:ring-[#fdc901]"
+                      onClick={() =>
+                        setShowCountryDropdown(!showCountryDropdown)
+                      }
+                    >
+                      <span className="mr-2">{selectedCountry.flag}</span>
+                      <span>{selectedCountry.dialCode}</span>
+                      <svg
+                        className="w-4 h-4 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                    {showCountryDropdown && (
+                      <div className="absolute z-10 w-64 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                        {countries.map((country) => (
+                          <div
+                            key={country.code}
+                            className="flex items-center px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleCountrySelect(country)}
+                          >
+                            <span className="mr-2">{country.flag}</span>
+                            <span className="mr-2">{country.dialCode}</span>
+                            <span className="text-gray-600">
+                              {country.name}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="712345678"
+                    className="flex-1 block w-full px-3 py-2 border border-gray-600 rounded-r-full focus:outline-none focus:ring-1 focus:ring-[#fdc901] disabled:bg-gray-100"
+                    {...register("phone")}
+                    disabled={isLoading}
+                  />
+                </div>
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.phone.message}
+                  </p>
+                )}
+              </div>
 
               <div className="relative">
                 <TextInput

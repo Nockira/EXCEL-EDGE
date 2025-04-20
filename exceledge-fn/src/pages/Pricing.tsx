@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import { MainLayout } from "../components/layouts/MainLayout";
-import Pricing from "../assets/price-value.webp";
 import { Service } from "../../types";
 import { useServicesData } from "../data/services.data";
 import { initiatePayment } from "../services/service";
 import { API_URL } from "../services/service";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 type PaymentStatus = "pending" | "processing" | "success" | "failed" | null;
 const api_url: any = API_URL;
@@ -49,12 +48,12 @@ export const PricingPage = () => {
 
   const handlePaymentSubmit = async () => {
     if (!selectedProvider) {
-      alert("Please select a payment method");
+      toast.error("Please select a payment method");
       return;
     }
 
     if (!phoneNumber || phoneNumber.length < 10) {
-      alert("Please enter a valid phone number");
+      toast.error("Please enter a valid phone number");
       return;
     }
 
@@ -232,29 +231,10 @@ export const PricingPage = () => {
   }
 
   return (
-    <MainLayout>
-      <div className="relative">
-        <div className="relative w-full h-[50vh] overflow-hidden">
-          <img
-            src={Pricing}
-            alt="pricing"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-end">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
-              {t("servicesPricing.title")}
-            </h1>
-            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-8">
-              {t("servicesPricing.description")}
-            </p>
-          </div>
-        </div>
-      </div>
-
+    <>
       <div className="container mx-auto py-12 px-4">
-        {/* First row with 4 cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {allServices.slice(0, 4).map((service) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+          {allServices.slice(0, 5).map((service) => (
             <ServiceCard
               key={service.id}
               service={service}
@@ -263,20 +243,6 @@ export const PricingPage = () => {
             />
           ))}
         </div>
-
-        {/* Second row with 3 cards (centered) */}
-        {allServices.length > 4 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center">
-            {allServices.slice(4, 7).map((service) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                handleProceedToPayment={handleProceedToPayment}
-                t={t}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       {/* Payment Modal */}
@@ -462,7 +428,7 @@ export const PricingPage = () => {
           </div>
         </div>
       )}
-    </MainLayout>
+    </>
   );
 };
 
@@ -479,10 +445,7 @@ const ServiceCard = ({
     <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
       <div className="p-6">
         <div className=" items-center justify-between mb-4">
-          <h3 className="text-xl font-bold text-[#e6b800]">{service.name}</h3>
-          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-            {service.category}
-          </span>
+          <h3 className="text-lg font-bold text-black">{service.name}</h3>
         </div>
 
         <p className="text-gray-600 mb-5">{service.description}</p>

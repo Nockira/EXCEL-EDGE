@@ -12,6 +12,7 @@ import { createBookSchema, updateBookSchema } from "../schemas/booksSchema";
 import { isLoggedIn } from "../middlewares/isLoggedIn";
 import { isAdmin } from "../middlewares/isAdmin";
 import { uploadBookAssets } from "../middlewares/uploadFiles";
+import { requireSubscription } from "../middlewares/requiresSub";
 const bookRoutes = Router();
 bookRoutes.post(
   "/",
@@ -23,7 +24,7 @@ bookRoutes.post(
 );
 bookRoutes.get("/", findAll);
 bookRoutes.get("/search", search);
-bookRoutes.get("/:id", isLoggedIn, findOne);
+bookRoutes.get("/:id", isLoggedIn, requireSubscription("BOOKS"), findOne);
 bookRoutes.patch(
   "/:id",
   isLoggedIn,

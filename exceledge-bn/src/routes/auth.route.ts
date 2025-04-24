@@ -3,6 +3,7 @@ import passport from "passport";
 import { validateSchema } from "../middlewares/schemaValidation";
 import {
   googleAuth,
+  requestOtp,
   userLogin,
   userRegister,
 } from "../controllers/auth.controller";
@@ -43,4 +44,5 @@ userRoutes.patch(
   updateUserDetails
 );
 userRoutes.delete("/:id", isLoggedIn, removeUser);
+userRoutes.post("/request-otp", requestOtp);
 export default userRoutes;

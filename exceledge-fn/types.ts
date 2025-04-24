@@ -3,26 +3,20 @@ export interface ServiceItem {
   name: string;
   description: string;
   pricing?: string;
-  items?: { name: string }[]; // For nested items in negotiable services
-  tiers?: PricingTier[]; // For tiered pricing
+  items?: { name: string }[];
+  tiers?: PricingTier[];
 }
 
 export interface PricingTier {
-  range?: string; // Make optional since negotiable services don't use range/price
+  range?: string;
   price?: string;
-  name?: string; // Add for negotiable service items
+  name?: string;
 }
 
-// export interface Service {
-//   id: string;
-//   name: string;
-//   description: string;
-//   icon: string;
-//   items: ServiceItem[];
-// }
 export interface Service {
   id: string;
   name: string;
+  slug?: string;
   description: string;
   price: string;
   basePrice: number;

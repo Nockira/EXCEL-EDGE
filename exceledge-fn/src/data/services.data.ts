@@ -8,6 +8,7 @@ export const useServicesData = (): Service[] => {
     {
       id: "tin-0-10m",
       name: t("pricing.tin-0-10m.name"),
+      slug: "TIN_MANAGEMENT",
       description: t("pricing.tin-0-10m.description"),
       price: "10,000 RWF/month",
       basePrice: 10000,
@@ -17,6 +18,7 @@ export const useServicesData = (): Service[] => {
     {
       id: "tin-10-20m",
       name: t("pricing.tin-10-20m.name"),
+      slug: "TIN_MANAGEMENT",
       description: t("pricing.tin-10-20m.description"),
       price: "20,000 RWF/month",
       basePrice: 20000,
@@ -26,6 +28,7 @@ export const useServicesData = (): Service[] => {
     {
       id: "tin-20-50m",
       name: t("pricing.tin-20-50m.name"),
+      slug: "TIN_MANAGEMENT",
       description: t("pricing.tin-20-50m.description"),
       price: "100,000 RWF/month",
       basePrice: 100000,
@@ -35,6 +38,7 @@ export const useServicesData = (): Service[] => {
     {
       id: "tin-50-100m",
       name: t("pricing.tin-50-100m.name"),
+      slug: "TIN_MANAGEMENT",
       description: t("pricing.tin-50-100m.description"),
       price: "300,000 RWF/month",
       basePrice: 300000,
@@ -44,6 +48,7 @@ export const useServicesData = (): Service[] => {
     {
       id: "tin-100m-plus",
       name: t("pricing.tin-100m-plus.name"),
+      slug: "TIN_MANAGEMENT",
       description: t("pricing.tin-100m-plus.description"),
       price: "500,000 RWF/month",
       basePrice: 500000,

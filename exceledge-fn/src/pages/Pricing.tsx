@@ -6,6 +6,9 @@ import { initiatePayment } from "../services/service";
 import { API_URL } from "../services/service";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { MainLayout } from "../components/layouts/MainLayout";
+import TinMn from "../assets/TinMn.jpg";
+import { AuthModal } from "../components/Auth/LoginRequired";
 
 type PaymentStatus = "pending" | "processing" | "success" | "failed" | null;
 const api_url: any = API_URL;
@@ -23,9 +26,22 @@ export const PricingPage = () => {
   const [selectedProvider, setSelectedProvider] = useState<
     "mtn" | "airtel" | null
   >(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { t } = useTranslation<string>();
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    setIsLoggedIn(!!token);
+  }, []);
+
   const handleProceedToPayment = (service: Service) => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      setIsModalOpen(true);
+      setSelectedService(service);
+      return;
+    }
     setSelectedService(service);
     setShowPaymentModal(true);
     setMonths(1);
@@ -67,7 +83,7 @@ export const PricingPage = () => {
         amount: calculateTotalPrice(),
         number: phoneNumber,
         duration: months,
-        service: selectedService?.name,
+        service: selectedService?.slug,
       };
       await initiatePayment(paymentData);
     } catch (error) {
@@ -231,9 +247,27 @@ export const PricingPage = () => {
   }
 
   return (
-    <>
-      <div className="container mx-auto py-12 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+    <MainLayout>
+      <div className="relative">
+        {/* Image container with overlay */}
+        <div className="relative w-full h-[50vh] overflow-hidden">
+          <img
+            src={TinMn}
+            alt="pricing"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
+              {t("fqa.title")}
+            </h1>
+            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-8">
+              {t("fqa.subtitle")}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="container mx-auto py-36 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {allServices.slice(0, 5).map((service) => (
             <ServiceCard
               key={service.id}
@@ -428,7 +462,17 @@ export const PricingPage = () => {
           </div>
         </div>
       )}
-    </>
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onLoginSuccess={() => {
+          setIsModalOpen(false);
+          if (selectedService) {
+            setShowPaymentModal(true);
+          }
+        }}
+      />
+    </MainLayout>
   );
 };
 

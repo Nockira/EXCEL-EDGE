@@ -5,7 +5,6 @@ import {
   deleteUser,
   updateUser,
 } from "../services/user.service";
-import redisClient from "../utils/connectRedis";
 
 export const fetchUsers = async (req: Request, res: Response) => {
   try {

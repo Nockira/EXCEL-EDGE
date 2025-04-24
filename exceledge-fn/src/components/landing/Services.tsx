@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import { initiatePayment } from "../../services/service";
 import { API_URL } from "../../services/service";
 import io from "socket.io-client";
-import { PricingPage } from "../../pages/Pricing";
+import { AuthModal } from "../Auth/LoginRequired";
 
 type PaymentStatus = "pending" | "processing" | "success" | "failed" | null;
 const api_url: any = API_URL;
@@ -31,9 +31,8 @@ export const ServiceSections = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [months, setMonths] = useState(1);
-  const [showPricing, setShowPricing] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [animateIn, setAnimateIn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [selectedProvider, setSelectedProvider] = useState<
     "mtn" | "airtel" | null
@@ -51,6 +50,7 @@ export const ServiceSections = () => {
     {
       id: "google-location",
       name: t("services.fixed.google.name"),
+      slug: "GOOGLE_LOCATION",
       description: t("services.fixed.google.description"),
       icon: <Globe className="h-6 w-6 text-[#fdc901]" />,
       price: 39999,
@@ -62,6 +62,7 @@ export const ServiceSections = () => {
     {
       id: "digital-library",
       name: t("services.fixed.library.name"),
+      slug: "BOOKS",
       description: t("services.fixed.library.description"),
       icon: <BookOpen className="h-6 w-6 text-[#fdc901]" />,
       price: 3600,
@@ -122,18 +123,18 @@ export const ServiceSections = () => {
       request: "Contact us",
     },
   ];
-
   useEffect(() => {
-    if (showPricing) {
-      setIsMounted(true);
-      setTimeout(() => setAnimateIn(true), 100);
-    } else {
-      setAnimateIn(false);
-      setTimeout(() => setIsMounted(false), 500);
-    }
-  }, [showPricing]);
+    const token = localStorage.getItem("accessToken");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const handleProceedToPayment = (service: any) => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      setIsModalOpen(true);
+      setSelectedService(service);
+      return;
+    }
     setSelectedService(service);
     setShowPaymentModal(true);
     setMonths(1);
@@ -175,7 +176,7 @@ export const ServiceSections = () => {
         amount: calculateTotalPrice(),
         number: phoneNumber,
         duration: months,
-        service: selectedService?.name,
+        service: selectedService?.slug,
       };
       await initiatePayment(paymentData);
     } catch (error) {
@@ -184,13 +185,6 @@ export const ServiceSections = () => {
     } finally {
       setIsProcessing(false);
     }
-  };
-
-  const handleShowPricing = () => {
-    setShowPricing((prev) => {
-      const newValue = !prev;
-      return newValue;
-    });
   };
 
   const resetPayment = () => {
@@ -586,28 +580,17 @@ export const ServiceSections = () => {
                       {service.subscribe}
                     </button>
                   ) : (
-                    <button
-                      onClick={handleShowPricing}
+                    <Link
+                      to="/pricing"
                       className="mt-4 bg-[#fdc901] text-black px-6 py-2 rounded-lg font-semibold hover:text-black transition"
                     >
-                      {showPricing ? t("Hide pricing") : t("Show pricing")}
-                    </button>
+                      {t("servicesPricing.viewPricing")}
+                    </Link>
                   )}
                 </div>
               ))}
             </div>
           </div>
-          <>
-            {isMounted && (
-              <section
-                className={`transition-all duration-500 ease-in-out transform
-          ${animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}
-          `}
-              >
-                <PricingPage />
-              </section>
-            )}
-          </>
         </section>
 
         {/* Negotiable Services Section */}
@@ -661,6 +644,16 @@ export const ServiceSections = () => {
           </div>
         </section>
       </div>
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onLoginSuccess={() => {
+          setIsModalOpen(false);
+          if (selectedService) {
+            setShowPaymentModal(true);
+          }
+        }}
+      />
     </div>
   );
 };

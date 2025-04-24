@@ -38,10 +38,10 @@ api.interceptors.response.use(
       window.location.href = "/login";
       return Promise.reject(error);
     }
-    if (error.response?.status === 403) {
-      window.location.href = "/";
-      return Promise.reject(error);
-    }
+    // if (error.response?.status === 400) {
+    //   window.location.href = "/";
+    //   return Promise.reject(error);
+    // }
 
     return Promise.reject(error);
   }
@@ -291,6 +291,26 @@ export const getAllBooks = async () => {
   } catch (error) {
     console.error("Error deleting user user profile:", error);
     throw error;
+  }
+};
+export const getBookById = async (id: string) => {
+  try {
+    const response = await api.get(`/books/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    if (
+      error.response?.data?.message ===
+      "Subscription required for BOOKS service"
+    ) {
+      throw new Error(error.response.data.message);
+    } else {
+      console.error("Error fetching book:", error);
+      throw new Error("Failed to load book details");
+    }
   }
 };
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // Import your background images
-import BackImage from "../../assets/backImage.jpg";
+import BackImage from "../../assets/slide.png";
 import BackImage2 from "../../assets/bgimage.jpg";
 import BackImage3 from "../../assets/about.jpg";
 

@@ -3,6 +3,9 @@ import * as transactionService from "../services/transaction.service";
 import axios from "axios";
 import * as cron from "node-cron";
 import { emitEvent } from "../server";
+import { prisma } from "../utils/prisma.service";
+import { updateUserSubscription } from "../helper/updateUsersSub";
+import { ServiceType } from "../../types";
 let currentJob: any = null;
 // Create a new transaction
 export const createTransaction = async (req: Request, res: Response) => {
@@ -120,13 +123,34 @@ export const deleteTransaction = async (req: Request, res: Response) => {
   }
 };
 
-export const updateRemainingTime = async (req: Request, res: Response) => {
-  try {
-    const result = await transactionService.updateRemainingTimeDaily();
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json({ message: "Server error" });
+export const updateRemainingTimeDaily = async () => {
+  // Decrement remaining time
+  await prisma.transaction.updateMany({
+    where: {
+      status: "COMPLETED",
+      remainingTime: { gt: 0 },
+    },
+    data: { remainingTime: { decrement: 1 } },
+  });
+
+  // Handle expired subscriptions
+  const expiredSubscriptions = await prisma.transaction.findMany({
+    where: {
+      status: "COMPLETED",
+      remainingTime: 0,
+    },
+    include: { user: true },
+  });
+
+  for (const sub of expiredSubscriptions) {
+    await updateUserSubscription(sub.userId, sub.service as ServiceType, false);
+    emitEvent("subscription-expired", {
+      userId: sub.userId,
+      service: sub.service,
+    });
   }
+
+  return { updated: true };
 };
 
 // Payment controllers
@@ -255,9 +279,32 @@ export const fetchPaypackEvents = async (
   }
 };
 
+export const checkSubscriptionStatus = async (
+  userId: string,
+  service: any
+): Promise<any> => {
+  const activeSubscription = await prisma.transaction.findFirst({
+    where: {
+      userId,
+      service,
+      status: "COMPLETED",
+      remainingTime: { gt: 0 },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return {
+    isActive: !!activeSubscription,
+    remainingDays: activeSubscription?.remainingTime || 0,
+    expiresAt: activeSubscription
+      ? new Date(Date.now() + activeSubscription.remainingTime * 86400000)
+      : null,
+  };
+};
+
 export const fetchEventJob = (a: string, b: string, c: number) => {
   console.log("Fetching event clone job started .....");
-  // Runs every 5 minutes
+  // Runs every 1 minutes
   currentJob = cron.schedule("*/1 * * * *", async () => {
     console.log("⏰ Checking Paypack events...");
     await fetchPaypackEvents(a, b, c);

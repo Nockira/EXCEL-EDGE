@@ -9,17 +9,20 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  firstName  String?
-  secondName String?
-  email      String?   @unique
-  phone      String?   @unique
-  password   String
-  gender     String?
-  dob        DateTime?
-  role       Role      @default(USER)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id                      String    @id @default(uuid())
+  firstName               String?
+  secondName              String?
+  email                   String?   @unique
+  phone                   String?   @unique
+  password                String
+  gender                  String?
+  dob                     DateTime?
+  role                    Role      @default(USER)
+  isSubscribedToTin       Boolean   @default(false)
+  isPurchasedBook         Boolean   @default(false)
+  hasGoogleLocationAccess Boolean   @default(false)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
 
   Transaction Transaction[]
 
@@ -75,6 +78,15 @@ model Notification {
   type      String
   message   String
   isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model PasswordReset {
+  id        String   @id @default(uuid())
+  phone     String
+  token     String
+  verified  Boolean  @default(false)
+  expiresAt DateTime
   createdAt DateTime @default(now())
 }
 

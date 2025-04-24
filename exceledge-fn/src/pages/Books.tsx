@@ -18,11 +18,12 @@ import {
 } from "lucide-react";
 import { MainLayout } from "../components/layouts/MainLayout";
 import LibraryImg from "../assets/resources.jpg";
-import { getAllBooks } from "../services/service";
+import { getAllBooks, getBookById } from "../services/service";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { BeatLoader } from "react-spinners";
+import { PaymentModal } from "../components/Auth/PaymentRequired";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -63,6 +64,7 @@ export const BookLibrary = () => {
   const [selectedFormat, setSelectedFormat] = useState<
     "pdf" | "audio" | "video"
   >("pdf");
+  const [isPaymentRequired, setIsPaymentRequired] = useState(false);
 
   // PDF Viewer State
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -84,24 +86,34 @@ export const BookLibrary = () => {
   const [videoDuration, setVideoDuration] = useState(0);
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-redeclare
   const [pdfScale, setPdfScale] = useState(1);
 
-  useEffect(() => {
-    const updateScale = () => {
-      const width = window.innerWidth;
-      if (width < 640) {
-        setPdfScale(0.6);
-      } else if (width < 1024) {
-        setPdfScale(0.9);
+  const handleBookSelect = async (bookId: string) => {
+    try {
+      setLoading(true);
+      const book = await getBookById(bookId);
+      setSelectedBook(book.book);
+    } catch (error: any) {
+      if (error.message === "Subscription required for BOOKS service") {
+        setIsPaymentRequired(true);
       } else {
-        setPdfScale(1.2);
+        setErr(
+          error instanceof Error ? error : new Error("Failed to load book")
+        );
       }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      setPdfScale(window.innerWidth > window.innerHeight ? 0.9 : 0.7);
     };
 
-    updateScale();
-    window.addEventListener("resize", updateScale);
-    return () => window.removeEventListener("resize", updateScale);
+    window.addEventListener("orientationchange", handleOrientationChange);
+    return () =>
+      window.removeEventListener("orientationchange", handleOrientationChange);
   }, []);
 
   useEffect(() => {
@@ -724,7 +736,7 @@ export const BookLibrary = () => {
               <div className="mt-6">
                 <h3 className="font-medium mb-3">Available Formats</h3>
                 <div className="space-y-2">
-                  {selectedBook.type.includes("PDF") && (
+                  {selectedBook?.type?.includes("PDF") && (
                     <button
                       className={`flex items-center w-full px-3 py-2 rounded-md ${
                         selectedFormat === "pdf"
@@ -738,7 +750,7 @@ export const BookLibrary = () => {
                     </button>
                   )}
 
-                  {selectedBook.type.includes("Audio") && (
+                  {selectedBook?.type?.includes("Audio") && (
                     <button
                       className={`flex items-center w-full px-3 py-2 rounded-md ${
                         selectedFormat === "audio"
@@ -752,7 +764,7 @@ export const BookLibrary = () => {
                     </button>
                   )}
 
-                  {selectedBook.type.includes("Video") && (
+                  {selectedBook?.type?.includes("Video") && (
                     <button
                       className={`flex items-center w-full px-3 py-2 rounded-md ${
                         selectedFormat === "video"
@@ -931,7 +943,7 @@ export const BookLibrary = () => {
             <div
               key={book.id}
               className="overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-              onClick={() => setSelectedBook(book)}
+              onClick={() => handleBookSelect(book.id)}
             >
               <div className="h-52 overflow-hidden flex items-center justify-center shadow-md">
                 <img
@@ -967,7 +979,7 @@ export const BookLibrary = () => {
                   className="w-full mt-2 bg-yellow-600 hover:bg-yellow-700 text-white py-2 rounded-md text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedBook(book);
+                    handleBookSelect(book.id);
                   }}
                 >
                   View Details
@@ -998,6 +1010,10 @@ export const BookLibrary = () => {
           </div>
         )}
       </div>
+      <PaymentModal
+        isOpen={isPaymentRequired}
+        onClose={() => setIsPaymentRequired(false)}
+      />
     </MainLayout>
   );
 };

@@ -100,7 +100,7 @@ export const SubHeader = () => {
           />
           <div className="sm:flex hidden flex-col">
             <h1 className="font-bold text-lg">Intuit quickbooks </h1>
-            <p className="text-sm text-gray-600">Accounting</p>
+            <p className="text-sm text-gray-600">Accredited</p>
           </div>
         </div>
       </div>

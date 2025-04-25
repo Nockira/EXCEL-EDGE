@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
+import { MdOutlineEmail } from "react-icons/md";
+import { FaPhone } from "react-icons/fa";
+import { MdLocationCity } from "react-icons/md";
 import logo from "../../../assets/vdlogo.png";
 import { useTranslation } from "react-i18next";
 
@@ -52,19 +55,21 @@ export const Footer: React.FC = () => {
         </div>
         <div className="flex flex-col gap-4">
           <h3 className="text-lg font-bold">Contact</h3>
-          <p className="text-normal">
-            Email: <span> </span>
-            <a href="info.exceledge@gmail.com" className="text-white">
-              info.exceledge@gmail.com
+          <p className="text-normal flex gap-1">
+            <MdOutlineEmail className="text-yellow-500" /> <span> </span>
+            <a href="info@exceledgecpa.com" className="text-white">
+              info@exceledgecpa.com
             </a>
           </p>
-          <p className="text-normal">
-            Phone:<span> </span>
+          <p className="text-normal flex gap-1">
+            <FaPhone className="text-yellow-500" /> <span> </span>
             <a href="tel:+1234567890" className="text-white">
-              +250 788 888 888
+              +250 788 701 837
             </a>
           </p>
-          <p className="text-normal">Address: 1234 Main St, Kigali, Rwanda</p>
+          <p className="text-normal flex gap-1">
+            <MdLocationCity className="text-yellow-500" /> 42 KK 718 St, Kigali
+          </p>
         </div>
       </div>
       <div className="text-center text-sm py-4">

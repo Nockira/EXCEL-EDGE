@@ -78,7 +78,8 @@
       "placeholderPhone": "(+250) 756-7890",
       "message": "Ubutumwa",
       "placeholderMessage": "Andika ubutumwa bwawe hano...",
-      "send": "Ohereza"
+      "send": "Ohereza",
+      "sending": "Kohereza"
     }
   },
   "services": {
@@ -324,7 +325,7 @@
     "last_name": "Izina rikurikira",
     "continue": "Komeza",
     "complete_registration": "Ohereza",
-    "sign_up_with_google": "Iyandikishe ukoresheje Google",
+    "sign_up_with_google": "Komeza ukoresheje Google",
     "or": "cyangwa",
     "sign_up": "Iyandikishe",
     "log_in_here": "Injira hano",

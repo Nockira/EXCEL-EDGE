@@ -8,7 +8,7 @@
   },
   "navigation": {
     "home": "Accueil",
-    "about": "À propos de nous",
+    "about": "À propos",
     "services": "Services",
     "book": "Livres",
     "faq": "FAQ",
@@ -78,7 +78,8 @@
       "placeholderPhone": "(+250) 756-7890",
       "message": "Message",
       "placeholderMessage": "Votre message ici...",
-      "send": "Envoyer le message"
+      "send": "Envoyer le message",
+      "sending": "Envoi en cours"
     }
   },
   "services": {
@@ -321,7 +322,7 @@
     "last_name": "Nom",
     "continue": "Continuer",
     "complete_registration": "Soumettre",
-    "sign_up_with_google": "Inscrivez-vous avec Google",
+    "sign_up_with_google": "Continuer avec Google",
     "or": "ou",
     "sign_up": "S'inscrire",
     "log_in_here": "Connectez-vous ici",

@@ -8,7 +8,7 @@
   },
   "navigation": {
     "home": "Home",
-    "about": "About us",
+    "about": "About",
     "services": "Services",
     "faq": "FAQ",
     "pricing": "Pricing",
@@ -78,7 +78,8 @@
       "placeholderPhone": "(+250) 756-7890",
       "message": "Message",
       "placeholderMessage": "Your message here...",
-      "send": "Send Message"
+      "send": "Send Message",
+      "sending": "Sending"
     }
   },
   "services": {
@@ -382,7 +383,7 @@
     "last_name": "Second Name",
     "continue": "Continue",
     "complete_registration": "Submit",
-    "sign_up_with_google": "Sign up with Google",
+    "sign_up_with_google": "Continue with Google",
     "or": "or",
     "sign_up": "Sign up",
     "log_in_here": "Log in here",

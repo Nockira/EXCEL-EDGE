@@ -6,6 +6,7 @@ import { FaPhone } from "react-icons/fa";
 import { MdLocationCity } from "react-icons/md";
 import logo from "../../../assets/vdlogo.png";
 import { useTranslation } from "react-i18next";
+import { PiTiktokLogoBold } from "react-icons/pi";
 
 export const Footer: React.FC = () => {
   const { t } = useTranslation<string>();
@@ -19,25 +20,23 @@ export const Footer: React.FC = () => {
           <p className="text-lg">Innovating Your Business Growth</p>
           <div className="flex gap-4">
             <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noreferrer noopener"
+              href="https://www.facebook.com/profile.php?id=61551370063418"
+              className="hover:text-white"
             >
-              <Facebook size={24} />
+              <Facebook size={18} />
             </a>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/exceledgecpa/?hl=en"
               target="_blank"
               rel="noreferrer noopener"
             >
               <Instagram size={24} />
             </a>
             <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noreferrer noopener"
+              href="https://www.tiktok.com/@enockiradukunda2"
+              className="hover:text-white"
             >
-              <Twitter size={24} />
+              <PiTiktokLogoBold size={24} />
             </a>
           </div>
         </div>

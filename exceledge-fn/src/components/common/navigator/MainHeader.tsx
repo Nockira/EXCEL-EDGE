@@ -230,19 +230,12 @@ export const MainHeader: React.FC = () => {
               {isLoggedIn ? (
                 <UserDropdown />
               ) : (
-                authLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className={`border py-1 px-2 border-yellow-500 bg-[#fdc901] rounded-md ${
-                      location.pathname === link.to
-                        ? "text-black font-bold"
-                        : "text-white"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))
+                <a
+                  href="/contact-us"
+                  className="inline-block px-6 py-1 border text-white rounded-md hover:bg-yellow-600 transition"
+                >
+                  Reach out Easily
+                </a>
               )}
             </div>
             <div className="sm:hidden">
@@ -333,7 +326,7 @@ export const MainHeader: React.FC = () => {
                   </div>
                 ) : (
                   <div className="flex flex-col space-y-3">
-                    {authLinks.map((link) => (
+                    {/* {authLinks.map((link) => (
                       <Link
                         key={link.to}
                         to={link.to}
@@ -346,7 +339,7 @@ export const MainHeader: React.FC = () => {
                       >
                         {link.label}
                       </Link>
-                    ))}
+                    ))} */}
                   </div>
                 )}
               </div>

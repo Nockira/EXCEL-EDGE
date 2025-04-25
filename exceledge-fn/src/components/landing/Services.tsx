@@ -575,7 +575,7 @@ export const ServiceSections = () => {
                   {service.isPayment ? (
                     <button
                       onClick={() => handleProceedToPayment(service)}
-                      className="mt-4 bg-[#fdc901] text-black px-6 py-2 rounded-lg font-semibold hover:text-black transition"
+                      className="bg-[#fdc901] text-black px-6 py-2 rounded-lg font-semibold hover:text-black transition"
                     >
                       {service.subscribe}
                     </button>
@@ -584,7 +584,7 @@ export const ServiceSections = () => {
                       to="/pricing"
                       className="mt-4 bg-[#fdc901] text-black px-6 py-2 rounded-lg font-semibold hover:text-black transition"
                     >
-                      {t("servicesPricing.viewPricing")}
+                      {t("about.viewPricing")}
                     </Link>
                   )}
                 </div>

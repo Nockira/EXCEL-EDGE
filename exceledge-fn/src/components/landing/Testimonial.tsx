@@ -22,10 +22,14 @@ export const Testimonial = () => {
                 {t("testimonials.jean.quote")}
               </p>
               <div className="flex items-center">
-                <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                <img
+                  src="https://xsgames.co/randomusers/assets/avatars/female/45.jpg"
+                  alt="African Woman 2"
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+
                 <div className="ml-4">
                   <h4 className="font-bold">Jean Mutesi</h4>
-                  <p className="text-gray-600">{t("testimonials.jean.role")}</p>
                 </div>
               </div>
             </div>
@@ -35,12 +39,15 @@ export const Testimonial = () => {
                 {t("testimonials.robert.quote")}
               </p>
               <div className="flex items-center">
-                <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                <div className="w-12 h-12 bg-gray-300 rounded-full">
+                  <img
+                    src="https://xsgames.co/randomusers/assets/avatars/male/71.jpg"
+                    alt="African Man"
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                </div>
                 <div className="ml-4">
                   <h4 className="font-bold">Robert Mugisha</h4>
-                  <p className="text-gray-600">
-                    {t("testimonials.robert.role")}
-                  </p>
                 </div>
               </div>
             </div>
@@ -50,12 +57,15 @@ export const Testimonial = () => {
                 {t("testimonials.claire.quote")}
               </p>
               <div className="flex items-center">
-                <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                <div className="w-12 h-12 bg-gray-300 rounded-full">
+                  <img
+                    src="https://xsgames.co/randomusers/assets/avatars/female/65.jpg"
+                    alt="African Woman 1"
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                </div>
                 <div className="ml-4">
                   <h4 className="font-bold">Claire Uwimana</h4>
-                  <p className="text-gray-600">
-                    {t("testimonials.claire.role")}
-                  </p>
                 </div>
               </div>
             </div>

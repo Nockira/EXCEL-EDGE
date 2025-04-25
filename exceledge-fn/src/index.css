@@ -6,16 +6,17 @@ html {
 }
 body {
   margin: 0;
-   font-family: "Nunito", "Inter", "Playfair Display", "DM Sans", "Merriweather";
+  font-family: "Montserrat Black", "Avenir Next Demi Bold", "Century Gothic Bold", sans-serif;
+  line-height: 1.2;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f3f4f6;
 }
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
 .hide-scrollbar {
   scrollbar-width: none; 
   -ms-overflow-style: none; 

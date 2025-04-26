@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Youtube } from "lucide-react";
+import { Facebook } from "lucide-react";
 import { LanguageSwitcher } from "../LanguageSwitcher";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/exceledge1.png";

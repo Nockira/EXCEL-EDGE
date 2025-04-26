@@ -16,7 +16,6 @@ npm-debug.log
 yarn-debug.log
 yarn-error.log
 # Ignore package-lock.json and yarn.lock
-package-lock.json
 yarn.lock
 # Ignore test coverage reports
 coverage/

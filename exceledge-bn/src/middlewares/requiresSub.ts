@@ -10,8 +10,8 @@ export const requireSubscription = (service: string) => {
       res.status(403).json({
         message: `Subscription required for ${service} service`,
       });
+    } else {
+      next();
     }
-
-    next();
   };
 };

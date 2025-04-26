@@ -351,7 +351,7 @@
   "processPayment": {
     "processingPayment": "Processing Payment",
     "paymentRequest": "You have requested payment for {serviceName}",
-    "amount": "Amount: {amount}",
+    "amount": "Amount:",
     "checkPhone": "Check your phone for a payment request notification",
     "paymentInstruction": "Or dial *182*7*1# to complete your payment",
     "paymentInstructionAirtel": "Or follow Airtel Money prompts to complete your payment"
@@ -406,5 +406,9 @@
     "google": "Google Location Establishment",
     "library": "Books & Media Library",
     "accounting_services": "Accounting & Tax Services"
+  },
+  "books": {
+    "title": "Books and Library",
+    "description": "Explore our collection of books in multiple formats"
   }
 }

@@ -40,22 +40,39 @@ export const updateUser = async (id: string, userData: Partial<User>) => {
         success: false,
         message: `User with ID ${id} not found`,
       };
-    } else {
-      const updatedUser = await prisma.user.update({
-        where: { id },
-        data: {
-          firstName: userData.firstName ?? existingUser.firstName,
-          secondName: userData.secondName ?? existingUser.secondName,
-          email: userData.email ?? existingUser.email,
-          phone: userData.phone ?? existingUser.phone,
-          password: userData.password ?? existingUser.password,
-          gender: userData.gender ?? existingUser.gender,
-          dob: userData.dob ? new Date(userData.dob) : existingUser.dob,
-          role: userData.role ?? existingUser.role,
+    }
+
+    if (userData.phone && userData.phone !== existingUser.phone) {
+      const phoneTaken = await prisma.user.findFirst({
+        where: {
+          phone: userData.phone,
+          NOT: { id },
         },
       });
-      return { success: true, data: updatedUser };
+
+      if (phoneTaken) {
+        return {
+          success: false,
+          message: "Phone number is already in use by another user",
+        };
+      }
     }
+
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: {
+        firstName: userData.firstName ?? existingUser.firstName,
+        secondName: userData.secondName ?? existingUser.secondName,
+        email: userData.email ?? existingUser.email,
+        phone: userData.phone ?? existingUser.phone,
+        password: userData.password ?? existingUser.password,
+        gender: userData.gender ?? existingUser.gender,
+        dob: userData.dob ? new Date(userData.dob) : existingUser.dob,
+        role: userData.role ?? existingUser.role,
+      },
+    });
+
+    return { success: true, data: updatedUser };
   } catch (error) {
     console.error("Error updating user:", error);
     return {

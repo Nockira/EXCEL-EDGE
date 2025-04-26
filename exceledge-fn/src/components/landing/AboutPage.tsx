@@ -276,8 +276,8 @@ export const AboutSection = () => {
             {t("about.ready")}
           </h3>
           <p className="text-gray-600 mb-6">{t("about.cta")}</p>
-          <button className="bg-[#fdc901] hover:text-[#fdc901] text-white font-medium py-2 px-6 rounded-md transition-colors">
-            <Link to="/pricing">{t("about.viewPricing")}</Link>
+          <button className="bg-[#fdc901] hover:text-black text-white font-medium py-2 px-6 rounded-md transition-colors">
+            <Link to="/services">{t("about.viewPricing")}</Link>
           </button>
         </div>
       </div>

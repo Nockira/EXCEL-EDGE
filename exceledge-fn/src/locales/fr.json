@@ -294,7 +294,7 @@
   "processPayment": {
     "processingPayment": "Traitement du paiement",
     "paymentRequest": "Vous avez demandé un paiement pour {serviceName}",
-    "amount": "Montant : {amount}",
+    "amount": "Montant : ",
     "checkPhone": "Vérifiez votre téléphone pour une notification de demande de paiement",
     "paymentInstruction": "Ou composez le *182*7*1# pour finaliser votre paiement",
     "paymentInstructionAirtel": "Ou suivez les instructions d'Airtel Money pour finaliser votre paiement"
@@ -349,5 +349,10 @@
     "google": "Établissement de l’emplacement Google",
     "library": "Bibliothèque de livres et de médias",
     "accounting_services": "Services de comptabilité et de fiscalité"
+  },
+
+  "books": {
+    "title": "Livres et Bibliothèque",
+    "description": "Explorez notre collection de livres dans plusieurs formats"
   }
 }

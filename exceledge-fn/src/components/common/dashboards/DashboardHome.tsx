@@ -212,12 +212,10 @@ export const DashboardHome = () => {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    outerRadius={80}
+                    outerRadius={90}
                     fill="#8884d8"
                     dataKey="value"
-                    label={({ name, percentage }) =>
-                      `${name} ${percentage.toFixed(1)}%`
-                    }
+                    label={({ percentage }) => `${percentage.toFixed(1)}%`}
                   >
                     {serviceDistribution.map((entry, index) => (
                       <Cell
@@ -227,13 +225,28 @@ export const DashboardHome = () => {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value: number, name: string) => [
-                      `${value.toLocaleString()} RWF`,
-                      name,
-                    ]}
+                    formatter={(value: number) =>
+                      `${value.toLocaleString()} RWF`
+                    }
                   />
                 </PieChart>
               </ResponsiveContainer>
+
+              {/* Legend */}
+              <div className="flex flex-wrap gap-4 justify-center">
+                {serviceDistribution.map((entry, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center space-x-2 text-sm"
+                  >
+                    <div
+                      className="w-4 h-4 rounded"
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    ></div>
+                    <span>{entry.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>

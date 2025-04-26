@@ -251,18 +251,14 @@ export const PricingPage = () => {
       <div className="relative">
         {/* Image container with overlay */}
         <div className="relative w-full h-[50vh] overflow-hidden">
-          <img
-            src={TinMn}
-            alt="pricing"
-            className="w-full h-full object-cover"
-          />
+          <img src={TinMn} alt="tins" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
-              {t("fqa.title")}
+            <h1 className="text-4xl md:text-4xl font-bold text-white mb-8 text-center">
+              {t("navigation.pricing")}
             </h1>
-            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-8">
+            {/* <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-8">
               {t("fqa.subtitle")}
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

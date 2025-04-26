@@ -16,8 +16,6 @@ interface UserData {
   role: string;
 }
 
-export const token = localStorage.getItem("accessToken");
-
 export const MainHeader: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -30,7 +28,7 @@ export const MainHeader: React.FC = () => {
   const navigate = useNavigate();
 
   const { t } = useTranslation<string>();
-
+  const token = localStorage.getItem("accessToken");
   const links = [
     { to: "/", label: t("navigation.home") },
     { to: "/about", label: t("navigation.about") },
@@ -40,10 +38,10 @@ export const MainHeader: React.FC = () => {
     { to: "/pages/announcements", label: t("navigation.announcements") },
   ];
 
-  const authLinks = [
-    { to: "/login", label: t("navigation.login") },
-    { to: "/sign-in", label: t("navigation.register") },
-  ];
+  // const authLinks = [
+  //   { to: "/login", label: t("navigation.login") },
+  //   { to: "/sign-in", label: t("navigation.register") },
+  // ];
 
   useEffect(() => {
     const loadUserProfile = async () => {
@@ -69,11 +67,9 @@ export const MainHeader: React.FC = () => {
           email: response.data.email,
           role: response.data.role,
         });
-
         setError(null);
       } catch (err) {
         console.error("Error loading user profile:", err);
-        setError("Failed to load user profile");
         try {
           const decoded: any = jwtDecode(token);
           setUserData({
@@ -91,7 +87,7 @@ export const MainHeader: React.FC = () => {
     };
 
     loadUserProfile();
-  }, [token]);
+  }, [token]); // ← rerun if token changes
 
   const handleLogout = () => {
     setIsLoggedIn(false);

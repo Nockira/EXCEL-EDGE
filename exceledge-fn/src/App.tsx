@@ -5,7 +5,6 @@ import AppRoutes from "./routes/AppRoutes";
 import ScrollToTop from "./components/ScrollToTop";
 import "./index.css";
 import "./i18n/i18n";
-
 const App: React.FC = () => {
   return (
     <div>

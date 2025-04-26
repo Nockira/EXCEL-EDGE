@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+import { fetchUserProfile } from "../services/service";
 
 interface DecodedToken {
   id: string;
@@ -20,13 +21,9 @@ const GoogleAuthCallback: React.FC = () => {
 
   useEffect(() => {
     if (processed) return;
-
     const handleAuth = async () => {
       const queryParams = new URLSearchParams(location.search);
       const token = queryParams.get("token");
-
-      console.log("Token found:", token ? "Yes" : "No");
-
       if (token) {
         try {
           localStorage.setItem("accessToken", token);
@@ -46,13 +43,13 @@ const GoogleAuthCallback: React.FC = () => {
           console.error("Token decode error:", err);
           toast.error("Invalid or expired token. Please login again.");
           setProcessed(true);
-          navigate("/login", { replace: true });
+          navigate("/", { replace: true });
         }
       } else {
         if (location.pathname.includes("/auth/callback")) {
           toast.error("Login failed. Authentication token missing.");
           setProcessed(true);
-          navigate("/login", { replace: true });
+          navigate("/", { replace: true });
         }
       }
     };

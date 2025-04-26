@@ -7,6 +7,7 @@ import {
   updateTransaction,
   getTransactionById,
   initializePayment,
+  getTransactionsByUserId,
 } from "../controllers/transaction.controller";
 import { validateSchema } from "../middlewares/schemaValidation";
 import {
@@ -21,6 +22,7 @@ import { isAdmin } from "../middlewares/isAdmin";
 const transactionRoutes = Router();
 transactionRoutes.get("/", isLoggedIn, getTransactions);
 transactionRoutes.get("/:id", isLoggedIn, getTransactionById);
+transactionRoutes.get("/users/:userId", isLoggedIn, getTransactionsByUserId);
 transactionRoutes.post(
   "/",
   validateSchema(createTransactionSchema),

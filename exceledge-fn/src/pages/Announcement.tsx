@@ -83,7 +83,7 @@ export const Announcements = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
               {t("announcement.announcements")}
             </h1>
             <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-4">
@@ -144,12 +144,12 @@ export const Announcements = () => {
                       <h3 className="font-bold text-gray-900 text-lg">
                         {announcement.title}
                       </h3>
-                      <div
-                        className="text-gray-600 mb-4 quill-content"
-                        dangerouslySetInnerHTML={{
-                          __html: announcement.content,
-                        }}
-                      />
+                      <div className="text-gray-600 mb-4">
+                        {announcement.content
+                          .replace(/<[^>]+>/g, "")
+                          .slice(0, 250)}
+                        ...
+                      </div>
                     </div>
                     <FiChevronDown className="text-gray-400 flex-shrink-0 ml-4 mt-1" />
                   </div>

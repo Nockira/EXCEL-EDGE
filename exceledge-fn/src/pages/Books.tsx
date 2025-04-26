@@ -24,6 +24,7 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { BeatLoader } from "react-spinners";
 import { PaymentModal } from "../components/Auth/PaymentRequired";
+import { useTranslation } from "react-i18next";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -45,6 +46,7 @@ interface Book {
 }
 
 export const BookLibrary = () => {
+  const { t } = useTranslation<string>();
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedFormats, setSelectedFormats] = useState({
@@ -707,7 +709,7 @@ export const BookLibrary = () => {
       <MainLayout>
         <div className=" mx-auto p-8">
           <button
-            className="mb-4 flex items-center text-white p-1 hover:text-yellow-800  border rounded-md bg-yellow-600"
+            className="mb-4 flex items-center text-white p-1 mt-16 hover:text-yellow-800  border rounded-md bg-yellow-600"
             onClick={() => setSelectedBook(null)}
           >
             <ArrowLeft size={18} className="mr-2" />
@@ -800,18 +802,18 @@ export const BookLibrary = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
-              Books and Library
+            <h1 className="text-4xl md:text-4xl font-bold text-white mb-8 text-center">
+              {t("books.title")}
             </h1>
-            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-4">
-              Explore our collection of books in multiple formats
-            </p>
+            {/* <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-4">
+              {t("books.description")}
+            </p> */}
           </div>
         </div>
       </div>
       <div className="max-w-6xl mx-auto pt-6 px-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          <h1 className="text-3xl font-bold text-gray-800">Book Library</h1>
+          {/* <h1 className="text-3xl font-bold text-gray-800">Book Library</h1> */}
 
           <div className="w-full md:w-auto flex flex-col md:flex-row gap-4">
             <div className="relative w-full md:w-64">

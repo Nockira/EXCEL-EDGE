@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
-import { fetchUserProfile } from "../services/service";
+import { useTranslation } from "react-i18next";
 
 interface DecodedToken {
   id: string;
@@ -15,6 +15,7 @@ interface DecodedToken {
 }
 
 const GoogleAuthCallback: React.FC = () => {
+  const { t } = useTranslation<string>();
   const navigate = useNavigate();
   const location = useLocation();
   const [processed, setProcessed] = useState(false);
@@ -33,7 +34,9 @@ const GoogleAuthCallback: React.FC = () => {
             throw new Error("Token expired");
           }
           setProcessed(true);
-          toast.success(`Welcome back, ${decoded.firstName}!`);
+          toast.success(
+            `${t("toast.welcome")}, ${decoded.firstName} ${decoded.secondName}!`
+          );
           if (decoded.role === "ADMIN") {
             navigate("/admin-dashboard", { replace: true });
           } else {

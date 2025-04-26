@@ -28,7 +28,7 @@ export const sendContactRequest = async (data: any, io: any) => {
 
   <footer style="font-size: 12px; color: #888;">
     <p>Exceledge</p>
-    <p>1234 Innovation Drive, Kigali, Rwanda</p>
+    <p>142 KK 718 St, Kigali, Rwanda</p>
     <p><a href="mailto:support@exceledge.com" style="color: #888;">support@exceledge.com</a> | <a href="https://exceledge.com" style="color: #888;">www.exceledge.com</a></p>
   </footer>
 </div>
@@ -37,17 +37,17 @@ export const sendContactRequest = async (data: any, io: any) => {
   }
 
   await sendEmail({
-    to: process.env.ADMIN_EMAIL!,
+    to: process.env.FROM_EMAIL_TO!,
     subject: "New Contact Request",
     html: `<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-  <p><strong style="color: #2c3e50;">${data.name}</strong> with phone number <strong style="color: #2c3e50;">${data.phone}</strong>  has sent you a message.</p>
+  <p><strong style="color: #2c3e50;">${data.name}</strong> with phone number <strong style="color: #2c3e50;">${data.phone}</strong> </strong> with phone number <strong style="color: #2c3e50;">${data.email}</strong>  has sent you a message.</p>
   <p style="margin-top: 10px;">"${data.message}"</p>
 
   <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
 
   <footer style="font-size: 12px; color: #888;">
     <p>Exceledge</p>
-    <p>1234 Innovation Drive, Kigali, Rwanda</p>
+    <p>42 KK 718 St, Kigali, Rwanda</p>
     <p>Need help? Contact us at <a href="mailto:support@exceledge.com" style="color: #888;">support@exceledge.com</a></p>
   </footer>
 </div>`,

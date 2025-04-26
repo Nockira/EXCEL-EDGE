@@ -228,9 +228,9 @@ export const MainHeader: React.FC = () => {
               ) : (
                 <a
                   href="/contact-us"
-                  className="inline-block px-6 py-1 border text-white rounded-md hover:bg-yellow-600 transition"
+                  className="inline-block px-6 py-1 border border-black text-black rounded-md hover:bg-yellow-600 transition"
                 >
-                  Reach out Easily
+                  {t("navigation.connect")}
                 </a>
               )}
             </div>

@@ -96,7 +96,7 @@ export const HeroSection = () => {
         ) : (
           <Link
             to="/services"
-            className="px-8 py-3 border border-white text-white rounded-md font-medium hover:bg-white hover:text-black transition"
+            className="sm:w-[40%] w-full flex items-center justify-center items-center gap-3 bg-white/20 backdrop-blur-md border border-gray-500 text-white font-medium py-2.5 px-4 rounded-full disabled:opacity-50 mb-4 transition-all"
           >
             {t("cta.viewServices")}
           </Link>

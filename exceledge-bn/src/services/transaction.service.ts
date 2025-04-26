@@ -124,15 +124,6 @@ export const getTransactionById = async (id: string) => {
 export const getTransactionsByUserId = async (userId: string) => {
   return await prisma.transaction.findMany({
     where: { userId },
-    include: {
-      user: {
-        select: {
-          id: true,
-          firstName: true,
-          secondName: true,
-        },
-      },
-    },
   });
 };
 

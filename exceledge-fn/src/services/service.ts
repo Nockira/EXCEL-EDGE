@@ -35,7 +35,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("accessToken");
-      window.location.href = "/login";
+      window.location.href = "/";
       return Promise.reject(error);
     }
     // if (error.response?.status === 400) {
@@ -194,6 +194,19 @@ export const getAllTransactions = async () => {
     return transactions;
   } catch (error) {
     console.error("Error uploading avatar:", error);
+    throw error;
+  }
+};
+
+export const getTransactionsByUSerId = async (id: string) => {
+  try {
+    const response = await api.get(`/transactions/users/${id}`);
+    return response;
+  } catch (error: any) {
+    if (error.response?.status === 404) {
+      return null;
+    }
+    console.error("Error fetching transaction:", error);
     throw error;
   }
 };

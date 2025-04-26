@@ -535,12 +535,12 @@ export const ServiceSections = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
-            <h1 className="text-3xl md:text-3xl font-bold text-white mb-2 text-center">
+            <h1 className="text-3xl md:text-3xl font-bold text-white mb-8 text-center">
               {t("services.ourServices")}
             </h1>
-            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4  mb-8">
+            {/* <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4  mb-8">
               {t("services.transparentPricing")}
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
@@ -549,7 +549,7 @@ export const ServiceSections = () => {
         <section className="bg-gray-200 py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">
+              <h2 className="text-xl font-bold mb-4">
                 {t("services.fixedPriceServices")}
               </h2>
             </div>
@@ -597,7 +597,7 @@ export const ServiceSections = () => {
         <section className="bg-gray-100 py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">
+              <h2 className="text-xl font-bold mb-4">
                 {t("services.negotiableServices")}
               </h2>
             </div>

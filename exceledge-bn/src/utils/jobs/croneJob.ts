@@ -17,7 +17,7 @@ export class TransactionCronService {
       }
     });
 
-    console.log("Transaction cron jobs initialized");
+    console.log("Transaction cron jobs initialized...");
   }
 }
 

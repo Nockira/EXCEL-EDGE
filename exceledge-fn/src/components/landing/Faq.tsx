@@ -20,12 +20,12 @@ export const FAQSection = () => {
         <div className="relative w-full h-[50vh] overflow-hidden">
           <img src={Faq} alt="pricing" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-end">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
+            <h1 className="text-4xl md:text-3xl font-bold text-white mb-8 text-center">
               {t("fqa.title")}
             </h1>
-            <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-8">
+            {/* <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-8">
               {t("fqa.subtitle")}
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

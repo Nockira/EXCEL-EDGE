@@ -294,7 +294,7 @@
   "processPayment": {
     "processingPayment": "Birimo gukorwa kwishyura",
     "paymentRequest": "Wasabye kwishyura {serviceName}",
-    "amount": "Amafaranga: {amount}",
+    "amount": "Amafaranga: ",
     "checkPhone": "Reba kuri telefone yawe kugirango ubone ubutumwa bw'ubusabe bwo kwishyura",
     "paymentInstruction": "Cira *182*7*1# kugirango ushyure",
     "paymentInstructionAirtel": "Cira amabwiriza ya Airtel Money kugirango ushyure"
@@ -348,5 +348,10 @@
     "google": "Gushyira Bussines kuri Google",
     "library": "Isomero ry’Ibitabo",
     "accounting_services": "Serivisi z’Ibaruramari n’Imisoro"
+  },
+
+  "books": {
+    "title": "Ibitabo n’Isomero",
+    "description": "Sura urutonde rw’ibitabo byacu biri mu buryo butandukanye"
   }
 }

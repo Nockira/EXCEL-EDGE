@@ -6,7 +6,7 @@ export const requireSubscription = (service: string) => {
     const user: any = req.user;
     const status = await checkSubscriptionStatus(user.id, service);
 
-    if (!status.isActive) {
+    if (!status.isActive && user.role !== "ADMIN") {
       res.status(403).json({
         message: `Subscription required for ${service} service`,
       });

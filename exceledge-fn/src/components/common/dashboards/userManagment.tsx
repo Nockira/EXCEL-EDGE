@@ -9,7 +9,6 @@ import {
   FiChevronRight,
   FiX,
 } from "react-icons/fi";
-import { token } from "../navigator/MainHeader";
 import { toast } from "react-toastify";
 import { deleteUser, fetchAllUsers } from "../../../services/service";
 import { API_BASE_URL } from "../../../services/service";
@@ -33,6 +32,7 @@ export const UserManagement = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
   const usersPerPage = 6;
+  const token = localStorage.getItem("accessToken");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

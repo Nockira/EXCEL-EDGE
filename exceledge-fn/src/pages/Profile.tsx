@@ -11,6 +11,7 @@ import { MainLayout } from "../components/layouts/MainLayout";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import exceledgeLogo from "../assets/exceledge1.png";
+import { useTranslation } from "react-i18next";
 
 interface User {
   id: string;
@@ -48,6 +49,7 @@ interface UpdateUserPayload {
 }
 
 export const Profile: React.FC = () => {
+  const { t } = useTranslation<string>();
   const [user, setUser] = useState<User | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<UpdateUserPayload>({});
@@ -81,7 +83,7 @@ export const Profile: React.FC = () => {
         setTransactions(transactionsResponse.data || []);
         setError(null);
       } catch (err) {
-        setError("Failed to load user profile");
+        // setError("Failed to load user profile");
         console.error(err);
       } finally {
         setIsFetching(false);
@@ -183,7 +185,7 @@ export const Profile: React.FC = () => {
       setUser(updatedUser.data);
       setFormData({});
       setEditMode(false);
-      toast.success("Profile updated successfully");
+      toast.success(t("toast.profile"));
     } catch (err: any) {
       toast.error(err.response.data.message || "Failed to save profile");
     } finally {
@@ -472,46 +474,50 @@ export const Profile: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-xl font-semibold mb-4">Your Transactions</h2>
 
-              {transactions.length === 0 ? (
-                <p className="text-gray-500">No transactions found</p>
+              {transactions.filter(
+                (transaction) => transaction.status === "COMPLETED"
+              ).length === 0 ? (
+                <p className="text-gray-500">No completed transactions found</p>
               ) : (
                 <div className="space-y-4">
-                  {transactions.map((transaction) => (
-                    <div
-                      key={transaction.id}
-                      className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-                        selectedTransaction?.id === transaction.id
-                          ? "border-yellow-400 bg-yellow-50"
-                          : "border-gray-200 hover:bg-gray-50"
-                      }`}
-                      onClick={() => setSelectedTransaction(transaction)}
-                    >
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="font-medium">
-                            {transaction.service.replace(/_/g, " ")}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            {formatDate(transaction.createdAt)}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p
-                            className={`font-bold ${
-                              transaction.status === "FAILED"
-                                ? "text-red-500"
-                                : "text-green-500"
-                            }`}
-                          >
-                            {transaction.amount.toFixed(2)}RFW
-                          </p>
-                          <p className="text-xs text-gray-500 capitalize">
-                            {transaction.status.toLowerCase()}
-                          </p>
+                  {transactions
+                    .filter((transaction) => transaction.status === "COMPLETED")
+                    .map((transaction) => (
+                      <div
+                        key={transaction.id}
+                        className={`p-4 border rounded-lg cursor-pointer transition-colors ${
+                          selectedTransaction?.id === transaction.id
+                            ? "border-yellow-400 bg-yellow-50"
+                            : "border-gray-200 hover:bg-gray-50"
+                        }`}
+                        onClick={() => setSelectedTransaction(transaction)}
+                      >
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-medium">
+                              {transaction.service.replace(/_/g, " ")}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                              {formatDate(transaction.createdAt)}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p
+                              className={`font-bold ${
+                                transaction.status === "FAILED"
+                                  ? "text-red-500"
+                                  : "text-green-500"
+                              }`}
+                            >
+                              {transaction.amount.toFixed(2)} RFW
+                            </p>
+                            <p className="text-xs text-gray-500 capitalize">
+                              {transaction.status.toLowerCase()}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               )}
             </div>

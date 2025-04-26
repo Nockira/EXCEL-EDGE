@@ -15,7 +15,8 @@
     "book": "Ibitabo",
     "announcements": "Amatangazo",
     "login": "Injira",
-    "register": "Iyandikishe"
+    "register": "Iyandikishe",
+    "connect": "Twandikire"
   },
   "impact": {
     "title": "Ingaruka zacu mu mibare",
@@ -353,5 +354,11 @@
   "books": {
     "title": "Ibitabo n’Isomero",
     "description": "Sura urutonde rw’ibitabo byacu biri mu buryo butandukanye"
+  },
+  "toast": {
+    "contactFormSubmit": " Murakoze ku butumwa mwatwoherereje! Tuzabagezaho igisubizo vuba.",
+    "submitErrorMessage": "Habayeho ikosa mu kohereza ubutumwa bwanyu. Mwongere mugerageze nyuma.",
+    "welcome": "Murakaza neza ",
+    "profile": "Umwirondoro wawe wavuguruwe neza"
   }
 }

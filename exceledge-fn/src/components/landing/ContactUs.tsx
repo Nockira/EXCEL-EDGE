@@ -12,7 +12,7 @@ export const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "", // This will store only the local number part
+    phone: "",
     message: "",
   });
   const [selectedCountry, setSelectedCountry] = useState<Country>(
@@ -56,10 +56,7 @@ export const ContactUs = () => {
 
       await sendRequest(submissionData);
 
-      toast.success(
-        t("contact.form.successMessage") ||
-          "Thank you for your message! We will get back to you soon."
-      );
+      toast.success(t("toast.contactFormSubmit"));
       setFormData({
         name: "",
         email: "",
@@ -67,10 +64,7 @@ export const ContactUs = () => {
         message: "",
       });
     } catch (error) {
-      toast.error(
-        t("contact.form.errorMessage") ||
-          "There was an error submitting your form. Please try again later."
-      );
+      toast.error(t("toast.submitErrorMessage"));
       console.error("Submission error:", error);
     } finally {
       setIsSubmitting(false);

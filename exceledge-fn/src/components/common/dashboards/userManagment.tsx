@@ -278,6 +278,7 @@ export const UserManagement = () => {
                           <option value={user.role}>{user.role}</option>
                           <option value="USER">User</option>
                           <option value="ADMIN">Admin</option>
+                          <option value="PARTNER">Partner</option>
                         </select>
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                           <FiChevronDown />

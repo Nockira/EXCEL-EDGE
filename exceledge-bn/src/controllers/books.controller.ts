@@ -16,17 +16,17 @@ interface MulterFile {
   encoding: string;
   mimetype: string;
   size: number;
-  destination?: string;
-  filename?: string;
-  path?: string;
+  destination: string;
+  filename: string;
+  path: string;
   buffer: Buffer;
+  stream: Readable;
 }
 
-interface BookRequest extends Omit<ExpressRequest, "files"> {
-  files?: {
-    [fieldname: string]: MulterFile[] | undefined;
-  };
+interface BookRequest extends ExpressRequest {
+  files?: MulterFile[] | { [fieldname: string]: MulterFile[] };
 }
+
 const uploadToCloudinary = (
   file: MulterFile,
   resourceType: "image" | "video" | "raw" | "auto"
@@ -58,28 +58,31 @@ const uploadToCloudinary = (
   });
 };
 
-export const create = async (
-  req: BookRequest,
-  res: Response
-): Promise<void> => {
+export const create = async (req: BookRequest, res: Response) => {
   const user: any = req.user;
   try {
-    // Upload files to Cloudinary if they exist
-    const coverImageUrl = req.files?.coverImage?.[0]
-      ? await uploadToCloudinary(req.files.coverImage[0], "image")
-      : null;
+    let coverImageUrl = null;
+    let pdfUrl = null;
+    let audioUrl = null;
+    let videoUrl = null;
 
-    const pdfUrl = req.files?.pdf?.[0]
-      ? await uploadToCloudinary(req.files.pdf[0], "raw")
-      : null;
+    if (req.files && !Array.isArray(req.files)) {
+      coverImageUrl = req.files.coverImage?.[0]
+        ? await uploadToCloudinary(req.files.coverImage[0], "image")
+        : null;
 
-    const audioUrl = req.files?.audio?.[0]
-      ? await uploadToCloudinary(req.files.audio[0], "video")
-      : null;
+      pdfUrl = req.files.pdf?.[0]
+        ? await uploadToCloudinary(req.files.pdf[0], "raw")
+        : null;
 
-    const videoUrl = req.files?.video?.[0]
-      ? await uploadToCloudinary(req.files.video[0], "video")
-      : null;
+      audioUrl = req.files.audio?.[0]
+        ? await uploadToCloudinary(req.files.audio[0], "video")
+        : null;
+
+      videoUrl = req.files.video?.[0]
+        ? await uploadToCloudinary(req.files.video[0], "video")
+        : null;
+    }
 
     const bookData = {
       ...req.body,
@@ -141,40 +144,50 @@ export const findOne = async (
 export const update = async (req: BookRequest, res: Response) => {
   try {
     const existingBook = await getBookById(req.params.id);
+
     if (!existingBook) {
       res.status(404).json({ message: "Book not found" });
-    } else {
-      const coverImageUrl = req.files?.coverImage?.[0]
+      return;
+    }
+
+    let coverImageUrl = existingBook.coverImageUrl;
+    let pdfUrl = existingBook.pdfUrl;
+    let audioUrl = existingBook.audioUrl;
+    let videoUrl = existingBook.videoUrl;
+
+    if (req.files && !Array.isArray(req.files)) {
+      coverImageUrl = req.files.coverImage?.[0]
         ? await uploadToCloudinary(req.files.coverImage[0], "image")
         : existingBook.coverImageUrl;
 
-      const pdfUrl = req.files?.pdf?.[0]
+      pdfUrl = req.files.pdf?.[0]
         ? await uploadToCloudinary(req.files.pdf[0], "raw")
         : existingBook.pdfUrl;
 
-      const audioUrl = req.files?.audio?.[0]
+      audioUrl = req.files.audio?.[0]
         ? await uploadToCloudinary(req.files.audio[0], "video")
         : existingBook.audioUrl;
 
-      const videoUrl = req.files?.video?.[0]
+      videoUrl = req.files.video?.[0]
         ? await uploadToCloudinary(req.files.video[0], "video")
         : existingBook.videoUrl;
-
-      const bookData = {
-        ...req.body,
-        type: req.body.type?.split(",").map((t: string) => t.trim()),
-        coverImageUrl,
-        pdfUrl,
-        audioUrl,
-        videoUrl,
-      };
-
-      const book = await updateBook(req.params.id, bookData);
-      res.status(200).json({
-        message: "Books details updated successful",
-        book,
-      });
     }
+
+    const updatedBookData = {
+      ...req.body,
+      type: req.body.type?.split(",").map((t: string) => t.trim()),
+      coverImageUrl,
+      pdfUrl,
+      audioUrl,
+      videoUrl,
+    };
+
+    const updatedBook = await updateBook(req.params.id, updatedBookData);
+
+    res.status(200).json({
+      message: "Book details updated successfully",
+      book: updatedBook,
+    });
   } catch (err) {
     console.error("Error updating book:", err);
     res.status(500).json({

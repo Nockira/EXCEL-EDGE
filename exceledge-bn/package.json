@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npx prisma generate && npx prisma migrate deploy && ts-node src/server.ts",
+    "start": "npm run build && npx prisma generate && npx prisma migrate deploy && node build/src/server.js",
     "dev": "npm run migrate:dev && ts-node-dev --respawn --transpile-only --exit-child src/server.ts",
     "migrate:dev": "npx prisma migrate dev --name init || true",
     "migrate": "npx prisma migrate dev --name",

@@ -15,7 +15,8 @@
     "pricing": "Tarification",
     "announcements": "Annonces",
     "login": "Connexion",
-    "register": "S'inscrire"
+    "register": "S'inscrire",
+    "connect": "Écrivez-nous"
   },
   "impact": {
     "title": "Notre Impact en Chiffres",
@@ -350,9 +351,14 @@
     "library": "Bibliothèque de livres et de médias",
     "accounting_services": "Services de comptabilité et de fiscalité"
   },
-
   "books": {
     "title": "Livres et Bibliothèque",
     "description": "Explorez notre collection de livres dans plusieurs formats"
+  },
+  "toast": {
+    "contactFormSubmit": "Merci pour votre message ! Nous vous répondrons bientôt.",
+    "submitErrorMessage": "Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer plus tard.",
+    "welcome": "Bienvenue",
+    "profile": "Profil mis à jour avec succès"
   }
 }

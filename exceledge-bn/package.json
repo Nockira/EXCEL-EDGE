@@ -9,7 +9,7 @@
     "migrate": "npx prisma migrate dev --name",
     "prisma:generate": "npx prisma generate",
     "push": "npx prisma db push",
-    "build": "tsc",
+    "build": "node --max-old-space-size=4096 ./node_modules/.bin/tsc",
     "format": "prettier --write .",
     "test": "jest --detectOpenHandles --forceExit && jest --coverage",
     "test:watch": "jest --watch",

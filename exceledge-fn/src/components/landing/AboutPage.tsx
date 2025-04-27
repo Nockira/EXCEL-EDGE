@@ -57,7 +57,7 @@ export const AboutSection = () => {
             <h1 className="text-3xl md:text-3xl font-bold text-white mb-2 text-center">
               {t("about.aboutUs")}
             </h1>
-            <p className="text-xl md:text-xl text-white text-center max-w-2xl px-4  mb-8">
+            <p className="text-xl sm:block hidden md:text-xl text-white text-center max-w-2xl px-4  mb-8">
               {t("about.aboutUsDescription")}
             </p>
           </div>

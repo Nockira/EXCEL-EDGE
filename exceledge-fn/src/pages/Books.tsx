@@ -15,6 +15,7 @@ import {
   Volume2,
   Maximize,
   Minimize,
+  Menu,
 } from "lucide-react";
 import { MainLayout } from "../components/layouts/MainLayout";
 import LibraryImg from "../assets/resources.jpg";
@@ -26,6 +27,7 @@ import { BeatLoader } from "react-spinners";
 import { PaymentModal } from "../components/Auth/PaymentRequired";
 import { AuthModal } from "../components/Auth/LoginRequired";
 import { useTranslation } from "react-i18next";
+import { SubSubHeader } from "../components/common/navigator/subMainHeader";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -69,11 +71,11 @@ export const BookLibrary = () => {
   >("pdf");
   const [isPaymentRequired, setIsPaymentRequired] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // PDF Viewer State
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageNumber, setPageNumber] = useState(1);
-  // Removed duplicate declaration of pdfScale
   const [isPdfLoading, setIsPdfLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Start with sidebar closed
+  const pdfContainerRef = useRef<HTMLDivElement>(null);
+  const [pdfScale, setPdfScale] = useState(1.5);
 
   // Audio Player State
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -89,7 +91,6 @@ export const BookLibrary = () => {
   const [videoDuration, setVideoDuration] = useState(0);
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [pdfScale, setPdfScale] = useState(1);
 
   const handleBookSelect = async (bookId: string) => {
     const token = localStorage.getItem("accessToken");
@@ -101,6 +102,7 @@ export const BookLibrary = () => {
       setLoading(true);
       const book = await getBookById(bookId);
       setSelectedBook(book.book);
+      setSidebarOpen(false);
     } catch (error: any) {
       if (error.message === "Subscription required for BOOKS service") {
         setIsPaymentRequired(true);
@@ -113,16 +115,6 @@ export const BookLibrary = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const handleOrientationChange = () => {
-      setPdfScale(window.innerWidth > window.innerHeight ? 0.9 : 0.7);
-    };
-
-    window.addEventListener("orientationchange", handleOrientationChange);
-    return () =>
-      window.removeEventListener("orientationchange", handleOrientationChange);
-  }, []);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -148,6 +140,7 @@ export const BookLibrary = () => {
     };
     fetchBooks();
   }, []);
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -262,9 +255,6 @@ export const BookLibrary = () => {
     setIsPdfLoading(false);
   };
 
-  const goToPrevPage = () => pageNumber > 1 && setPageNumber(pageNumber - 1);
-  const goToNextPage = () =>
-    numPages && pageNumber < numPages && setPageNumber(pageNumber + 1);
   const zoomIn = () => setPdfScale(pdfScale + 0.25);
   const zoomOut = () => pdfScale > 0.5 && setPdfScale(pdfScale - 0.25);
 
@@ -383,97 +373,15 @@ export const BookLibrary = () => {
     switch (selectedFormat) {
       case "pdf":
         return (
-          <div className="bg-white rounded-lg sm:p-6 p-2 shadow-md sm:ml-0 sm:mr-0 -ml-8 -mr-8 shadow-md sm:w-full">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">{book.title} - PDF</h2>
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600">
-                  Page {pageNumber} of {numPages || "..."}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex-grow bg-gray-100 rounded-md overflow-hidden relative">
-              {isPdfLoading && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-600"></div>
-                </div>
-              )}
-
-              <div className="overflow-auto p-4 flex justify-center">
-                {book?.pdfUrl ? (
-                  <div className="w-full overflow-x-auto flex justify-center">
-                    <Document
-                      file={book.pdfUrl}
-                      onLoadSuccess={onDocumentLoadSuccess}
-                      onLoadError={() => setIsPdfLoading(false)}
-                      loading={
-                        <div className="text-center py-8">
-                          <BeatLoader size={24} color="yellow" />
-                        </div>
-                      }
-                      error={
-                        <div className="text-red-500 text-center py-8">
-                          Failed to load PDF. Please try again later.
-                        </div>
-                      }
-                      className="pdf-document"
-                    >
-                      <Page
-                        pageNumber={pageNumber}
-                        scale={pdfScale}
-                        renderTextLayer={true}
-                        renderAnnotationLayer={true}
-                        loading={
-                          <div className="text-center py-8">
-                            Loading page...
-                          </div>
-                        }
-                        error={
-                          <div className="text-red-500 text-center py-8">
-                            Failed to load page.
-                          </div>
-                        }
-                      />
-                    </Document>
-                  </div>
-                ) : (
-                  <p className="text-center text-gray-500 mt-4">
-                    No PDF available
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={goToPrevPage}
-                  disabled={pageNumber <= 1}
-                  className={`p-2 rounded-md ${
-                    pageNumber <= 1
-                      ? "text-gray-400 cursor-not-allowed"
-                      : "text-yellow-600 hover:bg-yellow-50"
-                  }`}
-                >
-                  <SkipBack size={20} />
-                </button>
-                <button
-                  onClick={goToNextPage}
-                  disabled={pageNumber >= (numPages || 0)}
-                  className={`p-2 rounded-md ${
-                    pageNumber >= (numPages || 0)
-                      ? "text-gray-400 cursor-not-allowed"
-                      : "text-yellow-600 hover:bg-yellow-50"
-                  }`}
-                >
-                  <SkipForward size={20} />
-                </button>
-                <span className="text-sm text-gray-600">
-                  {pageNumber} / {numPages || "..."}
-                </span>
-              </div>
-
+          <div className="flex flex-col h-full">
+            <div className="flex justify-between items-center p-2 bg-white">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="p-2 sm:ml-24 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100"
+              >
+                <Menu size={20} />
+              </button>
+              <h2 className="text-normal font-semibold">{book.title} </h2>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={zoomOut}
@@ -492,104 +400,174 @@ export const BookLibrary = () => {
                 <button
                   onClick={zoomIn}
                   disabled={pdfScale >= 2}
-                  className="p-2 text-yellow-600 hover:bg-yellow-50 rounded-md"
+                  className={`p-2 rounded-md ${
+                    pdfScale >= 2
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-yellow-600 hover:bg-yellow-50"
+                  }`}
                 >
                   <Maximize size={20} />
                 </button>
               </div>
             </div>
+
+            <div
+              ref={pdfContainerRef}
+              className="flex-grow bg-gray-100 overflow-auto relative"
+            >
+              {isPdfLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-600"></div>
+                </div>
+              )}
+
+              {book?.pdfUrl ? (
+                <div className="w-full h-full">
+                  <Document
+                    file={book.pdfUrl}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    onLoadError={() => setIsPdfLoading(false)}
+                    loading={
+                      <div className="text-center py-8">
+                        <BeatLoader size={24} color="yellow" />
+                      </div>
+                    }
+                    error={
+                      <div className="text-red-500 text-center py-8">
+                        Failed to load PDF. Please try again later.
+                      </div>
+                    }
+                    className="pdf-document h-full w-full"
+                  >
+                    {Array.from(new Array(numPages || 0), (el, index) => (
+                      <div
+                        key={`page_${index + 1}`}
+                        className="mb-4 last:mb-0 flex justify-center"
+                      >
+                        <Page
+                          pageNumber={index + 1}
+                          scale={pdfScale}
+                          renderTextLayer={true}
+                          renderAnnotationLayer={true}
+                          loading={
+                            <div className="text-center py-8">
+                              Loading page...
+                            </div>
+                          }
+                          error={
+                            <div className="text-red-500 text-center py-8">
+                              Failed to load page.
+                            </div>
+                          }
+                          className="pdf-page border border-gray-200 shadow-sm"
+                        />
+                      </div>
+                    ))}
+                  </Document>
+                </div>
+              ) : (
+                <p className="text-center text-gray-500 mt-4">
+                  No PDF available
+                </p>
+              )}
+            </div>
           </div>
         );
       case "audio":
         return (
-          <div className="bg-white rounded-lg sm:p-6 p-2 shadow-md sm:ml-0 sm:mr-0 -ml-8 -mr-8 shadow-md sm:w-full">
-            <div className="mb-4">
-              <h2 className="text-xl font-semibold">{book.title} - Audio</h2>
-              <p className="text-gray-600">
-                By {book.author} • {book.language}
-              </p>
+          <div className="flex flex-col h-full">
+            <div className="flex justify-between items-center p-2 bg-white">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="p-2 sm:ml-24 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100"
+              >
+                <Menu size={20} />
+              </button>
+              <h2 className="text-lg font-semibold">{book.title} </h2>
+              <div className="w-8"></div>
             </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <div className="flex items-center justify-center mb-6">
-                <img
-                  src={book.coverImageUrl}
-                  alt={book.title}
-                  className="w-32 h-32 rounded-full object-cover shadow-md"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "https://via.placeholder.com/300x300?text=No+Cover";
-                  }}
-                />
-              </div>
-
-              <audio
-                ref={audioRef}
-                src={book.audioUrl}
-                preload="metadata"
-                className="hidden"
-              />
-
-              <div className="mb-4">
-                <div className="flex justify-between text-sm text-gray-600 mb-1">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(duration)}</span>
+            <div className="flex-grow bg-gray-50 p-4 overflow-auto">
+              <div className="flex flex-col items-center justify-center h-full">
+                <div className="flex items-center justify-center mb-6">
+                  <img
+                    src={book.coverImageUrl}
+                    alt={book.title}
+                    className="w-32 h-32 rounded-full object-cover shadow-md"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "https://via.placeholder.com/300x300?text=No+Cover";
+                    }}
+                  />
                 </div>
-                <input
-                  type="range"
-                  min="0"
-                  max={duration || 0}
-                  value={currentTime}
-                  onChange={handleSeek}
-                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: `linear-gradient(to right,rgb(218, 246, 59) 0%,rgb(224, 246, 59) ${
-                      (currentTime / (duration || 1)) * 100
-                    }%, #e5e7eb ${
-                      (currentTime / (duration || 1)) * 100
-                    }%, #e5e7eb 100%)`,
-                  }}
+
+                <audio
+                  ref={audioRef}
+                  src={book.audioUrl}
+                  preload="metadata"
+                  className="hidden"
                 />
-              </div>
 
-              <div className="flex justify-center items-center space-x-6 mb-6">
-                <button
-                  onClick={skipBackward}
-                  className="p-2 text-gray-700 hover:text-yellow-600 rounded-full hover:bg-gray-100"
-                >
-                  <SkipBack size={24} />
-                </button>
-                <button
-                  onClick={togglePlayPause}
-                  className="p-4 bg-yellow-600 text-white rounded-full hover:bg-yellow-700"
-                >
-                  {isPlaying ? <Pause size={24} /> : <Play size={24} />}
-                </button>
-                <button
-                  onClick={skipForward}
-                  className="p-2 text-gray-700 hover:text-yellow-600 rounded-full hover:bg-gray-100"
-                >
-                  <SkipForward size={24} />
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={toggleMute}
-                    className="text-gray-700 hover:text-yellow-600"
-                  >
-                    <Volume2 size={20} />
-                  </button>
+                <div className="w-full max-w-md mb-4">
+                  <div className="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>{formatTime(currentTime)}</span>
+                    <span>{formatTime(duration)}</span>
+                  </div>
                   <input
                     type="range"
                     min="0"
-                    max="1"
-                    step="0.01"
-                    value={volume}
-                    onChange={handleVolumeChange}
-                    className="w-24 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
+                    max={duration || 0}
+                    value={currentTime}
+                    onChange={handleSeek}
+                    className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
+                    style={{
+                      background: `linear-gradient(to right,rgb(218, 246, 59) 0%,rgb(224, 246, 59) ${
+                        (currentTime / (duration || 1)) * 100
+                      }%, #e5e7eb ${
+                        (currentTime / (duration || 1)) * 100
+                      }%, #e5e7eb 100%)`,
+                    }}
                   />
+                </div>
+
+                <div className="flex justify-center items-center space-x-6 mb-6">
+                  <button
+                    onClick={skipBackward}
+                    className="p-2 text-gray-700 hover:text-yellow-600 rounded-full hover:bg-gray-100"
+                  >
+                    <SkipBack size={24} />
+                  </button>
+                  <button
+                    onClick={togglePlayPause}
+                    className="p-4 bg-yellow-600 text-white rounded-full hover:bg-yellow-700"
+                  >
+                    {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+                  </button>
+                  <button
+                    onClick={skipForward}
+                    className="p-2 text-gray-700 hover:text-yellow-600 rounded-full hover:bg-gray-100"
+                  >
+                    <SkipForward size={24} />
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-center">
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={toggleMute}
+                      className="text-gray-700 hover:text-yellow-600"
+                    >
+                      <Volume2 size={20} />
+                    </button>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume}
+                      onChange={handleVolumeChange}
+                      className="w-24 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -597,19 +575,22 @@ export const BookLibrary = () => {
         );
       case "video":
         return (
-          <div className="bg-white rounded-lg sm:p-6 p-2 shadow-md sm:ml-0 sm:mr-0 -ml-8 -mr-8 shadow-md sm:w-full">
-            <div className="mb-4">
-              <h2 className="text-xl font-semibold">{book.title} - Video</h2>
-              <p className="text-gray-600">
-                By {book.author} • {book.language}
-              </p>
+          <div className="flex flex-col h-full">
+            <div className="flex justify-between items-center p-2 bg-white">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="p-2 sm:ml-24  text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100"
+              >
+                <Menu size={20} />
+              </button>
+              <h2 className="text-lg font-semibold">{book.title}</h2>
+              <div className="w-8"></div>
             </div>
-
-            <div className="relative bg-black rounded-lg overflow-hidden">
+            <div className="flex justify-center items-center relative">
               <video
                 ref={videoRef}
                 src={book.videoUrl}
-                className="w-full"
+                className="sm:w-[80%] h-full object-contain"
                 onClick={toggleVideoPlayPause}
               />
 
@@ -663,23 +644,6 @@ export const BookLibrary = () => {
                 </div>
               </div>
             </div>
-
-            <div className="mt-4 flex justify-between items-center">
-              <div className="flex space-x-2">
-                <button
-                  onClick={skipVideoBackward}
-                  className="p-2 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100"
-                >
-                  <SkipBack size={20} />
-                </button>
-                <button
-                  onClick={skipVideoForward}
-                  className="p-2 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100"
-                >
-                  <SkipForward size={20} />
-                </button>
-              </div>
-            </div>
           </div>
         );
       default:
@@ -687,114 +651,123 @@ export const BookLibrary = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <MainLayout>
-        <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-600"></div>
-        </div>
-      </MainLayout>
-    );
-  }
-
-  if (err) {
-    return (
-      <MainLayout>
-        <div className="flex justify-center items-center h-screen">
-          <div className="text-red-500 text-center">
-            <p>Error loading books:</p>
-            <p>{err.message}</p>
-          </div>
-        </div>
-      </MainLayout>
-    );
-  }
-
   if (selectedBook) {
     return (
-      <MainLayout>
-        <div className=" mx-auto p-8">
-          <button
-            className="mb-4 flex items-center text-white p-1 mt-16 hover:text-yellow-800  border rounded-md bg-yellow-600"
-            onClick={() => setSelectedBook(null)}
-          >
-            <ArrowLeft size={18} className="mr-2" />
-            Back to Library
-          </button>
+      <div>
+        <SubSubHeader />
+        <div className="flex flex-col h-[calc(100vh-64px)]">
+          <div className="flex items-center justify-between p-2 bg-white border-b">
+            <button
+              className="flex sm:ml-24 items-center text-gray-700 hover:text-yellow-600"
+              onClick={() => setSelectedBook(null)}
+            >
+              <ArrowLeft size={18} className="mr-2" />
+              Back to Library
+            </button>
+          </div>
 
-          <div className="flex gap-6 flex-col md:flex-row">
-            <div className="w-full md:w-1/4">
-              <img
-                src={selectedBook.coverImageUrl}
-                alt={selectedBook.title}
-                className="w-full rounded-lg shadow-md"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src =
-                    "https://via.placeholder.com/300x400?text=No+Cover";
-                }}
-              />
-              <div className="mt-4">
-                <h2 className="font-bold text-xl">{selectedBook.title}</h2>
-                <p className="text-gray-600 mt-1">By {selectedBook.author}</p>
-                <p className="text-sm text-gray-500 mt-2">
-                  Language: {selectedBook.language}
-                </p>
-              </div>
+          <div className="flex flex-1 overflow-hidden">
+            {/* Sidebar */}
+            <div
+              className={`${
+                sidebarOpen ? "w-64" : "w-0"
+              } bg-white border-r transition-all duration-300 overflow-hidden flex-shrink-0`}
+            >
+              <div className="p-4 h-full flex flex-col">
+                <div className="mb-6">
+                  <img
+                    src={selectedBook.coverImageUrl}
+                    alt={selectedBook.title}
+                    className="w-full rounded-lg shadow-md mb-4"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "https://via.placeholder.com/300x400?text=No+Cover";
+                    }}
+                  />
+                  <h2 className="font-bold text-lg">{selectedBook.title}</h2>
+                  <p className="text-gray-600 mt-1">By {selectedBook.author}</p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    Language: {selectedBook.language}
+                  </p>
+                </div>
 
-              <div className="mt-6">
-                <h3 className="font-medium mb-3">Available Formats</h3>
-                <div className="space-y-2">
-                  {selectedBook?.type?.includes("PDF") && (
-                    <button
-                      className={`flex items-center w-full px-3 py-2 rounded-md ${
-                        selectedFormat === "pdf"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-gray-50 hover:bg-gray-100"
-                      }`}
-                      onClick={() => setSelectedFormat("pdf")}
-                    >
-                      <FileText size={18} className="mr-2" />
-                      <span>PDF</span>
-                    </button>
-                  )}
+                <div className="mt-auto">
+                  <h3 className="font-medium mb-3">Available Formats</h3>
+                  <div className="space-y-2">
+                    {selectedBook?.type?.includes("PDF") && (
+                      <button
+                        className={`flex items-center w-full px-3 py-2 rounded-md ${
+                          selectedFormat === "pdf"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-gray-50 hover:bg-gray-100"
+                        }`}
+                        onClick={() => {
+                          setSelectedFormat("pdf");
+                          setSidebarOpen(false);
+                        }}
+                      >
+                        <FileText size={18} className="mr-2" />
+                        <span>PDF</span>
+                      </button>
+                    )}
 
-                  {selectedBook?.type?.includes("Audio") && (
-                    <button
-                      className={`flex items-center w-full px-3 py-2 rounded-md ${
-                        selectedFormat === "audio"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-gray-50 hover:bg-gray-100"
-                      }`}
-                      onClick={() => setSelectedFormat("audio")}
-                    >
-                      <Headphones size={18} className="mr-2" />
-                      <span>Audio</span>
-                    </button>
-                  )}
+                    {selectedBook?.type?.includes("Audio") && (
+                      <button
+                        className={`flex items-center w-full px-3 py-2 rounded-md ${
+                          selectedFormat === "audio"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-gray-50 hover:bg-gray-100"
+                        }`}
+                        onClick={() => {
+                          setSelectedFormat("audio");
+                          setSidebarOpen(false);
+                        }}
+                      >
+                        <Headphones size={18} className="mr-2" />
+                        <span>Audio</span>
+                      </button>
+                    )}
 
-                  {selectedBook?.type?.includes("Video") && (
-                    <button
-                      className={`flex items-center w-full px-3 py-2 rounded-md ${
-                        selectedFormat === "video"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-gray-50 hover:bg-gray-100"
-                      }`}
-                      onClick={() => setSelectedFormat("video")}
-                    >
-                      <Video size={18} className="mr-2" />
-                      <span>Video</span>
-                    </button>
-                  )}
+                    {selectedBook?.type?.includes("Video") && (
+                      <button
+                        className={`flex items-center w-full px-3 py-2 rounded-md ${
+                          selectedFormat === "video"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-gray-50 hover:bg-gray-100"
+                        }`}
+                        onClick={() => {
+                          setSelectedFormat("video");
+                          setSidebarOpen(false);
+                        }}
+                      >
+                        <Video size={18} className="mr-2" />
+                        <span>Video</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="w-full md:w-3/4">
+            {/* Main Content */}
+            <div className="flex-1 overflow-auto">
               {renderBookContent(selectedBook)}
             </div>
           </div>
         </div>
-      </MainLayout>
+
+        <AuthModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onLoginSuccess={() => {
+            setIsModalOpen(false);
+          }}
+        />
+        <PaymentModal
+          isOpen={isPaymentRequired}
+          onClose={() => setIsPaymentRequired(false)}
+        />
+      </div>
     );
   }
 
@@ -811,16 +784,11 @@ export const BookLibrary = () => {
             <h1 className="text-4xl md:text-4xl font-bold text-white mb-8 text-center">
               {t("books.title")}
             </h1>
-            {/* <p className="text-xl md:text-2xl text-white text-center max-w-2xl px-4 mb-4">
-              {t("books.description")}
-            </p> */}
           </div>
         </div>
       </div>
       <div className="max-w-6xl mx-auto pt-6 px-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          {/* <h1 className="text-3xl font-bold text-gray-800">Book Library</h1> */}
-
           <div className="w-full md:w-auto flex flex-col md:flex-row gap-4">
             <div className="relative w-full md:w-64">
               <Search

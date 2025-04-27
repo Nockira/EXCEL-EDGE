@@ -16,11 +16,16 @@ import {
   FiImage,
 } from "react-icons/fi";
 import * as yup from "yup";
-import { getAllBooks, uploadBook, updateBook } from "../../../services/service";
+import {
+  getAllBooks,
+  uploadBook,
+  updateBook,
+  deleteABook,
+} from "../../../services/service";
 import { toast } from "react-toastify";
 
 interface Book {
-  id: number;
+  id: string;
   title: string;
   author: string;
   type: string[];
@@ -64,7 +69,7 @@ export const Resources = () => {
   const [currentBook, setCurrentBook] = useState<Book | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [bookToDelete, setBookToDelete] = useState<number | null>(null);
+  const [bookToDelete, setBookToDelete] = useState<string>("");
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const [newBook, setNewBook] = useState<
@@ -244,7 +249,7 @@ export const Resources = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteClick = (id: number) => {
+  const handleDeleteClick = (id: string) => {
     setBookToDelete(id);
     setShowDeleteModal(true);
   };
@@ -254,15 +259,16 @@ export const Resources = () => {
 
     setDeleteLoading(true);
     try {
-      // await deleteBook(bookToDelete.toString());
-      setBooks(books.filter((book) => book.id !== bookToDelete));
+      await deleteABook(bookToDelete);
+      const allBooks = await getAllBooks();
+      setBooks(allBooks);
       toast.success("Book deleted successfully");
     } catch (error) {
       toast.error("Failed to delete book");
     } finally {
       setDeleteLoading(false);
       setShowDeleteModal(false);
-      setBookToDelete(null);
+      setBookToDelete("");
     }
   };
 

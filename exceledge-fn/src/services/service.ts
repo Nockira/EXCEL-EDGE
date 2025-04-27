@@ -356,6 +356,20 @@ export const updateBook = async (id: string, data: FormData) => {
     throw error;
   }
 };
+export const deleteABook = async (id: string) => {
+  try {
+    if (!isAdmin()) {
+      throw new Error(
+        "Unauthorized: Only admin users can delete announcements"
+      );
+    }
+    const response = await api.delete(`/books/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user user profile:", error);
+    throw error;
+  }
+};
 
 // Define the ContactData interface
 interface ContactData {

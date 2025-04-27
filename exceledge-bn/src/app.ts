@@ -9,6 +9,8 @@ import { PrismaClient } from "@prisma/client";
 import appRoutes from "./routes";
 import passport from "passport";
 import session from "express-session";
+const pgSession = require("connect-pg-simple")(session);
+const { Pool } = require("pg");
 import TransactionCronService from "./utils/jobs/croneJob";
 
 validateEnv();
@@ -18,11 +20,31 @@ const prisma = new PrismaClient();
 const app = express();
 const swaggerDocument = YAML.load("openapi.yaml");
 
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? { rejectUnauthorized: false }
+      : false,
+});
+
 app.use(
   session({
-    secret: `${process.env.SESSION_SECRET}`,
+    store: new pgSession({
+      pool,
+      tableName: "session",
+      createTableIfMissing: true,
+      pruneSessionInterval: 60 * 15,
+    }),
+    secret: process.env.SESSION_SECRET || "kjhgfdfghjkllkjhgfdsasdfgh",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false, // Better for GDPR compliance
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
+    },
   })
 );
 

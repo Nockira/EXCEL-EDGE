@@ -66,7 +66,7 @@ export const ServiceSections = () => {
       description: t("services.fixed.library.description"),
       icon: <BookOpen className="h-6 w-6 text-[#fdc901]" />,
       price: 100,
-      basePrice: 100,
+      basePrice: 3600,
       isMonthly: true,
       subscribe: t("servicesPricing.subscribe"),
       isPayment: true,

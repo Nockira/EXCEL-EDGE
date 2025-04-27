@@ -13,7 +13,6 @@ import { AuthModal } from "../components/Auth/LoginRequired";
 type PaymentStatus = "pending" | "processing" | "success" | "failed" | null;
 const api_url: any = API_URL;
 const socket = io(api_url);
-
 export const PricingPage = () => {
   const allServices = useServicesData();
   const [selectedService, setSelectedService] = useState<Service | null>(null);

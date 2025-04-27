@@ -1,29 +1,83 @@
-version: '3.8'
-
 services:
-  backend:
-    build: ./build
-    ports:
-      - '8800:8800'
-    env_file:
-      - .env
-    depends_on:
-      - db
-
-  frontend:
-    build: ./build
-    ports:
-      - '3000:80'
-
-  db:
-    image: postgres:15
-    restart: always
+  exceledge-db:
+    image: postgres:15-alpine
+    container_name: exceledge-postgres
     environment:
-      POSTGRES_DB: excel_edge_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - exceledge_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - exceledge-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  exceledge-backend:
+    build:
+      context: ./exceledge-bn
+      dockerfile: Dockerfile
+    container_name: exceledge-backend
+    environment:
+      - NODE_ENV=production
+      - PORT=8800
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@exceledge-db:5432/${POSTGRES_DB}?schema=public&sslmode=disable
+      - PAYPACK_API=${PAYPACK_API}
+      - JWT_SECRET=${JWT_SECRET}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - CALLBACK_URL=${CALLBACK_URL}
+      - PAYPACK_CLIENT_ID=${PAYPACK_CLIENT_ID}
+      - PAYPACK_SECRET_KEY=${PAYPACK_SECRET_KEY}
+      - PAYPACK_WEBHOOK_SECRET=${PAYPACK_WEBHOOK_SECRET}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - FROM_EMAIL_TO=${FROM_EMAIL_TO}
+      - SESSION_SECRET=${SESSION_SECRET}
+    ports:
+      - "8800:8800"
+    depends_on:
+      exceledge-db:
+        condition: service_healthy
+    networks:
+      - exceledge-network
+    restart: unless-stopped
+
+  exceledge-frontend:
+    build:
+      context: ./exceledge-fn
+      dockerfile: Dockerfile
+    container_name: exceledge-frontend
+    environment:
+      - REACT_APP_API_BASE_URL=/api/v1
+      - REACT_APP_GOOGLE_MAPS_API_KEY=${REACT_APP_GOOGLE_MAPS_API_KEY}
+    ports:
+      - "3000:80"
+    depends_on:
+      - exceledge-backend
+    networks:
+      - exceledge-network
+    restart: unless-stopped
+
+networks:
+  exceledge-network:
+    driver: bridge
 
 volumes:
-  pgdata:
+  exceledge_postgres_data:

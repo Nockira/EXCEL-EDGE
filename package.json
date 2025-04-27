@@ -1,0 +1,22 @@
+{
+  "name": "excel-edge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "docker:rebuild": "docker-compose down && docker-compose up -d --build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nockira/EXCEL-EDGE.git"
+  },
+  "author": "Bertin Niyonkuru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nockira/EXCEL-EDGE/issues"
+  },
+  "homepage": "https://github.com/Nockira/EXCEL-EDGE#readme"
+}

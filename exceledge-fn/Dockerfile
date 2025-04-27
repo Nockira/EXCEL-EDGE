@@ -1,17 +1,20 @@
-# client/Dockerfile
-FROM node:18-alpine as build
+# Stage 1: Build
+FROM node:18-alpine AS builder
 
-WORKDIR /app
+WORKDIR /exceledge-fn
+
 COPY package*.json ./
-RUN npm install
+RUN npm ci --legacy-peer-deps
 
 COPY . .
 RUN npm run build
 
-# Serve using Nginx
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+# Stage 2: Production
+FROM nginx:1.25-alpine
+
+COPY --from=builder /exceledge-fn/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]

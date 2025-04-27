@@ -12,13 +12,16 @@ import session from "express-session";
 const pgSession = require("connect-pg-simple")(session);
 const { Pool } = require("pg");
 import TransactionCronService from "./utils/jobs/croneJob";
+import path from "path";
 
 validateEnv();
 TransactionCronService.initCronJobs();
 
 const prisma = new PrismaClient();
 const app = express();
-const swaggerDocument = YAML.load("openapi.yaml");
+const openapiPath = path.resolve(__dirname, "../openapi.yaml");
+
+const swaggerDocument = YAML.load(openapiPath);
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

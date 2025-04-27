@@ -101,8 +101,8 @@ export const ContactUs = () => {
                 <p className="text-gray-600 font-medium">
                   {t("contact.phone")}
                 </p>
-                <a href="tel:+250788123456" className="hover:underline">
-                  +250 788 123 456
+                <a href="tel:+250 788 701 837" className="hover:underline">
+                  +250 788 701 837
                 </a>
               </div>
             </div>
@@ -114,8 +114,11 @@ export const ContactUs = () => {
                 <p className="text-gray-600 font-medium">
                   {t("contact.email")}
                 </p>
-                <a href="mailto:info@company.com" className="hover:underline">
-                  info@exceledge.com
+                <a
+                  href="mailto:support@exceledgecpa.com"
+                  className="hover:underline"
+                >
+                  support@exceledgecpa.com
                 </a>
               </div>
             </div>

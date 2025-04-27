@@ -24,6 +24,7 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { BeatLoader } from "react-spinners";
 import { PaymentModal } from "../components/Auth/PaymentRequired";
+import { AuthModal } from "../components/Auth/LoginRequired";
 import { useTranslation } from "react-i18next";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -67,7 +68,7 @@ export const BookLibrary = () => {
     "pdf" | "audio" | "video"
   >("pdf");
   const [isPaymentRequired, setIsPaymentRequired] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // PDF Viewer State
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
@@ -91,6 +92,11 @@ export const BookLibrary = () => {
   const [pdfScale, setPdfScale] = useState(1);
 
   const handleBookSelect = async (bookId: string) => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      setIsModalOpen(true);
+      return;
+    }
     try {
       setLoading(true);
       const book = await getBookById(bookId);
@@ -1012,6 +1018,13 @@ export const BookLibrary = () => {
           </div>
         )}
       </div>
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onLoginSuccess={() => {
+          setIsModalOpen(false);
+        }}
+      />
       <PaymentModal
         isOpen={isPaymentRequired}
         onClose={() => setIsPaymentRequired(false)}

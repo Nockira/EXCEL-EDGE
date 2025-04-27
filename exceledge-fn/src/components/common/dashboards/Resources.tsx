@@ -686,7 +686,7 @@ export const Resources = () => {
               {newBook.type.includes("PDF") && (
                 <div className="mb-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2">
-                    PDF File*
+                    {`*PDF File( < 10MB)`}{" "}
                   </label>
                   <div className="flex items-center justify-center w-full">
                     <label className="flex flex-col w-full h-20 border-2 border-dashed rounded-lg hover:bg-gray-50 hover:border-gray-300">

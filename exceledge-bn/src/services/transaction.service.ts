@@ -126,6 +126,26 @@ export const getTransactionsByUserId = async (userId: string) => {
     where: { userId },
   });
 };
+export const getTransactionData = async (transactionRef: string) => {
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id: transactionRef,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          firstName: true,
+          secondName: true,
+          email: true,
+          phone: true,
+        },
+      },
+    },
+  });
+
+  return transaction;
+};
 
 export const updateTransaction = async (
   id: string,

@@ -21,7 +21,7 @@ const prisma = new PrismaClient();
 const app = express();
 const openapiPath = path.resolve(__dirname, "../openapi.yaml");
 
-const swaggerDocument = YAML.load(openapiPath);
+const swaggerDocument = YAML.load("openapi.yaml");
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

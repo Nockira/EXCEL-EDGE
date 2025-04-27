@@ -2,6 +2,9 @@ import React from "react";
 import GetStartedImage from "../../assets/get-started.png"; // Assuming you have an image in this path
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import robertImg from "../../assets/olorunyomi-solomon-UGFe5fI3Zb0-unsplash.jpg";
+import girl1 from "../../assets/bave-pictures-fl7bASYZgXo-unsplash.jpg";
+import girl2 from "../../assets/abenezer-shewaga-xc5gojDaxW8-unsplash.jpg";
 
 export const Testimonial = () => {
   const { t } = useTranslation<string>();
@@ -23,7 +26,7 @@ export const Testimonial = () => {
               </p>
               <div className="flex items-center">
                 <img
-                  src="https://xsgames.co/randomusers/assets/avatars/female/45.jpg"
+                  src={girl1}
                   alt="African Woman 2"
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -41,7 +44,7 @@ export const Testimonial = () => {
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-gray-300 rounded-full">
                   <img
-                    src="https://xsgames.co/randomusers/assets/avatars/male/71.jpg"
+                    src={robertImg}
                     alt="African Man"
                     className="w-12 h-12 rounded-full object-cover"
                   />
@@ -59,7 +62,7 @@ export const Testimonial = () => {
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-gray-300 rounded-full">
                   <img
-                    src="https://xsgames.co/randomusers/assets/avatars/female/65.jpg"
+                    src={girl2}
                     alt="African Woman 1"
                     className="w-12 h-12 rounded-full object-cover"
                   />

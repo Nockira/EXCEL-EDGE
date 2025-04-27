@@ -16,7 +16,7 @@ export const SubHeader = () => {
           </div>
           <div className="flex items-center">
             <span className="mr-1">✉️</span>
-            <span>info@exceledge.com</span>
+            <span>info@exceledgecpa.com</span>
           </div>
           <div className="flex items-center">
             <span className="mr-1">📞</span>

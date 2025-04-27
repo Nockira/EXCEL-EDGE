@@ -257,7 +257,10 @@
     "mtn": "MTN Mobile Money",
     "airtel": "Airtel Money",
     "thank_you": "Merci pour votre paiement. Vous recevrez un message de confirmation sur votre téléphone sous peu.",
-    "back": "Retour aux services"
+    "back": "Retour aux services",
+    "title": "Paiement Requis*",
+    "description": "Vous devez effectuer le paiement pour accéder à ce service.",
+    "proceed": "Procéder au paiement"
   },
   "paymentFailed": {
     "title": "Échec du paiement",
@@ -294,7 +297,7 @@
   },
   "processPayment": {
     "processingPayment": "Traitement du paiement",
-    "paymentRequest": "Vous avez demandé un paiement pour {serviceName}",
+    "paymentRequest": "Vous avez demandé un paiement pour ",
     "amount": "Montant : ",
     "checkPhone": "Vérifiez votre téléphone pour une notification de demande de paiement",
     "paymentInstruction": "Ou composez le *182*7*1# pour finaliser votre paiement",
@@ -360,5 +363,11 @@
     "submitErrorMessage": "Une erreur s'est produite lors de l'envoi de votre formulaire. Veuillez réessayer plus tard.",
     "welcome": "Bienvenue",
     "profile": "Profil mis à jour avec succès"
+  },
+  "auth": {
+    "requiredTitle": "Authentification requise*",
+    "requiredDescription": "Vous devez être connecté pour accéder à ce service.",
+    "goBack": "Retourner",
+    "goToLogin": "Aller à la connexion"
   }
 }

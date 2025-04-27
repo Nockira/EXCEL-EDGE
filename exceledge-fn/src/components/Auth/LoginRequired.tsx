@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 interface AuthModalProps {
@@ -13,6 +14,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onLoginSuccess,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation<string>();
 
   if (!isOpen) return null;
 
@@ -21,26 +23,26 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   const handleGoToLogin = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-lg mb-4 text-red-600">Authentication Required*</h2>
-        <p className="mb-6">You need to be logged in to access this service.</p>
+        <h2 className="text-lg mb-4 text-red-600">{t("auth.requiredTitle")}</h2>
+        <p className="mb-6">{t("auth.requiredDescription")}</p>
         <div className="flex justify-between">
           <button
             className="bg-gray-900 text-white py-2 px-4 rounded-full"
             onClick={handleGoBack}
           >
-            Go Back
+            {t("auth.goBack")}
           </button>
           <button
             className="bg-yellow-600 text-white py-2 px-4 rounded-full"
             onClick={handleGoToLogin}
           >
-            Go to Login
+            {t("auth.goToLogin")}
           </button>
         </div>
       </div>

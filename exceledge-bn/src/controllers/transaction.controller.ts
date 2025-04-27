@@ -6,6 +6,8 @@ import { emitEvent } from "../server";
 import { prisma } from "../utils/prisma.service";
 import { updateUserSubscription } from "../helper/updateUsersSub";
 import { ServiceType } from "../../types";
+import { subInvoice } from "../utils/emailTemplete/invoices";
+import { sendEmail } from "../utils/sendEmail";
 let currentJob: any = null;
 // Create a new transaction
 export const createTransaction = async (req: Request, res: Response) => {
@@ -255,10 +257,33 @@ export const fetchPaypackEvents = async (
       return;
     }
     const status = events.status;
+    const transaction = await transactionService.getTransactionData(ref);
     if (status === "successful" || status === "failed") {
       const dbStatus = status === "successful" ? "COMPLETED" : "FAILED";
       const remainingPeriod = status === "successful" ? time * 30 : 0;
       console.log("Remaining time ", time * 30);
+      const invoiceData = {
+        customerName: transaction?.user.firstName,
+        customerEmail: transaction?.user.email,
+        invoiceNumber: ref,
+        date: transaction?.createdAt,
+        amount: transaction?.amount,
+        totalAmount: transaction?.amount,
+        companyAddress: "42 KK 718 St, Kigali, Rwanda",
+        serviceDescription: `${transaction?.service} Service`,
+        paymentMethod: transaction?.method,
+        status: dbStatus,
+        supportEmail: "support@exceledgecpa.com",
+        customerPhone: transaction?.user.phone,
+      };
+      const emailTemplate = subInvoice(invoiceData);
+      if (status === "successful") {
+        await sendEmail({
+          to: invoiceData.customerEmail || "",
+          subject: "Payment approval",
+          html: emailTemplate,
+        });
+      }
       await transactionService.updatePaymentStatus(
         ref,
         dbStatus,

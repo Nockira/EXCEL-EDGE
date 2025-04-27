@@ -257,7 +257,10 @@
     "mtn": "MTN Mobile Money",
     "airtel": "Airtel Money",
     "thank_you": "Urakoze kwishyura. Uzakira ubutumwa bwo kwemeza kuri telefoni yawe vuba.",
-    "back": "Subira kuri Serivisi"
+    "back": "Subira kuri Serivisi",
+    "title": "Kwishyura Birakenewe*",
+    "description": "Murasabwa kwishyura kugira ngo ubashe gukoresha iri serivisi.",
+    "proceed": "Komeza Kwishyura"
   },
   "paymentFailed": {
     "title": "Kwishyura Byanze",
@@ -294,7 +297,7 @@
   },
   "processPayment": {
     "processingPayment": "Birimo gukorwa kwishyura",
-    "paymentRequest": "Wasabye kwishyura {serviceName}",
+    "paymentRequest": "Wasabye kwishyura ",
     "amount": "Amafaranga: ",
     "checkPhone": "Reba kuri telefone yawe kugirango ubone ubutumwa bw'ubusabe bwo kwishyura",
     "paymentInstruction": "Cira *182*7*1# kugirango ushyure",
@@ -360,5 +363,11 @@
     "submitErrorMessage": "Habayeho ikosa mu kohereza ubutumwa bwanyu. Mwongere mugerageze nyuma.",
     "welcome": "Murakaza neza ",
     "profile": "Umwirondoro wawe wavuguruwe neza"
+  },
+  "auth": {
+    "requiredTitle": "Gusaba Kwinjira*",
+    "requiredDescription": "Ugomba kuba winjiye (wiyandikishije) kugira ngo ubone serivisi.",
+    "goBack": "Subira Inyuma",
+    "goToLogin": "injira"
   }
 }

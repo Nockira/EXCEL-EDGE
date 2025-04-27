@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 // Import your background images
 import BackImage from "../../assets/slide.png";
 import BackImage2 from "../../assets/bgimage.jpg";
-import BackImage3 from "../../assets/about.jpg";
+import BackImage3 from "../../assets/man-holding-contract-his-new-office-job-after-interview.jpg";
 
 const backgroundImages = [BackImage, BackImage2, BackImage3];
 const api_url =

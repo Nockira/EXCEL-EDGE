@@ -19,12 +19,10 @@ io.on("connection", (socket) => {
   });
 });
 
-// Export emitter function
 export const emitEvent = (eventName: string, payload: any) => {
   io.emit(eventName, payload);
 };
 
-// Start server
 const port = process.env.PORT || 5000;
 
 server.listen(port, () => {

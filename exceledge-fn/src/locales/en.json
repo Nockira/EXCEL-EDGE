@@ -391,7 +391,12 @@
     "or": "or",
     "sign_up": "Sign up",
     "log_in_here": "Log in here",
-    "processing": "Processing..."
+    "processing": "Processing...",
+    "add_phone_title": "Add Your Phone Number",
+    "add_phone_description": "Please provide your phone number to complete your profile and access all services.",
+    "phone_placeholder": "Enter your phone number",
+    "phone_required": "Phone number is required",
+    "phone_invalid": "Please enter a valid phone number"
   },
   "errors": {
     "registration_failed": "Registration failed. Please try again.",
@@ -426,5 +431,12 @@
     "requiredDescription": "You need to be logged in to access this service.",
     "goBack": "Go Back",
     "goToLogin": "Go to Login"
+  },
+  "common": {
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "error_occurred": "An error occurred",
+    "network_error": "Network error, please try again"
   }
 }

@@ -330,7 +330,12 @@
     "or": "ou",
     "sign_up": "S'inscrire",
     "log_in_here": "Connectez-vous ici",
-    "processing": "En traitement..."
+    "processing": "En traitement...",
+    "add_phone_title": "Ajoutez votre numéro de téléphone",
+    "add_phone_description": "Veuillez fournir votre numéro de téléphone pour compléter votre profil et accéder à tous les services.",
+    "phone_placeholder": "Entrez votre numéro de téléphone",
+    "phone_required": "Le numéro de téléphone est requis",
+    "phone_invalid": "Veuillez entrer un numéro de téléphone valide"
   },
   "errors": {
     "registration_failed": "L'inscription a échoué. Veuillez réessayer.",
@@ -369,5 +374,15 @@
     "requiredDescription": "Vous devez être connecté pour accéder à ce service.",
     "goBack": "Retourner",
     "goToLogin": "Aller à la connexion"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "error_occurred": "Une erreur s'est produite",
+    "network_error": "Erreur réseau, veuillez réessayer"
+  },
+  "cta": {
+    "viewServices": "Voir les services"
   }
 }

@@ -600,12 +600,12 @@ export const Profile: React.FC = () => {
                           <td className="py-3 px-4 border-b">
                             {selectedTransaction.service.replace(/_/g, " ")}{" "}
                             Service
-                            <div className="text-sm text-gray-500 mt-1">
+                            <div className="text-sm text-gray-700 mt-1">
                               Duration: {selectedTransaction.duration} month(s)
                               {selectedTransaction.remainingTime > 0 && (
                                 <span>
                                   , Remaining:{" "}
-                                  {selectedTransaction.remainingTime} month(s)
+                                  {selectedTransaction.remainingTime} day(s)
                                 </span>
                               )}
                             </div>
@@ -629,7 +629,7 @@ export const Profile: React.FC = () => {
                   <div className="pt-4 border-t border-gray-200">
                     <p className="text-sm text-gray-500">
                       Thank you for your business. Please contact us at
-                      info@exceledge.com with any questions.
+                      support@exceledgecpa.com with any questions.
                     </p>
                     <p className="text-sm text-gray-500 mt-2">
                       This is an automated invoice. No signature required.

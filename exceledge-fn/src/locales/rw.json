@@ -333,7 +333,12 @@
     "or": "cyangwa",
     "sign_up": "Iyandikishe",
     "log_in_here": "Injira hano",
-    "processing": "Injira..."
+    "processing": "Injira...",
+    "add_phone_title": "Ongeraho Numero ya Telefone",
+    "add_phone_description": "Nyamuneka tanga numero ya telefone yawe kugirango uzamure profile yawe unafashe serivisi zose.",
+    "phone_placeholder": "Andika numero ya telefone",
+    "phone_required": "Numero ya telefone irakenewe",
+    "phone_invalid": "Nyamuneka andika numero ya telefone yemewe"
   },
   "errors": {
     "registration_failed": "Kwiyandikisha byananiranye. Gerageza kongera.",
@@ -369,5 +374,12 @@
     "requiredDescription": "Ugomba kuba winjiye (wiyandikishije) kugira ngo ubone serivisi.",
     "goBack": "Subira Inyuma",
     "goToLogin": "injira"
+  },
+  "common": {
+    "loading": "Irakuramo...",
+    "cancel": "Hagarika",
+    "submit": "Ohereza",
+    "error_occurred": "Habaye ikosa",
+    "network_error": "Habaye ikosa kuri network, subira ugerageze"
   }
 }

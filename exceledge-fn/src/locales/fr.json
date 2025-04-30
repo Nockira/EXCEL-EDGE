@@ -87,7 +87,7 @@
     "fixed": {
       "tin": {
         "name": "Gestion TIN",
-        "description": "We offer monthly TIN management services with pricing tailored to your business size. Fees adjust based on turnover—ensuring affordability for small businesses and fair rates for larger ones, so every client gets the support they need at a cost they can manage"
+        "description": "Nous proposons des services mensuels de gestion du numéro d'identification fiscale (NIF), avec des tarifs adaptés à la taille de votre entreprise. Les frais varient en fonction du chiffre d'affaires, garantissant ainsi des prix abordables pour les petites entreprises et des tarifs équitables pour les plus grandes, afin que chaque client bénéficie du soutien dont il a besoin à un coût qu'il peut se permettre."
       },
       "google": {
         "name": "Mise en place sur Google Map",
@@ -381,8 +381,5 @@
     "submit": "Soumettre",
     "error_occurred": "Une erreur s'est produite",
     "network_error": "Erreur réseau, veuillez réessayer"
-  },
-  "cta": {
-    "viewServices": "Voir les services"
   }
 }

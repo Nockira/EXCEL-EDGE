@@ -40,7 +40,7 @@ export const sendContactRequest = async (data: any, io: any) => {
     to: process.env.FROM_EMAIL_TO!,
     subject: "New Contact Request",
     html: `<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-  <p><strong style="color: #2c3e50;">${data.name}</strong> with phone number <strong style="color: #2c3e50;">${data.phone}</strong> </strong> with phone number <strong style="color: #2c3e50;">${data.email}</strong>  has sent you a message.</p>
+  <p><strong style="color: #2c3e50;">${data.name}</strong> with phone number <strong style="color: #2c3e50;">${data.phone}</strong> </strong> and email: <strong style="color: #2c3e50;">${data.email}</strong>  has sent you a message.</p>
   <p style="margin-top: 10px;">"${data.message}"</p>
 
   <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />

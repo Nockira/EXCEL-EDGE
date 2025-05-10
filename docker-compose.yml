@@ -58,17 +58,6 @@ services:
     networks:
       - exceledge-network
     restart: unless-stopped
-  exceledge-nginx:
-    image: nginx
-    container_name: exceledge-nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    networks:
-      - exceledge-network
-    ports:
-      - "443:443"
-    depends_on:
-      - exceledge-backend  
 
   exceledge-frontend:
     build:
@@ -88,6 +77,20 @@ services:
     volumes:
       - ./certs/exceledgecpa.crt:/etc/ssl/certs/exceledgecpa.crt:ro
       - ./certs/exceledgecpa.key:/etc/ssl/private/exceledgecpa.key:ro
+  exceledge-nginx:
+    image: nginx
+    container_name: exceledge-nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro  # Mount your custom nginx.conf file here
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - exceledge-backend
+      - exceledge-frontend
+    networks:
+      - exceledge-network
+    restart: unless-stopped    
 
 networks:
   exceledge-network:

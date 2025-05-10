@@ -74,6 +74,9 @@ services:
     networks:
       - exceledge-network
     restart: unless-stopped
+    volumes:
+      - ./certs/exceledgecpa.crt:/etc/ssl/certs/exceledgecpa.crt:ro
+      - ./certs/exceledgecpa.key:/etc/ssl/private/exceledgecpa.key:ro
 
 networks:
   exceledge-network:

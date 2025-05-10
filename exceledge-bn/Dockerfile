@@ -19,7 +19,7 @@ WORKDIR /exceledge-bn
 COPY --from=builder /exceledge-bn/node_modules ./node_modules
 COPY --from=builder /exceledge-bn/package*.json ./
 COPY --from=builder /exceledge-bn/prisma ./prisma
-COPY --from=builder /exceledge-bn/openapi.yaml ./build/openapi.yaml
+COPY --from=builder /exceledge-bn/openapi.yaml ./openapi.yaml
 COPY --from=builder /exceledge-bn/build ./build
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S -u 1001 -G nodejs nodejs

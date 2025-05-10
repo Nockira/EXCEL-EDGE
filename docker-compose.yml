@@ -58,18 +58,17 @@ services:
     networks:
       - exceledge-network
     restart: unless-stopped
-
   exceledge-nginx:
-  image: nginx
-  container_name: exceledge-nginx
-  volumes:
-    - ./nginx.conf:/etc/nginx/nginx.conf
-  networks:
-    - exceledge-network
-  ports:
-    - "443:443"
-  depends_on:
-    - exceledge-backend  
+    image: nginx
+    container_name: exceledge-nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - exceledge-network
+    ports:
+      - "443:443"
+    depends_on:
+      - exceledge-backend  
 
   exceledge-frontend:
     build:

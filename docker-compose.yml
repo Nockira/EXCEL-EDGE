@@ -74,14 +74,12 @@ services:
     networks:
       - exceledge-network
     restart: unless-stopped
-    volumes:
-      - ./certs/exceledgecpa.crt:/etc/ssl/certs/exceledgecpa.crt:ro
-      - ./certs/exceledgecpa.key:/etc/ssl/private/exceledgecpa.key:ro
   exceledge-nginx:
     image: nginx:1.21-alpine
     container_name: exceledge-nginx
     volumes:
-       - ./default.conf:/etc/nginx/conf.d/default.conf:ro # Mount your custom nginx.conf file here
+        - ./certs/exceledgecpa.crt:/etc/ssl/certs/exceledgecpa.crt
+        - ./certs/exceledgecpa.key:/etc/ssl/certs/exceledgecpa.key 
     ports:
       - "80:80"
       - "443:443"

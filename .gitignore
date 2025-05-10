@@ -34,4 +34,4 @@ test-results/
 # Ignore temporary files
 *.tmp
 # Ignore backup files
-*.bak       
+*.bak       .env

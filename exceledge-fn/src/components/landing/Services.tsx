@@ -20,7 +20,7 @@ import { AuthModal } from "../Auth/LoginRequired";
 
 type PaymentStatus = "pending" | "processing" | "success" | "failed" | null;
 const api_url: any = API_URL;
-const socket = io("https://exceledgecpa.com/api");
+const socket = io(api_url);
 
 export const ServiceSections = () => {
   const { t } = useTranslation<string>();

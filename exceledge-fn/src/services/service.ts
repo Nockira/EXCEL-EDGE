@@ -6,7 +6,7 @@ interface ExtendedJwtPayload extends JwtPayload {
 }
 
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-export const API_URL = process.env.REACT_APP_API_URL;
+export const API_URL = "https://exceledgecpa.com/api";
 export const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const api = axios.create({

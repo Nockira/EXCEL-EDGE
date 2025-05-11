@@ -13,7 +13,7 @@ RUN npm run build
 FROM nginx:1.25-alpine
 
 COPY --from=builder /exceledge-fn/build /usr/share/nginx/html
-COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 
 EXPOSE 80

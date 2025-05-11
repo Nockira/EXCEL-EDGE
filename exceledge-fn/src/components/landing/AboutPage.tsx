@@ -7,6 +7,9 @@ import enockImg from "../../assets/enock.jpg";
 import edithImg from "../../assets/edith.png";
 import shemaImg from "../../assets/shema.png";
 import bertinImg from "../../assets/bertin.png";
+import IshAli from "../../assets/ishimwe.jpeg";
+import Eli1234 from "../../assets/elie.jpeg";
+import eml12345 from "../../assets/Emelyine.jpeg";
 
 // Dummy team data
 const teamMembers = [
@@ -37,6 +40,27 @@ const teamMembers = [
     name: "Bertin NIYONKURU",
     role: "Software Developer",
     contacts: "+250 783 021 801",
+  },
+  {
+    id: 5,
+    imageUrl: eml12345,
+    name: "Emelyne DUHIRWE",
+    role: "BBA, CPA(R)| Accounts & Tax Associate",
+    contacts: "",
+  },
+  {
+    id: 6,
+    imageUrl: Eli1234,
+    name: "Mr. Elie TUYIZERE",
+    role: "Deputy BSO in charge of Agriculture industry",
+    contacts: "",
+  },
+  {
+    id: 7,
+    imageUrl: IshAli,
+    name: "Aline ISHIMWE",
+    role: "Accounts & Tax Associate",
+    contacts: "",
   },
 ];
 

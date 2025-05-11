@@ -4,12 +4,14 @@ import { Server } from "socket.io";
 
 const server = http.createServer(app);
 
-export const io = new Server(server, {
+const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: ["https://exceledgecpa.com", "https://www.exceledgecpa.com"],
     methods: ["GET", "POST", "PATCH", "DELETE", "UPDATE"],
-  },
+    credentials: true
+  }
 });
+
 
 io.on("connection", (socket) => {
   console.log("New client connected:", socket.id);

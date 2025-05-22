@@ -53,7 +53,7 @@ const teamMembers = [
     imageUrl: Eli1234,
     name: "Mr. Elie TUYIZERE",
     role: "Deputy BSO in charge of Agriculture industry",
-    contacts: "",
+    contacts: "+250783870024",
   },
   {
     id: 7,

@@ -73,7 +73,8 @@ export const BookLibrary = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [numPages, setNumPages] = useState<number | null>(null);
   const [isPdfLoading, setIsPdfLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Start with sidebar closed
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const pdfContainerRef = useRef<HTMLDivElement>(null);
   const [pdfScale, setPdfScale] = useState(1.5);
 
@@ -102,7 +103,11 @@ export const BookLibrary = () => {
       setLoading(true);
       const book = await getBookById(bookId);
       setSelectedBook(book.book);
-      setSidebarOpen(false);
+      if (!isMobile) {
+        setSidebarOpen(true);
+      }
+
+      setSidebarOpen(true);
     } catch (error: any) {
       if (error.message === "Subscription required for BOOKS service") {
         setIsPaymentRequired(true);
@@ -115,6 +120,24 @@ export const BookLibrary = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth < 768) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIfMobile);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -377,7 +400,7 @@ export const BookLibrary = () => {
             <div className="flex justify-between items-center p-2 bg-white">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 sm:ml-24 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100"
+                className="p-2 sm:ml-24 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100 md:hidden" // Hide on md and larger screens
               >
                 <Menu size={20} />
               </button>
@@ -479,7 +502,7 @@ export const BookLibrary = () => {
             <div className="flex justify-between items-center p-2 bg-white">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 sm:ml-24 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100"
+                className="p-2 sm:ml-24 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100 md:hidden" // Hide on md and larger screens
               >
                 <Menu size={20} />
               </button>
@@ -579,7 +602,7 @@ export const BookLibrary = () => {
             <div className="flex justify-between items-center p-2 bg-white">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 sm:ml-24  text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100"
+                className="p-2 sm:ml-24 text-gray-700 hover:text-yellow-600 rounded-md hover:bg-gray-100 md:hidden" // Hide on md and larger screens
               >
                 <Menu size={20} />
               </button>
@@ -667,11 +690,10 @@ export const BookLibrary = () => {
           </div>
 
           <div className="flex flex-1 overflow-hidden">
-            {/* Sidebar */}
             <div
               className={`${
                 sidebarOpen ? "w-64" : "w-0"
-              } bg-white border-r transition-all duration-300 overflow-hidden flex-shrink-0`}
+              } bg-white border-r transition-all duration-300 overflow-hidden flex-shrink-0 md:w-64`}
             >
               <div className="p-4 h-full flex flex-col">
                 <div className="mb-6">
@@ -913,7 +935,14 @@ export const BookLibrary = () => {
             {hasActiveFilters() && " with selected filters"}
           </p>
         </div>
-
+        <div className="flex items-center justify-between mb-4">
+          {loading && (
+            <div className="flex items-center space-x-2">
+              <BeatLoader size={16} color="yellow" />
+              <p className="text-gray-600">Loading books...</p>
+            </div>
+          )}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
           {filteredBooks.map((book) => (
             <div

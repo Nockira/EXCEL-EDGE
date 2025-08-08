@@ -1,6 +1,8 @@
 import { app, prisma } from "./app";
 import http from "http";
 import { Server } from "socket.io";
+import { TransactionCronService } from "./utils/jobs/croneJob";
+import { HealthCheckCronService } from "./utils/jobs/healthCheckCron";
 
 const server = http.createServer(app);
 
@@ -24,6 +26,10 @@ export const emitEvent = (eventName: string, payload: any) => {
 };
 
 const port = process.env.PORT || 5000;
+
+// Initialize cron jobs
+TransactionCronService.initCronJobs();
+HealthCheckCronService.initHealthCheckCron();
 
 server.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);

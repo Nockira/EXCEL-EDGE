@@ -1,30 +1,22 @@
-FROM node:18-alpine AS builder
+FROM node:22-alpine
 
-WORKDIR /exceledge-bn
+WORKDIR /app
+
+# Copy package files and install dependencies
 COPY package*.json ./
-COPY prisma ./prisma/
+RUN npm install
 
-RUN npm ci 
+# Copy prisma schema and generate client
+COPY prisma ./prisma
 RUN npx prisma generate
 
-# Build application
+# Copy rest of the source code
 COPY . .
+
+# Build TypeScript to dist
 RUN npm run build
 
-# Stage 2: Production
-FROM node:18-alpine
+EXPOSE 5000
 
-WORKDIR /exceledge-bn
-
-COPY --from=builder /exceledge-bn/node_modules ./node_modules
-COPY --from=builder /exceledge-bn/package*.json ./
-COPY --from=builder /exceledge-bn/prisma ./prisma
-COPY --from=builder /exceledge-bn/openapi.yaml ./openapi.yaml
-COPY --from=builder /exceledge-bn/build ./build
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S -u 1001 -G nodejs nodejs
-USER nodejs
-
-EXPOSE 8800
-
-CMD ["sh", "-c", "npx prisma migrate deploy && node build/src/server.js"]
+# Start the app
+CMD ["npm", "start"]

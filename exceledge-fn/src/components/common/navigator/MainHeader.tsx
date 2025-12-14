@@ -8,6 +8,7 @@ import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { SubHeader } from "./SubHeader";
+import { Modal } from "../../models/Model";
 
 interface UserData {
   firstName: string;
@@ -24,6 +25,8 @@ export const MainHeader: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showErpModal, setShowErpModal] = useState(false);
+  const [showBanner, setShowBanner] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -114,8 +117,8 @@ export const MainHeader: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const initials = userData
       ? `${userData.firstName.charAt(0)}${userData.secondName.charAt(
-          0
-        )}`.toUpperCase()
+        0
+      )}`.toUpperCase()
       : "US";
 
     return (
@@ -136,9 +139,8 @@ export const MainHeader: React.FC = () => {
           </div>
           <ChevronDown
             size={16}
-            className={`sm:block hidden text-gray-600 transition-transform ${
-              isOpen ? "rotate-180" : ""
-            }`}
+            className={`sm:block hidden text-gray-600 transition-transform ${isOpen ? "rotate-180" : ""
+              }`}
           />
         </button>
 
@@ -186,22 +188,66 @@ export const MainHeader: React.FC = () => {
     );
   };
 
+  const bannerHeight = showBanner ? "40px" : "0px";
+  const subHeaderHeight = "32px"; // Approximate height of subheader content container, adjust if needed but container has padding
+  // Calculating effective top position:
+  // If topHeaderVisible:
+  //   - Banner is visible: top = bannerHeight + subheaderHeight (approx)
+  //   - Banner closed: top = subheaderHeight
+  // Actually, let's look at the structure.
+  // The SubHeader container is fixed top-0. To stack them:
+  // 1. Banner (fixed top-0)
+  // 2. SubHeader (fixed top-bannerHeight)
+  // 3. MainNavbar (fixed top-bannerHeight+subHeaderHeight)
+
+  // However, the original code had SubHeader fixed top-0.
+  // We will wrap Banner and SubHeader in a container or adjust their tops.
+
   return (
     <>
       <div
-        className={`bg-black text-yellow-300 text-sm py-0 w-full fixed top-0 left-0 z-40 transition-all duration-300 ${
-          topHeaderVisible ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`fixed top-0 left-0 w-full z-40 transition-transform duration-300 flex flex-col ${topHeaderVisible ? "translate-y-0" : "-translate-y-full"
+          }`}
       >
-        <SubHeader />
+        {showBanner && (
+          <div className="bg-red-600 text-white text-sm py-2 px-4 flex justify-between items-center h-[40px]">
+            <div className="container mx-auto flex justify-center items-center gap-4">
+              <span>Access our ERP Portal for advanced features like inventory management and more.</span>
+              <a
+                href="https://erp.exceledgecpa.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white text-red-600 px-3 py-0.5 rounded-full text-xs font-bold hover:bg-gray-100 transition-colors"
+                onClick={() => setShowBanner(false)}
+              >
+                Go to Portal
+              </a>
+            </div>
+            <button
+              onClick={() => setShowBanner(false)}
+              className="text-white hover:text-gray-200"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        )}
+        <div className="bg-black text-yellow-300 text-sm py-0 w-full">
+          <SubHeader />
+        </div>
       </div>
+
       <div
-        className={`bg-[#fdc900] fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          isScrolled
-            ? "bg-[#fdc900] text-black shadow-lg"
-            : "bg-[#fdc900] shadow-md text-black"
-        }`}
-        style={{ top: topHeaderVisible ? "8rem" : "0" }}
+        className={`bg-[#fdc900] fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
+          ? "bg-[#fdc900] text-black shadow-lg"
+          : "bg-[#fdc900] shadow-md text-black"
+          }`}
+        style={{
+          top: topHeaderVisible
+            ? showBanner
+              ? "calc(8rem + 40px)" // 8rem (approx original) + banner
+              : "8rem"
+            : "0",
+        }}
       >
         <div className="container mx-auto flex justify-between items-center py-2 px-4 md:px-8">
           <div className="flex items-center text-lg">
@@ -211,13 +257,18 @@ export const MainHeader: React.FC = () => {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`hover:text-white ${
-                    location.pathname === link.to ? "text-white font-bold" : ""
-                  }`}
+                  className={`hover:text-white ${location.pathname === link.to ? "text-white font-bold" : ""
+                    }`}
                 >
                   {link.label}
                 </Link>
               ))}
+              <button
+                onClick={() => setShowErpModal(true)}
+                className="hover:text-white font-medium"
+              >
+                ERP Portal
+              </button>
             </div>
           </div>
           <div className="flex items-center text-lg">
@@ -282,15 +333,23 @@ export const MainHeader: React.FC = () => {
                     key={link.to}
                     to={link.to}
                     onClick={() => setIsSidebarOpen(false)}
-                    className={`block py-3 px-4 rounded-md hover:bg-gray-100 text-lg ${
-                      location.pathname === link.to
-                        ? "text-[#fdc901] font-bold bg-gray-50"
-                        : "text-gray-800"
-                    }`}
+                    className={`block py-3 px-4 rounded-md hover:bg-gray-100 text-lg ${location.pathname === link.to
+                      ? "text-[#fdc901] font-bold bg-gray-50"
+                      : "text-gray-800"
+                      }`}
                   >
                     {link.label}
                   </Link>
                 ))}
+                <button
+                  onClick={() => {
+                    setIsSidebarOpen(false);
+                    setShowErpModal(true);
+                  }}
+                  className="block w-full text-left py-3 px-4 rounded-md hover:bg-gray-100 text-lg text-gray-800"
+                >
+                  ERP Portal
+                </button>
               </nav>
 
               {/* Auth section */}
@@ -343,6 +402,34 @@ export const MainHeader: React.FC = () => {
           </div>
         </>
       )}
+
+      {/* ERP Portal Modal */}
+      <Modal isOpen={showErpModal} onClose={() => setShowErpModal(false)}>
+        <div className="bg-white p-6 rounded-lg max-w-md w-full text-center">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">ERP Portal</h2>
+          <p className="text-gray-600 mb-6">
+            You are about to navigate to the ERP Portal. This will open in a new
+            tab.
+          </p>
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={() => setShowErpModal(false)}
+              className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <a
+              href="https://erp.exceledgecpa.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setShowErpModal(false)}
+              className="px-6 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors font-medium"
+            >
+              Go to Portal
+            </a>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

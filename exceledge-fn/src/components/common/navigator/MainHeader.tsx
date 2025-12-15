@@ -212,7 +212,10 @@ export const MainHeader: React.FC = () => {
         {showBanner && (
           <div className="bg-red-600 text-white text-sm py-2 px-4 flex justify-between items-center h-[40px]">
             <div className="container mx-auto flex justify-center items-center gap-4">
-              <span>Access our ERP Portal for advanced features like inventory management and more.</span>
+              <span className="flex items-center gap-2 font-medium animate-shake">
+                <span className="w-2 h-2 rounded-full bg-white animate-blink flex-shrink-0"></span>
+                📢 Attention: Access our new ERP Portal for comprehensive inventory management, advanced reporting, and seamless accounting integration!
+              </span>
               <a
                 href="https://erp.exceledgecpa.com"
                 target="_blank"
